@@ -5,7 +5,7 @@ import "@/css/dataset.css";
 import Head from "@/backbone/Header.jsx";
 import Foot from "@/backbone/Footer.jsx";
 
-export default function Dataset() {
+export default function DatasetLanding() {
   const {
     produsenSearch,
     setProdusenSearch,

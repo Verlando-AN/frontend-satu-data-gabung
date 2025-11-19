@@ -23,7 +23,7 @@ interface DataTotal {
   urusan: number;
 }
 
-export default function BerandaIndex(): JSX.Element {
+export default function Index(): JSX.Element {
   const {
     opdList,
     loading,
