@@ -1,17 +1,31 @@
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 import "@/css/detail.css";
 import useDatasetDetail from "@/hooks/useDatasetDetail.js";
 import DatasetInfoTable from "@/backbone/DatasetInfoTable.jsx";
 import DatasetChart from "@/backbone/DatasetChart.jsx";
 import DatasetSeriesTable from "@/backbone/DatasetSeriesTable.jsx";
-import { useState } from "react";
 import Head from "@/backbone/Header.jsx";
 import Foot from "@/backbone/Footer.jsx";
 
-export default function Detail() {
-  const { id } = useParams();
+// Interface dataset (sesuaikan dengan struktur dataset dari API)
+interface DatasetInput {
+  tahun: number | string;
+  jumlah: number;
+}
+
+interface DatasetType {
+  id: string | number;
+  title?: string;
+  description?: string;
+  input: DatasetInput[];
+  [key: string]: any; // tambahkan properti lainnya jika ada
+}
+
+export default function Detail(): JSX.Element {
+  const { id } = useParams<{ id: string }>();
   const { dataset, loading, error } = useDatasetDetail(id);
-  const [activeTab, setActiveTab] = useState("visualisasi");
+  const [activeTab, setActiveTab] = useState<"visualisasi" | "dataSeries">("visualisasi");
 
   if (loading) return <div className="text-center mt-5">Memuat...</div>;
   if (error || !dataset) return <div className="text-center mt-5">Data tidak ditemukan.</div>;
@@ -28,7 +42,7 @@ export default function Detail() {
           </p>
 
           {/* Info Dataset */}
-          <DatasetInfoTable dataset={dataset} />
+          <DatasetInfoTable dataset={dataset as DatasetType} />
 
           {/* Tabs */}
           <div className="card mt-4">

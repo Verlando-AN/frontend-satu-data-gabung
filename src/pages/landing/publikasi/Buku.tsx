@@ -1,13 +1,33 @@
-import React from "react";
+import { JSX } from "react";
 import { useParams, Link } from "react-router-dom";
 import usePublikasi from "../../../hooks/usePublikasi.js";
 import img_logo from "../../../assets/logolamptim.jpeg";
 import Head from "@/backbone/Header.jsx";
 import Foot from "@/backbone/Footer.jsx";
 
-export default function Buku() {
-  const { slug } = useParams();
-  const { publikasiData, loading } = usePublikasi(slug);
+// Interface publikasi
+interface PublikasiData {
+  buku: string;
+  created_at: number;
+  foto_cover?: string;
+  url_file: string;
+  ukuran_file?: string;
+  nomor_katalog?: string;
+  nomor_publikasi?: string;
+  issn_isbn?: string;
+  frekuensi_terbit?: string;
+  bahasa?: string;
+  nama_opd?: string;
+  tahun?: string | number;
+  deskripsi?: string;
+}
+
+export default function Buku(): JSX.Element {
+  const { slug } = useParams<{ slug: string }>();
+  const { publikasiData, loading } = usePublikasi(slug) as {
+    publikasiData: PublikasiData | null;
+    loading: boolean;
+  };
 
   if (loading) {
     return (
@@ -45,99 +65,99 @@ export default function Buku() {
   ];
 
   return (
+    <>
+      <Head />
+      <div style={styles.container}>
+        <Link to="/publikasi" style={styles.backButton}>
+          Kembali ke Daftar Publikasi
+        </Link>
 
-  <>
-  <Head />
-    <div style={styles.container}>
-      <Link to="/publikasi" style={styles.backButton}>
-        Kembali ke Daftar Publikasi
-      </Link>
+        <div style={styles.articleContainer}>
+          <div style={styles.leftSection}>
+            <img src={gambar} alt="Sampul Publikasi" style={styles.coverImage} />
 
-      <div style={styles.articleContainer}>
-        <div style={styles.leftSection}>
-          <img src={gambar} alt="Sampul Publikasi" style={styles.coverImage} />
-          
-          <div style={styles.infoBox}>
-            <div style={styles.infoItem}>
-              <span style={styles.infoLabel}>Diterbitkan:</span>
-              <span style={styles.infoValue}>{tanggal}</span>
+            <div style={styles.infoBox}>
+              <div style={styles.infoItem}>
+                <span style={styles.infoLabel}>Diterbitkan:</span>
+                <span style={styles.infoValue}>{tanggal}</span>
+              </div>
+
+              <div style={styles.infoItem}>
+                <span style={styles.infoLabel}>Ukuran File:</span>
+                <span style={styles.infoValue}>{publikasiData.ukuran_file || "-"}</span>
+              </div>
+
+              <div style={styles.infoItem}>
+                <span style={styles.infoLabel}>Nomor Katalog:</span>
+                <span style={styles.infoValue}>{nomor_katalog}</span>
+              </div>
+
+              <div style={styles.infoItem}>
+                <span style={styles.infoLabel}>Nomor Publikasi:</span>
+                <span style={styles.infoValue}>{nomor_publikasi}</span>
+              </div>
+
+              <div style={styles.infoItem}>
+                <span style={styles.infoLabel}>ISSN/ISBN:</span>
+                <span style={styles.infoValue}>{issn_isbn}</span>
+              </div>
+
+              <div style={styles.infoItem}>
+                <span style={styles.infoLabel}>Frekuensi Terbit:</span>
+                <span style={styles.infoValue}>{frekuensi_terbit}</span>
+              </div>
+
+              <div style={styles.infoItem}>
+                <span style={styles.infoLabel}>Bahasa:</span>
+                <span style={styles.infoValue}>{bahasa}</span>
+              </div>
             </div>
-            
-            <div style={styles.infoItem}>
-              <span style={styles.infoLabel}>Ukuran File:</span>
-              <span style={styles.infoValue}>{publikasiData.ukuran_file || "-"}</span>
-            </div>
-            
-            <div style={styles.infoItem}>
-              <span style={styles.infoLabel}>Nomor Katalog:</span>
-              <span style={styles.infoValue}>{nomor_katalog}</span>
-            </div>
-            
-            <div style={styles.infoItem}>
-              <span style={styles.infoLabel}>Nomor Publikasi:</span>
-              <span style={styles.infoValue}>{nomor_publikasi}</span>
-            </div>
-            
-            <div style={styles.infoItem}>
-              <span style={styles.infoLabel}>ISSN/ISBN:</span>
-              <span style={styles.infoValue}>{issn_isbn}</span>
-            </div>
-            
-            <div style={styles.infoItem}>
-              <span style={styles.infoLabel}>Frekuensi Terbit:</span>
-              <span style={styles.infoValue}>{frekuensi_terbit}</span>
-            </div>
-            
-            <div style={styles.infoItem}>
-              <span style={styles.infoLabel}>Bahasa:</span>
-              <span style={styles.infoValue}>{bahasa}</span>
-            </div>
+
+            <a
+              href={`https://api-satudata.lampungtimurkab.go.id/${publikasiData.url_file}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={styles.downloadBtn}
+            >
+              📄 Buka / Unduh File
+            </a>
           </div>
 
-          <a
-            href={`https://api-satudata.lampungtimurkab.go.id/${publikasiData.url_file}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={styles.downloadBtn}
-          >
-            📄 Buka / Unduh File
-          </a>
-        </div>
+          <div style={styles.rightSection}>
+            <h1 style={styles.title}>{publikasiData.buku}</h1>
 
-        <div style={styles.rightSection}>
-          <h1 style={styles.title}>{publikasiData.buku}</h1>
-          
-          <div style={styles.metaInfo}>
-            <p style={styles.opd}>
-              <strong>OPD:</strong> {publikasiData.nama_opd}
-            </p>
-            <p style={styles.year}>
-              <strong>Tahun:</strong> {publikasiData.tahun}
-            </p>
-          </div>
+            <div style={styles.metaInfo}>
+              <p style={styles.opd}>
+                <strong>OPD:</strong> {publikasiData.nama_opd}
+              </p>
+              <p style={styles.year}>
+                <strong>Tahun:</strong> {publikasiData.tahun}
+              </p>
+            </div>
 
-          <div style={styles.tagContainer}>
-            {kategori.map((tag, index) => (
-              <span key={index} style={styles.tag}>
-                {tag}
-              </span>
-            ))}
-          </div>
+            <div style={styles.tagContainer}>
+              {kategori.map((tag, index) => (
+                <span key={index} style={styles.tag}>
+                  {tag}
+                </span>
+              ))}
+            </div>
 
-          <div style={styles.abstractSection}>
-            <h2 style={styles.abstractTitle}>Review</h2>
-            <p style={styles.abstractText}>{abstrak}</p>
-            <p style={styles.abstractText}>{abstrak}{abstrak}{abstrak}</p>
-            <p style={styles.abstractText}>{abstrak}{abstrak}</p>
-            <p style={styles.abstractText}>{abstrak}{abstrak}{abstrak}</p>
+            <div style={styles.abstractSection}>
+              <h2 style={styles.abstractTitle}>Review</h2>
+              <p style={styles.abstractText}>{abstrak}</p>
+              <p style={styles.abstractText}>{abstrak}{abstrak}{abstrak}</p>
+              <p style={styles.abstractText}>{abstrak}{abstrak}</p>
+              <p style={styles.abstractText}>{abstrak}{abstrak}{abstrak}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <Foot/>
+      <Foot />
     </>
   );
 }
+
 
 const styles = {
   container: {
