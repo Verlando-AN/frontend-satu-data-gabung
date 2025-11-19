@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import usePublikasi from "@/hooks/usePublikasi"; // <-- HAPUS .js
+import usePublikasi from "@/hooks/usePublikasi"; 
 import { Filter, X, Calendar, Building2, BookOpen } from "lucide-react";
 import "@/css/publikasi.css";
 import "@/css/publikasi-search.css";
@@ -9,9 +9,6 @@ import gambar from "@/assets/logolamptimm.png";
 import Head from "@/backbone/Header.jsx";
 import Foot from "@/backbone/Footer.jsx";
 
-// ===========================
-// TIPE DATA PUBLIKASI
-// ===========================
 interface PublikasiItem {
   buku: string;
   buku_slug: string;
@@ -30,9 +27,6 @@ export default function Publikasi() {
   const [selectedOpd, setSelectedOpd] = useState<string>("");
   const [showFilters, setShowFilters] = useState<boolean>(false);
 
-  // ===========================
-  // MEMO: Tahun & OPD
-  // ===========================
   const { years, opds } = useMemo(() => {
     const yearsSet = new Set<number>();
     const opdsSet = new Set<string>();
