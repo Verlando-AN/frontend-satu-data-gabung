@@ -10,6 +10,7 @@ const MonitoringPage = lazy(() => import("@/pages/MonitoringPage"))
 const LoginPage = lazy(() => import("@/pages/LoginPage"))
 const ReferenceDataPage = lazy(() => import("@/pages/ReferenceDataPage"))
 const Sektoral = lazy(() => import("@/pages/sektoral/data/DataSektoral"))
+const RelokasiSektoral = lazy(() => import("@/pages/sektoral/relokasi/RelokasiSektoral"))
 const CreateSektoral = lazy(() => import("@/pages/sektoral/data/CreateSektoral"))
 const MonitoringData = lazy(() => import("@/pages/monitoring/monitoringData"))
 const DataOpd = lazy(() => import("@/pages/references/opd/DataOpd"))
@@ -28,6 +29,8 @@ const OrganisasiLanding = lazy(() => import("@/pages/landing/organisasi/Organisa
 const PublikasiLanding = lazy(() => import("@/pages/landing/publikasi/Publikasi"))
 const PublikasiBukuLanding = lazy(() => import("@/pages/landing/publikasi/Buku"))
 const KontakLanding = lazy(() => import("@/pages/landing/kontak/Kontak"))
+const NotfoundLanding = lazy(() => import("@/pages/notfound/Landing"))
+const NotfoundAdmin = lazy(() => import("@/pages/notfound/Admin"))
 
 
 function App() {
@@ -133,7 +136,24 @@ function App() {
           }
         />
 
+        <Route
+          path="/Notfound-landing"
+          element={
+            <GuestRoute>
+              <NotfoundLanding />
+            </GuestRoute>
+          }
+        />
+
       {/* Protected routes */}
+        <Route
+          path="/notfound-admin"
+          element={
+            <ProtectedRoute>
+              <NotfoundAdmin />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/dashboard"
           element={
@@ -171,6 +191,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Sektoral />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/relokasi-sektoral"
+          element={
+            <ProtectedRoute>
+              <RelokasiSektoral />
             </ProtectedRoute>
           }
         />
