@@ -78,7 +78,7 @@ export default function DashboardPage() {
                                     <div className="space-y-1">
                                         <h1 className="text-4xl font-bold tracking-tight">Dashboard</h1>
                                         <p className="text-muted-foreground text-lg">
-                                            Selamat datang di sistem manajemen data terpadu
+                                            Selamat datang di sistem Satu Data Lampung Timur
                                         </p>
                                     </div>
                                     <div className="hidden md:flex items-center gap-2">
