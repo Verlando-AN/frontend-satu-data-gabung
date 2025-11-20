@@ -9,7 +9,7 @@ export default function GuestRoute({ children }: GuestRouteProps) {
   const token = getToken()
 
   if (token) {
-    return <Navigate to="/" replace />
+    return <Navigate to="/notfound-admin" replace />
   }
 
   return <>{children}</>

@@ -9,7 +9,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const token = getToken()
 
   if (!token) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/Notfound-landing" replace />
   }
 
   return <>{children}</>
