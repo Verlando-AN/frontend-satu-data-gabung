@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import type { ChangeEvent, JSX } from "react";
 import useSektoral from "@/hooks/useSektoral.js";
 import "@/css/sektoral.css";
 import Head from "@/backbone/Header.jsx";

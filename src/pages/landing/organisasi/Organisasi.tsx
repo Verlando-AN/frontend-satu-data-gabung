@@ -1,6 +1,5 @@
-import { JSX } from "react";
+import type { JSX } from "react";
 import useOrganisasi from "@/hooks/useOrganisasi.js";
-import Gambarsektoral from "@/assets/sektoral.png";
 import "@/css/organisasi.css";
 import Head from "@/backbone/Header.jsx";
 import Foot from "@/backbone/Footer.jsx";

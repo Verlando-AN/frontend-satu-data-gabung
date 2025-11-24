@@ -19,20 +19,24 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    title: string
-    url: string
-    icon: LucideIcon
-    isActive?: boolean
-    items?: {
-      title: string
-      url: string
-    }[]
-  }[]
-}) {
+// -----------------------------
+//  FIXED INTERFACE (NO ERROR)
+// -----------------------------
+export interface NavItem {
+  title: string
+  url?: string               // <-- tidak wajib untuk item yang punya submenu
+  icon: LucideIcon
+  isActive?: boolean
+  items?: SubNavItem[]       // <-- tipe lebih lengkap
+}
+
+export interface SubNavItem {
+  title: string
+  url: string
+  icon?: LucideIcon          // <-- bikin optional, sesuai data kamu
+}
+
+export function NavMain({ items }: { items: NavItem[] }) {
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
@@ -41,11 +45,20 @@ export function NavMain({
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
               <SidebarMenuButton asChild tooltip={item.title}>
-                <a href={item.url}>
-                  <item.icon />
-                  <span>{item.title}</span>
-                </a>
+                {/* Jika tidak ada URL, tetap render tombol */}
+                {item.url ? (
+                  <a href={item.url}>
+                    <item.icon />
+                    <span>{item.title}</span>
+                  </a>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <item.icon />
+                    <span>{item.title}</span>
+                  </div>
+                )}
               </SidebarMenuButton>
+
               {item.items?.length ? (
                 <>
                   <CollapsibleTrigger asChild>
@@ -54,12 +67,14 @@ export function NavMain({
                       <span className="sr-only">Toggle</span>
                     </SidebarMenuAction>
                   </CollapsibleTrigger>
+
                   <CollapsibleContent>
                     <SidebarMenuSub>
-                      {item.items?.map((subItem) => (
+                      {item.items.map((subItem) => (
                         <SidebarMenuSubItem key={subItem.title}>
                           <SidebarMenuSubButton asChild>
                             <a href={subItem.url}>
+                              {subItem.icon && <subItem.icon className="mr-2" />}
                               <span>{subItem.title}</span>
                             </a>
                           </SidebarMenuSubButton>
@@ -69,6 +84,7 @@ export function NavMain({
                   </CollapsibleContent>
                 </>
               ) : null}
+
             </SidebarMenuItem>
           </Collapsible>
         ))}

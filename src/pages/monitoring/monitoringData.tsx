@@ -56,7 +56,18 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { Button } from "@/components/ui/button"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts"
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer, 
+  PieChart, 
+  Pie, 
+  Cell 
+} from "recharts"
 
 import { getAuthHeaders } from "@/api/auth"
 
@@ -82,7 +93,6 @@ interface OPD {
   nama_opd: string
 }
 
-const COLORS = ['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(var(--accent))', 'hsl(var(--muted))']
 
 export default function MonitoringData() {
   const [data, setData] = useState<SektoralItem[]>([])

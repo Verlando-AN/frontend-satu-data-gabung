@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { type ChangeEvent, type JSX } from "react";
 import { useUrusan } from "@/hooks/useUrusan.js";
 import "@/css/urusan.css";
 import Head from "@/backbone/Header.jsx";
