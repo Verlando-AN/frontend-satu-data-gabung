@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
   Plus, 
@@ -227,11 +228,12 @@ export default function DataBuku() {
                     <Download className="w-4 h-4" />
                     Export
                   </Button>
-                  <Button className="gap-2">
-                    <Plus className="w-4 h-4" />
-                    Tambah Buku
-                  </Button>
-                </div>
+                  <Link to="/create-buku">
+                    <Button className="bg-primary text-white">
+                      <Plus className="w-4 h-4 mr-2" /> Tambah Buku
+                    </Button>
+                  </Link>
+                  </div>
               </div>
 
               {/* Stats Cards */}

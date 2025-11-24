@@ -16,8 +16,10 @@ const MonitoringData = lazy(() => import("@/pages/monitoring/monitoringData"))
 const DataOpd = lazy(() => import("@/pages/references/opd/DataOpd"))
 const DataUrusan = lazy(() => import("@/pages/references/urusan/DataUrusan"))
 const DataBuku = lazy(() => import("@/pages/references/buku/DataBuku"))
+const CreateBuku = lazy(() => import("@/pages/references/buku/CreateBuku"))
 const AkunKepalaBidang = lazy(() => import("@/pages/akun/AkunKepalaBidang"))
 const CreateKepala = lazy(() => import("@/pages/akun/CreateKepala"))
+const CreateKepalaDinas = lazy(() => import("@/pages/akun/CreateKepalaDinas"))
 const AkunKepalaDinas = lazy(() => import("@/pages/akun/AkunKepalaDinas"))
 const Profile = lazy(() => import("@/pages/profile/profile"))
 const BerandaLanding = lazy(() => import("@/pages/landing/beranda/Index"))
@@ -243,6 +245,14 @@ function App() {
           }
         />
         <Route
+          path="/create-buku"
+          element={
+            <ProtectedRoute>
+              <CreateBuku />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/akun-kepala-bidang"
           element={
             <ProtectedRoute>
@@ -255,6 +265,14 @@ function App() {
           element={
             <ProtectedRoute>
               <CreateKepala />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/create-kepala-dinas"
+          element={
+            <ProtectedRoute>
+              <CreateKepalaDinas />
             </ProtectedRoute>
           }
         />

@@ -436,10 +436,7 @@ export default function Profile() {
                           </Button>
                         </div>
                       </CardContent>
-                    </Card>
-
-                    {/* Security Tips Card */}
-                    <Card className="border-2 bg-primary/5">
+                      
                       <CardHeader>
                         <CardTitle className="text-sm flex items-center gap-2">
                           <Shield className="h-4 w-4 text-primary" />
