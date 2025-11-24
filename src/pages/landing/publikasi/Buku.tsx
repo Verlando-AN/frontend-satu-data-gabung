@@ -5,7 +5,7 @@ import img_logo from "../../../assets/logolamptim.jpeg";
 import Head from "@/backbone/Header.jsx";
 import Foot from "@/backbone/Footer.jsx";
 
-import "@/css//Buku.css";
+import "@/css/Buku.css";
 
 interface PublikasiData {
   buku: string;
