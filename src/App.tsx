@@ -5,10 +5,7 @@ import GuestRoute from "@/lib/GuestRoute"
 
 // Lazy load pages
 const DashboardPage = lazy(() => import("@/pages/DashboardPage"))
-const SektoralPage = lazy(() => import("@/pages/SektoralPage"))
-const MonitoringPage = lazy(() => import("@/pages/MonitoringPage"))
 const LoginPage = lazy(() => import("@/pages/LoginPage"))
-const ReferenceDataPage = lazy(() => import("@/pages/ReferenceDataPage"))
 const Sektoral = lazy(() => import("@/pages/sektoral/data/DataSektoral"))
 const RelokasiSektoral = lazy(() => import("@/pages/sektoral/relokasi/RelokasiSektoral"))
 const CreateSektoral = lazy(() => import("@/pages/sektoral/data/CreateSektoral"))
@@ -161,30 +158,6 @@ function App() {
           element={
             <ProtectedRoute>
               <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/sektoral"
-          element={
-            <ProtectedRoute>
-              <SektoralPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/monitoring"
-          element={
-            <ProtectedRoute>
-              <MonitoringPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/reference-data"
-          element={
-            <ProtectedRoute>
-              <ReferenceDataPage />
             </ProtectedRoute>
           }
         />

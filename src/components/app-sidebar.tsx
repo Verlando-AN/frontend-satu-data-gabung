@@ -2,9 +2,7 @@ import * as React from "react"
 import {
   BookOpen,
   Command,
-  Home,
   Settings2,
-  SquareTerminal,
   Database,
   Users,
   BookMarked,
@@ -13,14 +11,12 @@ import {
   Folder,
   Shield,
   ChevronRight,
-  Sparkles,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
 import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
-import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 
 import {

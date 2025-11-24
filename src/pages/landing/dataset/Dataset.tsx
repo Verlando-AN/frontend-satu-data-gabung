@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import type { JSX } from "react";
 import { Link } from "react-router-dom";
 import icon from "../../../assets/dataseticon.png";
 import useDataset from "../../../hooks/useDataset.js";

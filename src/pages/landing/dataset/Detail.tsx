@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, type JSX } from "react";
 import "@/css/detail.css";
 import useDatasetDetail from "@/hooks/useDatasetDetail.js";
 import DatasetInfoTable from "@/backbone/DatasetInfoTable.jsx";
@@ -8,7 +8,6 @@ import DatasetSeriesTable from "@/backbone/DatasetSeriesTable.jsx";
 import Head from "@/backbone/Header.jsx";
 import Foot from "@/backbone/Footer.jsx";
 
-// Interface dataset (sesuaikan dengan struktur dataset dari API)
 interface DatasetInput {
   tahun: number | string;
   jumlah: number;
@@ -19,7 +18,7 @@ interface DatasetType {
   title?: string;
   description?: string;
   input: DatasetInput[];
-  [key: string]: any; // tambahkan properti lainnya jika ada
+  [key: string]: any; 
 }
 
 export default function Detail(): JSX.Element {

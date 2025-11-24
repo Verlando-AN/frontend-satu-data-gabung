@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type JSX } from "react";
 import "@/css/beranda.css";
 
 import Bupati from "@/assets/bupati.png";

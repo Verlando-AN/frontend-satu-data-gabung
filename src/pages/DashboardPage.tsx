@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import {
@@ -147,6 +147,7 @@ export default function DashboardPage() {
                                                             <Badge variant={section.badgeVariant} className="mt-1">
                                                                 {section.badge}
                                                             </Badge>
+
                                                         </div>
                                                         <CardTitle className="text-2xl font-bold group-hover:text-primary transition-colors">
                                                             {section.title}
