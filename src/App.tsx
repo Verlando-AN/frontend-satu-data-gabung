@@ -7,6 +7,7 @@ import GuestRoute from "@/lib/GuestRoute"
 const DashboardPage = lazy(() => import("@/pages/DashboardPage"))
 const LoginPage = lazy(() => import("@/pages/LoginPage"))
 const Sektoral = lazy(() => import("@/pages/sektoral/data/DataSektoral"))
+const DetailSektoral = lazy(() => import("@/pages/sektoral/data/DetailSektoral"))
 const RelokasiSektoral = lazy(() => import("@/pages/sektoral/relokasi/RelokasiSektoral"))
 const CreateSektoral = lazy(() => import("@/pages/sektoral/data/CreateSektoral"))
 const MonitoringData = lazy(() => import("@/pages/monitoring/monitoringData"))
@@ -166,6 +167,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Sektoral />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/detail-sektoral/:id"
+          element={
+            <ProtectedRoute>
+              <DetailSektoral />
             </ProtectedRoute>
           }
         />

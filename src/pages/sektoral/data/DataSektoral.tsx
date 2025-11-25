@@ -393,10 +393,12 @@ export default function DataSektoral() {
 
                                     <DropdownMenuContent align="end" className="[--radius:0.75rem] w-48">
                                       <DropdownMenuGroup>
-                                        <DropdownMenuItem className="cursor-pointer">
-                                          <Eye className="mr-2 h-4 w-4" />
-                                          Lihat Detail
-                                        </DropdownMenuItem>
+                                        <Link to={`/detail-sektoral/${item.id}`}>
+                                          <DropdownMenuItem className="cursor-pointer">
+                                            <Eye className="mr-2 h-4 w-4" />
+                                            Lihat Detail
+                                          </DropdownMenuItem>
+                                        </Link>
 
                                         <DropdownMenuItem className="cursor-pointer">
                                           <Pencil className="mr-2 h-4 w-4" />
