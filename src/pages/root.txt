@@ -1,0 +1,439 @@
+import React, { useState } from 'react';
+import { AppSidebar } from "@/components/app-sidebar";
+import { SiteHeader } from "@/components/site-header";
+import {
+    SidebarInset,
+    SidebarProvider,
+} from "@/components/ui/sidebar";
+import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardContent,
+    CardDescription,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { 
+    Folder, 
+    Database, 
+    Newspaper, 
+    TrendingUp, 
+    Users, 
+    FileText, 
+    ArrowRight, 
+    Activity, 
+    BarChart3, 
+    Clock, 
+    CheckCircle2, 
+    AlertCircle, 
+    BookOpen,
+    Search,
+    Building2,
+    Calendar,
+    Eye,
+    Download,
+    ChevronLeft,
+    ChevronRight
+} from "lucide-react";
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+
+export default function DashboardPage() {
+    const [produsenSearch, setProdusenSearch] = useState('');
+    const [datasetSearch, setDatasetSearch] = useState('');
+    const [selectedProdusen, setSelectedProdusen] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // Mock data
+    const produsenData = [
+        { id_opd: 1, nama_opd: "Dinas Komunikasi dan Informatika" },
+        { id_opd: 2, nama_opd: "Badan Perencanaan Pembangunan Daerah" },
+        { id_opd: 3, nama_opd: "Dinas Kesehatan" },
+        { id_opd: 4, nama_opd: "Dinas Pendidikan" },
+        { id_opd: 5, nama_opd: "Dinas Perhubungan" },
+    ];
+
+    const datasetData = [
+        {
+            id: 1,
+            title: "Data Infrastruktur Jalan 2024",
+            description: "Dataset lengkap mengenai kondisi infrastruktur jalan di Lampung Timur tahun 2024",
+            producer: "Dinas Perhubungan",
+            date: "15 Nov 2024",
+            daysAgo: 11,
+            views: 1234,
+            downloads: 567
+        },
+        {
+            id: 2,
+            title: "Statistik Kesehatan Masyarakat",
+            description: "Data statistik kesehatan masyarakat dan fasilitas kesehatan terbaru",
+            producer: "Dinas Kesehatan",
+            date: "20 Nov 2024",
+            daysAgo: 6,
+            views: 892,
+            downloads: 234
+        },
+        {
+            id: 3,
+            title: "Data Pendidikan dan Sekolah",
+            description: "Informasi lengkap tentang lembaga pendidikan dan data siswa",
+            producer: "Dinas Pendidikan",
+            date: "22 Nov 2024",
+            daysAgo: 4,
+            views: 2341,
+            downloads: 891
+        },
+    ];
+
+    const recentActivity = [
+        { action: "Dataset baru ditambahkan", time: "2 jam lalu", icon: CheckCircle2, color: "text-green-500" },
+        { action: "Publikasi diperbarui", time: "5 jam lalu", icon: AlertCircle, color: "text-blue-500" },
+        { action: "Laporan bulanan tersedia", time: "1 hari lalu", icon: FileText, color: "text-purple-500" },
+    ];
+
+    const statsData = [
+        { month: "Jul", datasets: 45, publikasi: 12 },
+        { month: "Agu", datasets: 52, publikasi: 15 },
+        { month: "Sep", datasets: 48, publikasi: 18 },
+        { month: "Okt", datasets: 61, publikasi: 22 },
+        { month: "Nov", datasets: 68, publikasi: 25 },
+    ];
+
+    const sections = [
+        {
+            title: 'Data Sektoral',
+            description: 'Kelola data sektoral antar OPD secara terpusat dan terintegrasi.',
+            icon: Folder,
+            stats: '234 Dataset',
+            badge: 'Terintegrasi',
+            badgeVariant: 'default',
+            gradient: 'from-blue-500 to-cyan-500',
+        },
+        {
+            title: 'Dataset',
+            description: 'Lihat dan kelola dataset publik maupun internal dengan mudah.',
+            icon: Database,
+            stats: '1,234 Total',
+            badge: 'Publik',
+            badgeVariant: 'secondary',
+            gradient: 'from-purple-500 to-pink-500',
+        },
+        {
+            title: 'Publikasi',
+            description: 'Bagikan hasil analisis dan laporan data dalam bentuk publikasi.',
+            icon: Newspaper,
+            stats: '89 Artikel',
+            badge: 'Terbaru',
+            badgeVariant: 'outline',
+            gradient: 'from-orange-500 to-red-500',
+        },
+    ];
+
+    const categories = [
+        { name: "Sarana & Infrastruktur", count: 45, color: "bg-blue-500" },
+        { name: "Ekonomi & Pembangunan", count: 32, color: "bg-green-500" },
+        { name: "Sosial & Kesejahteraan", count: 28, color: "bg-purple-500" },
+        { name: "Kebijakan & Legislasi", count: 19, color: "bg-orange-500" },
+    ];
+
+    const quickActions = [
+        { title: 'Upload Dataset', icon: Database, color: 'text-blue-600' },
+        { title: 'Buat Publikasi', icon: Newspaper, color: 'text-purple-600' },
+        { title: 'Lihat Laporan', icon: BarChart3, color: 'text-green-600' },
+    ];
+
+    const filteredProdusen = produsenData.filter(opd =>
+        opd.nama_opd.toLowerCase().includes(produsenSearch.toLowerCase())
+    );
+
+    const filteredDatasets = datasetData.filter(dataset =>
+        dataset.title.toLowerCase().includes(datasetSearch.toLowerCase())
+    );
+
+    return (
+<div className="[--header-height:calc(--spacing(14))]">
+      <SidebarProvider className="flex flex-col">
+        <SiteHeader />
+
+        <div className="flex flex-1">
+          <AppSidebar />
+
+          <SidebarInset>
+                        <div className="p-6 lg:p-8 space-y-8">
+                            {/* Hero Section */}
+                            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 p-8 lg:p-12 text-white shadow-2xl">
+                                <div className="absolute inset-0 bg-grid-white/10" />
+                                <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
+                                <div className="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
+                                
+                                <div className="relative z-10 space-y-6">
+                                    <div className="flex items-center justify-between">
+                                        <div className="space-y-2">
+                                            <Badge variant="secondary" className="mb-2 bg-white/20 text-white border-white/30">
+                                                <Activity className="h-3 w-3 mr-1" />
+                                                Sistem Aktif
+                                            </Badge>
+                                            <h1 className="text-4xl lg:text-5xl font-bold tracking-tight">
+                                                Dashboard Satu Data
+                                            </h1>
+                                            <p className="text-xl text-blue-100 max-w-2xl">
+                                                Selamat datang di portal data terpadu Lampung Timur
+                                            </p>
+                                        </div>
+                                        <div className="hidden lg:flex items-center gap-3">
+                                            {quickActions.map((action, index) => {
+                                                const Icon = action.icon;
+                                                return (
+                                                    <Button 
+                                                        key={index} 
+                                                        size="lg"
+                                                        className="bg-white/20 hover:bg-white/30 border-white/30 backdrop-blur-sm text-white gap-2"
+                                                        variant="outline"
+                                                    >
+                                                        <Icon className="h-5 w-5" />
+                                                        {action.title}
+                                                    </Button>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Quick Stats */}
+                                    
+                                </div>
+                            </div>
+
+                            {/* Main Content */}
+                            <div className="grid gap-6 lg:grid-cols-12">
+                                {/* Left Column - Feature Cards */}
+                                <div className="lg:col-span-8 space-y-6">
+                                    {/* Feature Cards */}
+                                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                                        {sections.map((section, index) => {
+                                            const Icon = section.icon;
+                                            return (
+                                                <Card 
+                                                    key={index} 
+                                                    className="group hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 border-2 overflow-hidden cursor-pointer"
+                                                >
+                                                    <div className={`h-2 bg-gradient-to-r ${section.gradient}`} />
+                                                    <CardHeader className="pb-3 space-y-4">
+                                                        <div className="flex items-start justify-between">
+                                                            <div className={`p-3 rounded-xl bg-gradient-to-br ${section.gradient} text-white shadow-lg`}>
+                                                                <Icon className="h-6 w-6" />
+                                                            </div>
+                                                            <Badge variant={section.badgeVariant}>
+                                                                {section.badge}
+                                                            </Badge>
+                                                        </div>
+                                                        <CardTitle className="text-xl font-bold group-hover:text-blue-600 transition-colors">
+                                                            {section.title}
+                                                        </CardTitle>
+                                                    </CardHeader>
+                                                    <CardContent className="space-y-4">
+                                                        <CardDescription className="text-sm leading-relaxed line-clamp-2">
+                                                            {section.description}
+                                                        </CardDescription>
+                                                        <div className="flex items-center justify-between pt-3 border-t">
+                                                            <span className="text-sm font-semibold text-muted-foreground">
+                                                                {section.stats}
+                                                            </span>
+                                                            <Button 
+                                                                variant="ghost" 
+                                                                size="sm" 
+                                                                className="group/btn p-0 h-auto font-semibold text-blue-600"
+                                                            >
+                                                                Lihat
+                                                                <ArrowRight className="ml-1 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                                                            </Button>
+                                                        </div>
+                                                    </CardContent>
+                                                </Card>
+                                            );
+                                        })}
+                                    </div>
+
+                                    {/* Dataset Explorer */}
+                                    <Card className="border-2 shadow-xl">
+                                        <CardHeader className="border-b bg-gradient-to-r from-blue-50 to-purple-50">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <CardTitle className="text-2xl">Dataset Terbaru</CardTitle>
+                                                    <CardDescription className="mt-1">
+                                                        Jelajahi koleksi dataset dari berbagai OPD
+                                                    </CardDescription>
+                                                </div>
+                                                <Badge variant="secondary" className="text-lg px-3 py-1">
+                                                    {filteredDatasets.length} Dataset
+                                                </Badge>
+                                            </div>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div>
+                                              
+
+                                                {/* Dataset List */}
+                                                <div className="lg:col-span-3 space-y-4">
+                                                    <div className="relative">
+                                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                        <Input
+                                                            placeholder="Cari dataset..."
+                                                            value={datasetSearch}
+                                                            onChange={(e) => setDatasetSearch(e.target.value)}
+                                                            className="pl-9"
+                                                        />
+                                                    </div>
+
+                                                    <div className="space-y-3">
+                                                        {filteredDatasets.map((dataset) => (
+                                                            <Card 
+                                                                key={dataset.id} 
+                                                                className="hover:shadow-lg transition-all duration-300 cursor-pointer group border-2"
+                                                            >
+                                                                <CardContent className="p-4">
+                                                                    <div className="space-y-3">
+                                                                        <div className="flex items-start justify-between gap-3">
+                                                                            <div className="flex-1 min-w-0">
+                                                                                <h4 className="font-semibold text-lg group-hover:text-blue-600 transition-colors line-clamp-1">
+                                                                                    {dataset.title}
+                                                                                </h4>
+                                                                                <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
+                                                                                    {dataset.description}
+                                                                                </p>
+                                                                            </div>
+                                                                            <Badge variant="outline" className="shrink-0">
+                                                                                Publik
+                                                                            </Badge>
+                                                                        </div>
+                                                                        
+                                                                        <div className="flex items-center flex-wrap gap-4 text-xs text-muted-foreground">
+                                                                            <span className="flex items-center gap-1">
+                                                                                <Building2 className="h-3 w-3" />
+                                                                                {dataset.producer}
+                                                                            </span>
+                                                                            <span className="flex items-center gap-1">
+                                                                                <Calendar className="h-3 w-3" />
+                                                                                {dataset.date}
+                                                                            </span>
+                                                                            <span className="flex items-center gap-1">
+                                                                                <Eye className="h-3 w-3" />
+                                                                                {dataset.views}
+                                                                            </span>
+                                                                            <span className="flex items-center gap-1">
+                                                                                <Download className="h-3 w-3" />
+                                                                                {dataset.downloads}
+                                                                            </span>
+                                                                        </div>
+
+                                                                        <div className="flex items-center gap-2 pt-2 border-t">
+                                                                            <Button size="sm" variant="outline" className="flex-1">
+                                                                                <Eye className="h-4 w-4 mr-2" />
+                                                                                Lihat Detail
+                                                                            </Button>
+                                                                        </div>
+                                                                    </div>
+                                                                </CardContent>
+                                                            </Card>
+                                                        ))}
+                                                    </div>
+
+                                                    {/* Pagination */}
+                                                    <div className="flex items-center justify-between pt-4">
+                                                        <Button variant="outline" size="sm" disabled={currentPage === 1}>
+                                                            <ChevronLeft className="h-4 w-4 mr-1" />
+                                                            Previous
+                                                        </Button>
+                                                        <span className="text-sm text-muted-foreground">
+                                                            Page {currentPage} of 10
+                                                        </span>
+                                                        <Button variant="outline" size="sm">
+                                                            Next
+                                                            <ChevronRight className="h-4 w-4 ml-1" />
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+
+                                   
+                                </div>
+
+                                {/* Right Column - Activity & Docs */}
+                                <div className="lg:col-span-4 space-y-6">
+                                    
+
+                                    {/* Documentation */}
+                                    <Card className="border-2 shadow-xl bg-gradient-to-br from-blue-50 to-indigo-50">
+                                        <CardHeader className="pb-4">
+                                            <CardTitle className="flex items-center gap-2 text-xl">
+                                                <BookOpen className="h-5 w-5 text-blue-600" />
+                                                Dokumentasi
+                                            </CardTitle>
+                                            <CardDescription>
+                                                Panduan lengkap sistem
+                                            </CardDescription>
+                                        </CardHeader>
+                                        <CardContent className="space-y-3">
+                                            {[
+                                                { title: "Panduan Upload Dataset", icon: Database },
+                                                { title: "API Documentation", icon: FileText },
+                                                { title: "FAQ & Support", icon: BookOpen },
+                                            ].map((doc, index) => {
+                                                const Icon = doc.icon;
+                                                return (
+                                                    <Button 
+                                                        key={index}
+                                                        variant="outline" 
+                                                        className="w-full justify-between group/doc hover:bg-white hover:shadow-md transition-all bg-white/50"
+                                                    >
+                                                        <span className="flex items-center gap-2">
+                                                            <Icon className="h-4 w-4" />
+                                                            {doc.title}
+                                                        </span>
+                                                        <ArrowRight className="h-4 w-4 group-hover/doc:translate-x-1 transition-transform" />
+                                                    </Button>
+                                                );
+                                            })}
+                                            <Separator className="my-4" />
+                                            <Button className="w-full gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                                                <BookOpen className="h-4 w-4" />
+                                                Lihat Semua Dokumentasi
+                                            </Button>
+                                        </CardContent>
+                                    </Card>
+
+                                    {/* Quick Links */}
+                                    <Card className="border-2 shadow-xl">
+                                        <CardHeader className="border-b">
+                                            <CardTitle className="text-lg">Link Cepat</CardTitle>
+                                        </CardHeader>
+                                        <CardContent className="p-4 space-y-2">
+                                            {[
+                                                { label: "Portal Data Nasional", icon: ArrowRight },
+                                                { label: "Peraturan & Kebijakan", icon: ArrowRight },
+                                                { label: "Hubungi Admin", icon: ArrowRight },
+                                            ].map((link, index) => (
+                                                <button 
+                                                    key={index}
+                                                    className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-slate-100 transition-colors text-sm"
+                                                >
+                                                    <span>{link.label}</span>
+                                                    <ArrowRight className="h-4 w-4" />
+                                                </button>
+                                            ))}
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            </div>
+                        </div>
+                    </SidebarInset>
+                </div>
+            </SidebarProvider>
+        </div>
+    );
+}

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"
 import { AppSidebar } from "@/components/app-sidebar"
 import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
@@ -23,7 +22,8 @@ import {
   MoveRight,
   Database,
 } from "lucide-react"
-import { getAuthHeaders } from "@/api/auth"
+
+import { useRelokasiSektoral } from "@/hooks/useRelokasiSektoral";
 
 const NativeSelect = ({ children, className = "", ...props }: any) => (
   <select className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${className}`} {...props}>
@@ -35,141 +35,22 @@ const NativeSelectOption = ({ children, ...props }: any) => (
   <option {...props}>{children}</option>
 );
 
-const API_URL =
-  import.meta.env.VITE_API_URL || "https://api-satudata.lampungtimurkab.go.id"
-
-interface OPD {
-  id_opd: number;
-  nama_opd: string;
-}
-
-interface Sektoral {
-  id: number;
-  kode_dssd: string;
-  uraian_dssd: string;
-}
-
 export default function RelokasiSektoral() {
-  const [listOpdLama, setListOpdLama] = useState<OPD[]>([]);
-  const [listOpdBaru, setListOpdBaru] = useState<OPD[]>([]);
-  const [listSektoral, setListSektoral] = useState<Sektoral[]>([]);
-  
-  const [formData, setFormData] = useState({
-    opdLama: "",
-    sektoral: "",
-    opdBaru: "",
-  });
-
-  const [loading, setLoading] = useState(false);
-  const [loadingData, setLoadingData] = useState(true);
-  const [message, setMessage] = useState<{type: 'success' | 'error', text: string} | null>(null);
-
-  // Fetch OPD List
-  const fetchOPD = async () => {
-    try {
-      const response = await fetch(`${API_URL}/strict/ref-data/list-opd`, {
-        method: "GET",
-        headers: getAuthHeaders(),
-      });
-
-      if (!response.ok) throw new Error("Gagal mengambil data OPD");
-
-      const result = await response.json();
-      const finalData = result?.data ?? result?.hasil ?? result?.result ?? (Array.isArray(result) ? result : []);
-      
-      setListOpdLama(finalData || []);
-      setListOpdBaru(finalData || []);
-    } catch (error) {
-      console.error("Error fetching OPD:", error);
-    }
-  };
-
-  // Fetch Sektoral based on OPD
-  const fetchSektoral = async (idOpd: string) => {
-    if (!idOpd) {
-      setListSektoral([]);
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `${API_URL}/strict/data-sektoral/${idOpd}`,
-        {
-          method: "GET",
-          headers: getAuthHeaders(),
-        }
-      );
-
-      if (!response.ok) throw new Error("Gagal mengambil data sektoral");
-
-      const result = await response.json();
-      const finalData = result?.data ?? result?.hasil ?? result?.result ?? (Array.isArray(result) ? result : []);
-      
-      setListSektoral(finalData || []);
-    } catch (error) {
-      console.error("Error fetching sektoral:", error);
-      setListSektoral([]);
-    }
-  };
-
-  useEffect(() => {
-    const loadData = async () => {
-      setLoadingData(true);
-      await fetchOPD();
-      setLoadingData(false);
-    };
-    loadData();
-  }, []);
-
-  useEffect(() => {
-    if (formData.opdLama) {
-      fetchSektoral(formData.opdLama);
-    }
-  }, [formData.opdLama]);
-
-  const handleSubmit = async () => {
-    // Validation
-    if (!formData.opdLama || !formData.sektoral || !formData.opdBaru) {
-      setMessage({ type: 'error', text: 'Semua field harus diisi' });
-      return;
-    }
-
-    if (formData.opdLama === formData.opdBaru) {
-      setMessage({ type: 'error', text: 'OPD lama dan OPD baru tidak boleh sama' });
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setMessage(null);
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      setMessage({ type: 'success', text: 'Data sektoral berhasil direlokasi!' });
-      
-      // Reset form after success
-      setTimeout(() => {
-        setFormData({
-          opdLama: "",
-          sektoral: "",
-          opdBaru: "",
-        });
-        setListSektoral([]);
-        setMessage(null);
-      }, 3000);
-      
-    } catch (error: any) {
-      setMessage({ type: 'error', text: error.message || 'Terjadi kesalahan' });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Get selected OPD names
-  const selectedOpdLama = listOpdLama.find(opd => String(opd.id_opd) === formData.opdLama);
-  const selectedOpdBaru = listOpdBaru.find(opd => String(opd.id_opd) === formData.opdBaru);
-  const selectedSektoral = listSektoral.find(s => String(s.id) === formData.sektoral);
+  const {
+    listOpdLama,
+    listOpdBaru,
+    listSektoral,
+    formData,
+    loading,
+    loadingData,
+    message,
+    selectedOpdLama,
+    selectedOpdBaru,
+    selectedSektoral,
+    handleInputChange,
+    handleSubmit,
+    resetForm
+  } = useRelokasiSektoral();
 
   return (
     <div className="[--header-height:calc(--spacing(14))]">
@@ -182,7 +63,6 @@ export default function RelokasiSektoral() {
           <SidebarInset>
             <div className="flex flex-col flex-1 gap-6 p-6 bg-muted/30">
 
-              {/* Header Section */}
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
@@ -197,14 +77,8 @@ export default function RelokasiSektoral() {
                     </div>
                   </div>
                 </div>
-
-                <Button variant="outline" size="sm" className="gap-2">
-                  <ArrowLeft className="w-4 h-4" />
-                  Kembali
-                </Button>
               </div>
 
-              {/* Instructions Card */}
               <Card className="border-2 bg-blue-50 dark:bg-blue-950/20">
                 <CardHeader>
                   <CardTitle className="text-base flex items-center gap-2">
@@ -222,7 +96,6 @@ export default function RelokasiSektoral() {
                 </CardContent>
               </Card>
 
-              {/* Form Card */}
               <Card className="border-2">
                 <CardHeader>
                   <CardTitle className="text-xl">Form Relokasi</CardTitle>
@@ -232,7 +105,6 @@ export default function RelokasiSektoral() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-6">
-                    {/* Message Alert */}
                     {message && (
                       <Alert variant={message.type === 'error' ? 'destructive' : 'default'}>
                         {message.type === 'success' ? (
@@ -251,7 +123,6 @@ export default function RelokasiSektoral() {
                       </div>
                     ) : (
                       <div className="space-y-6">
-                        {/* Step 1: Select OPD Lama */}
                         <div className="space-y-4">
                           <div className="flex items-center gap-2 pb-2 border-b">
                             <Badge variant="default" className="rounded-full w-6 h-6 flex items-center justify-center p-0">1</Badge>
@@ -266,9 +137,7 @@ export default function RelokasiSektoral() {
                             <NativeSelect
                               id="opdLama"
                               value={formData.opdLama}
-                              onChange={(e: any) => {
-                                setFormData({...formData, opdLama: e.target.value, sektoral: ""});
-                              }}
+                              onChange={(e: any) => handleInputChange("opdLama", e.target.value)}
                             >
                               <NativeSelectOption value="">Pilih OPD Lama</NativeSelectOption>
                               {listOpdLama.map((opd) => (
@@ -280,7 +149,6 @@ export default function RelokasiSektoral() {
                           </div>
                         </div>
 
-                        {/* Step 2: Select Sektoral */}
                         <div className="space-y-4">
                           <div className="flex items-center gap-2 pb-2 border-b">
                             <Badge variant="default" className="rounded-full w-6 h-6 flex items-center justify-center p-0">2</Badge>
@@ -295,7 +163,7 @@ export default function RelokasiSektoral() {
                             <NativeSelect
                               id="sektoral"
                               value={formData.sektoral}
-                              onChange={(e: any) => setFormData({...formData, sektoral: e.target.value})}
+                              onChange={(e: any) => handleInputChange("sektoral", e.target.value)}
                               disabled={!formData.opdLama}
                             >
                               <NativeSelectOption value="">
@@ -315,7 +183,6 @@ export default function RelokasiSektoral() {
                           </div>
                         </div>
 
-                        {/* Step 3: Select OPD Baru */}
                         <div className="space-y-4">
                           <div className="flex items-center gap-2 pb-2 border-b">
                             <Badge variant="default" className="rounded-full w-6 h-6 flex items-center justify-center p-0">3</Badge>
@@ -330,7 +197,7 @@ export default function RelokasiSektoral() {
                             <NativeSelect
                               id="opdBaru"
                               value={formData.opdBaru}
-                              onChange={(e: any) => setFormData({...formData, opdBaru: e.target.value})}
+                              onChange={(e: any) => handleInputChange("opdBaru", e.target.value)}
                             >
                               <NativeSelectOption value="">Pilih OPD Baru</NativeSelectOption>
                               {listOpdBaru.map((opd) => (
@@ -346,7 +213,6 @@ export default function RelokasiSektoral() {
                           </div>
                         </div>
 
-                        {/* Preview Card */}
                         {formData.opdLama && formData.sektoral && formData.opdBaru && (
                           <Card className="bg-primary/5 border-primary/20">
                             <CardHeader>
@@ -379,7 +245,6 @@ export default function RelokasiSektoral() {
                           </Card>
                         )}
 
-                        {/* Submit Button */}
                         <div className="flex gap-3 pt-4 border-t">
                           <Button
                             onClick={handleSubmit}
@@ -401,15 +266,7 @@ export default function RelokasiSektoral() {
                           <Button
                             type="button"
                             variant="outline"
-                            onClick={() => {
-                              setFormData({
-                                opdLama: "",
-                                sektoral: "",
-                                opdBaru: "",
-                              });
-                              setListSektoral([]);
-                              setMessage(null);
-                            }}
+                            onClick={resetForm}
                           >
                             Reset
                           </Button>
@@ -420,7 +277,6 @@ export default function RelokasiSektoral() {
                 </CardContent>
               </Card>
 
-              {/* Warning Card */}
               <Card className="border-2 border-yellow-200 bg-yellow-50 dark:bg-yellow-950/20 dark:border-yellow-800">
                 <CardHeader>
                   <CardTitle className="text-base flex items-center gap-2 text-yellow-800 dark:text-yellow-400">

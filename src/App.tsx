@@ -15,11 +15,15 @@ const DataOpd = lazy(() => import("@/pages/references/opd/DataOpd"))
 const DataUrusan = lazy(() => import("@/pages/references/urusan/DataUrusan"))
 const DataBuku = lazy(() => import("@/pages/references/buku/DataBuku"))
 const CreateBuku = lazy(() => import("@/pages/references/buku/CreateBuku"))
+const UpdateBuku = lazy(() => import("@/pages/references/buku/UpdateBuku"))
 const AkunKepalaBidang = lazy(() => import("@/pages/akun/AkunKepalaBidang"))
 const CreateKepala = lazy(() => import("@/pages/akun/CreateKepala"))
+const EditKepalaBidang = lazy(() => import("@/pages/akun/EditKepalaBidang"))
 const CreateKepalaDinas = lazy(() => import("@/pages/akun/CreateKepalaDinas"))
+const EditKepalaDinas = lazy(() => import("@/pages/akun/EditKepalaDinas"))
 const AkunKepalaDinas = lazy(() => import("@/pages/akun/AkunKepalaDinas"))
 const Profile = lazy(() => import("@/pages/profile/profile"))
+const CreateDataset = lazy(() => import("@/pages/sektoral/data/dataset/CreateDataset"))
 const BerandaLanding = lazy(() => import("@/pages/landing/beranda/Index"))
 const DatasetLanding = lazy(() => import("@/pages/landing/dataset/Dataset"))
 const DatasetDetailLanding = lazy(() => import("@/pages/landing/dataset/Detail"))
@@ -171,6 +175,14 @@ function App() {
           }
         />
         <Route
+          path="/create-dataset/:id"
+          element={
+            <ProtectedRoute>
+              <CreateDataset />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/detail-sektoral/:id"
           element={
             <ProtectedRoute>
@@ -235,6 +247,14 @@ function App() {
           }
         />
         <Route
+          path="/update-buku/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateBuku />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/akun-kepala-bidang"
           element={
             <ProtectedRoute>
@@ -251,10 +271,26 @@ function App() {
           }
         />
         <Route
+          path="/edit-kepala-bidang/:id_user"
+          element={
+            <ProtectedRoute>
+              <EditKepalaBidang />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/create-kepala-dinas"
           element={
             <ProtectedRoute>
               <CreateKepalaDinas />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-kepala-dinas/:id_user"
+          element={
+            <ProtectedRoute>
+              <EditKepalaDinas />
             </ProtectedRoute>
           }
         />

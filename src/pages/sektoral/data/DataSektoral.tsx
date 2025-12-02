@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Plus, Search, Filter, Download, RefreshCw } from "lucide-react";
+import { Plus, Search, Filter, RefreshCw } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -19,6 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import {
   Pagination,
   PaginationContent,
@@ -37,13 +37,12 @@ import {
 import {
   ChevronDown,
   Eye,
-  Pencil,
-  Trash2,
   Power,
   Database,
   CheckCircle2,
   XCircle,
   FileText,
+  AlertCircle,
 } from "lucide-react";
 import { ButtonGroup } from "@/components/ui/button-group";
 import {
@@ -61,91 +60,45 @@ import { SiteHeader } from "@/components/site-header";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 
-import { getAuthHeaders } from "@/api/auth";
-
-const API_URL =
-  import.meta.env.VITE_API_URL ||
-  "https://api-satudata.lampungtimurkab.go.id";
-
-interface SektoralItem {
-  id: number;
-  kode_urusan: string;
-  jenis: number;
-  kategori: number;
-  jenis_string: string;
-  kategori_string: string;
-  kode_dssd: string;
-  uraian_dssd: string;
-  satuan: string;
-  dimensi: string;
-  active: boolean;
-}
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useDataSektoral } from "@/hooks/useDataSektoral";
 
 export default function DataSektoral() {
-  const [data, setData] = useState<SektoralItem[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const [perPage, setPerPage] = useState("20");
-  const [active, setActive] = useState("");
-  const [uraianDssd, setUraianDssd] = useState("");
-
-  const [page, setPage] = useState(1);
-  const [pageCount, setPageCount] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
-
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-
-      const query = new URLSearchParams({
-        page: String(page),
-        per_page: perPage,
-      });
-
-      if (active !== "") query.append("active", active);
-      if (uraianDssd !== "") query.append("uraian_dssd", uraianDssd);
-
-      const response = await fetch(
-        `${API_URL}/strict/data-sektoral?${query.toString()}`,
-        {
-          method: "GET",
-          headers: getAuthHeaders(),
-        }
-      );
-
-      if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
-
-      const currentPage = Number(response.headers.get("x-pagination-current-page"));
-      const countPage = Number(response.headers.get("x-pagination-page-count"));
-      const total = Number(response.headers.get("x-pagination-total-count"));
-
-      if (currentPage) setPage(currentPage);
-      if (countPage) setPageCount(countPage);
-      if (total) setTotalCount(total);
-
-      const result = await response.json();
-
-      const finalData =
-        result?.data ??
-        result?.hasil ??
-        result?.result ??
-        (Array.isArray(result) ? result : null);
-
-      setData(finalData || []);
-    } catch (error) {
-      console.error("Error fetching:", error);
-      setData([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [perPage, active, uraianDssd, page]);
-
-  const activeCount = data.filter(item => item.active).length;
-  const inactiveCount = data.filter(item => !item.active).length;
+  const {
+    data,
+    loading,
+    perPage,
+    active,
+    uraianDssd,
+    page,
+    pageCount,
+    totalCount,
+    activeCount,
+    inactiveCount,
+    isDialogOpen,
+    selectedItem,
+    formData,
+    isSubmitting,
+    submitStatus,
+    handleOpenDialog,
+    handleCloseDialog,
+    handleSubmit,
+    handleToggleStatus,
+    handlePerPageChange,
+    handleActiveChange,
+    handleSearchChange,
+    handlePageChange,
+    setFormData
+  } = useDataSektoral();
 
   return (
     <div className="[--header-height:calc(--spacing(14))]">
@@ -174,23 +127,6 @@ export default function DataSektoral() {
                 </div>
 
                 <div className="flex gap-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => fetchData()}
-                    className="gap-2"
-                  >
-                    <RefreshCw className="w-4 h-4" />
-                    Refresh
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="gap-2"
-                  >
-                    <Download className="w-4 h-4" />
-                    Export
-                  </Button>
                   <Link to="/create-sektoral">
                     <Button className="gap-2">
                       <Plus className="w-4 h-4" />
@@ -286,10 +222,7 @@ export default function DataSektoral() {
                       </label>
                       <NativeSelect
                         value={perPage}
-                        onChange={(e) => {
-                          setPerPage(e.target.value);
-                          setPage(1);
-                        }}
+                        onChange={(e) => handlePerPageChange(e.target.value)}
                       >
                         <NativeSelectOption value="10">10 Data</NativeSelectOption>
                         <NativeSelectOption value="20">20 Data</NativeSelectOption>
@@ -305,10 +238,7 @@ export default function DataSektoral() {
                       </label>
                       <NativeSelect
                         value={active}
-                        onChange={(e) => {
-                          setActive(e.target.value);
-                          setPage(1);
-                        }}
+                        onChange={(e) => handleActiveChange(e.target.value)}
                       >
                         <NativeSelectOption value="">Semua Status</NativeSelectOption>
                         <NativeSelectOption value="true">Aktif</NativeSelectOption>
@@ -326,10 +256,7 @@ export default function DataSektoral() {
                           className="pl-9"
                           placeholder="Cari berdasarkan uraian DSSD..."
                           value={uraianDssd}
-                          onChange={(e) => {
-                            setUraianDssd(e.target.value);
-                            setPage(1);
-                          }}
+                          onChange={(e) => handleSearchChange(e.target.value)}
                         />
                       </div>
                     </div>
@@ -400,23 +327,25 @@ export default function DataSektoral() {
                                           </DropdownMenuItem>
                                         </Link>
 
-                                        <DropdownMenuItem className="cursor-pointer">
-                                          <Pencil className="mr-2 h-4 w-4" />
-                                          Edit Data
+                                        <DropdownMenuItem 
+                                          className="cursor-pointer"
+                                          onClick={() => handleOpenDialog(item)}
+                                        >
+                                          <Plus className="mr-2 h-4 w-4" />
+                                          Tambah Data Transaksi
                                         </DropdownMenuItem>
 
-                                        <DropdownMenuItem className="cursor-pointer">
+                                        <DropdownMenuItem
+                                          className="cursor-pointer"
+                                          onClick={() => handleToggleStatus(item)}
+                                        >
                                           <Power className="mr-2 h-4 w-4" />
                                           Ubah Status
                                         </DropdownMenuItem>
+
                                       </DropdownMenuGroup>
 
                                       <DropdownMenuSeparator />
-
-                                      <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600">
-                                        <Trash2 className="mr-2 h-4 w-4" />
-                                        Hapus
-                                      </DropdownMenuItem>
                                     </DropdownMenuContent>
                                   </DropdownMenu>
                                 </ButtonGroup>
@@ -469,7 +398,7 @@ export default function DataSektoral() {
                       <PaginationItem>
                         <PaginationPrevious
                           className={page <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                          onClick={() => page > 1 && setPage(page - 1)}
+                          onClick={() => page > 1 && handlePageChange(page - 1)}
                         />
                       </PaginationItem>
 
@@ -494,7 +423,7 @@ export default function DataSektoral() {
                               <PaginationItem key={p}>
                                 <PaginationLink
                                   className={p === page ? "bg-primary text-primary-foreground" : "cursor-pointer"}
-                                  onClick={() => setPage(p)}
+                                  onClick={() => handlePageChange(p)}
                                 >
                                   {p}
                                 </PaginationLink>
@@ -506,7 +435,7 @@ export default function DataSektoral() {
                       <PaginationItem>
                         <PaginationNext
                           className={page >= pageCount ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                          onClick={() => page < pageCount && setPage(page + 1)}
+                          onClick={() => page < pageCount && handlePageChange(page + 1)}
                         />
                       </PaginationItem>
                     </PaginationContent>
@@ -517,6 +446,133 @@ export default function DataSektoral() {
           </SidebarInset>
         </div>
       </SidebarProvider>
+
+      {/* Tambah Data Transaksi */}
+      <Dialog open={isDialogOpen} onOpenChange={handleCloseDialog}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Plus className="w-5 h-5" />
+              Tambah Data Transaksi Sektoral
+            </DialogTitle>
+            <DialogDescription>
+              Tambahkan data transaksi untuk item sektoral yang dipilih
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedItem && (
+            <div className="mb-4 p-4 rounded-lg bg-muted">
+              <p className="text-sm font-medium mb-2">Data Sektoral:</p>
+              <div className="space-y-1">
+                <p className="text-sm">
+                  <span className="text-muted-foreground">Kode DSSD:</span>{" "}
+                  <code className="px-2 py-0.5 rounded bg-background text-xs">
+                    {selectedItem.kode_dssd}
+                  </code>
+                </p>
+                <p className="text-sm">
+                  <span className="text-muted-foreground">Uraian:</span>{" "}
+                  {selectedItem.uraian_dssd}
+                </p>
+                <p className="text-sm">
+                  <span className="text-muted-foreground">Satuan:</span>{" "}
+                  {selectedItem.satuan}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Alert status submit */}
+          {submitStatus.type && (
+            <Alert 
+              variant={submitStatus.type === 'error' ? 'destructive' : 'default'}
+              className={submitStatus.type === 'success' ? 'border-green-500 bg-green-50 dark:bg-green-900/20' : ''}
+            >
+              {submitStatus.type === 'success' ? (
+                <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
+              ) : (
+                <AlertCircle className="h-4 w-4" />
+              )}
+              <AlertDescription className={submitStatus.type === 'success' ? 'text-green-600 dark:text-green-400' : ''}>
+                {submitStatus.message}
+              </AlertDescription>
+            </Alert>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="jumlah">
+                  Jumlah <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="jumlah"
+                  type="number"
+                  step="0.01"
+                  placeholder="Masukkan jumlah"
+                  value={formData.jumlah}
+                  onChange={(e) => {
+                    setFormData({ ...formData, jumlah: e.target.value });
+                  }}
+                  required
+                  disabled={isSubmitting}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Masukkan nilai dalam satuan: {selectedItem?.satuan || "-"}
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="tahun">
+                  Tahun <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="tahun"
+                  type="number"
+                  min="2000"
+                  max="2100"
+                  placeholder="Masukkan tahun"
+                  value={formData.tahun}
+                  onChange={(e) => {
+                    setFormData({ ...formData, tahun: e.target.value });
+                  }}
+                  required
+                  disabled={isSubmitting}
+                />
+              </div>
+            </div>
+
+            <DialogFooter className="mt-6">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleCloseDialog}
+                disabled={isSubmitting}
+              >
+                Batal
+              </Button>
+              <Button type="submit" disabled={isSubmitting || submitStatus.type === 'success'}>
+                {isSubmitting ? (
+                  <>
+                    <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                    Menyimpan...
+                  </>
+                ) : submitStatus.type === 'success' ? (
+                  <>
+                    <CheckCircle2 className="mr-2 h-4 w-4" />
+                    Berhasil
+                  </>
+                ) : (
+                  <>
+                    <Plus className="mr-2 h-4 w-4" />
+                    Simpan Data
+                  </>
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

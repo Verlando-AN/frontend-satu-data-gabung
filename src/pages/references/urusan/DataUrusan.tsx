@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Plus, Search, RefreshCw, Download, BookOpen, Hash, Filter, Briefcase } from "lucide-react";
 import {
@@ -14,7 +14,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset } from "@/components/ui/sidebar";
-import { getAuthHeaders } from "@/api/auth";
+import { useUrusanData } from "@/hooks/useUrusanData";
 
 // Simplified table components
 const Table = ({ children, ...props }: any) => (
@@ -61,92 +61,21 @@ const NativeSelectOption = ({ children, ...props }: any) => (
   <option {...props}>{children}</option>
 );
 
-interface UrusanItem {
-  kode_urusan: string;
-  nama_urusan: string;
-}
-
-const API_URL =
-  import.meta.env.VITE_API_URL ||
-  "https://api-satudata.lampungtimurkab.go.id";
-
 export default function DataUrusan() {
-  const [data, setData] = useState<UrusanItem[]>([]);
-  const [filteredData, setFilteredData] = useState<UrusanItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("");
-
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-
-      const response = await fetch(
-        `${API_URL}/strict/ref-data/list-urusan`,
-        {
-          method: "GET",
-          headers: getAuthHeaders(),
-        }
-      );
-
-      if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
-
-      const result = await response.json();
-
-      const finalData =
-        result?.data ??
-        result?.hasil ??
-        result?.result ??
-        (Array.isArray(result) ? result : null);
-
-      setData(finalData || []);
-      setFilteredData(finalData || []);
-    } catch (error) {
-      console.error("Error fetching:", error);
-      setData([]);
-      setFilteredData([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // Filter data based on search and category
-  useEffect(() => {
-    let result = data;
-
-    if (searchQuery) {
-      result = result.filter(item =>
-        item.nama_urusan.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.kode_urusan.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    if (categoryFilter) {
-      result = result.filter(item => {
-        const category = item.kode_urusan.split('.')[0];
-        return category === categoryFilter;
-      });
-    }
-
-    setFilteredData(result);
-  }, [searchQuery, categoryFilter, data]);
-
-  // Get unique categories
-  const categories = Array.from(new Set(data.map(item => item.kode_urusan.split('.')[0]))).sort();
-
-  const categoryNames: any = {
-    '1': 'Urusan Pemerintahan Wajib Pelayanan Dasar',
-    '2': 'Urusan Pemerintahan Wajib Non Pelayanan Dasar',
-    '3': 'Urusan Pemerintahan Wajib',
-    '4': 'Urusan Pemerintahan Pilihan',
-    '5': 'Urusan Penunjang',
-    '6': 'Urusan Ekonomi',
-    '7': 'Urusan Perdagangan dan Industri',
-  };
+  const {
+    data,
+    filteredData,
+    loading,
+    searchQuery,
+    setSearchQuery,
+    categoryFilter,
+    setCategoryFilter,
+    categories,
+    categoryNames,
+    fetchData,
+    resetFilters,
+    getActiveFiltersCount
+  } = useUrusanData();
 
   return (
     <div className="[--header-height:calc(--spacing(14))]">
@@ -183,18 +112,6 @@ export default function DataUrusan() {
                   >
                     <RefreshCw className="w-4 h-4" />
                     Refresh
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="gap-2"
-                  >
-                    <Download className="w-4 h-4" />
-                    Export
-                  </Button>
-                  <Button className="gap-2">
-                    <Plus className="w-4 h-4" />
-                    Tambah Urusan
                   </Button>
                 </div>
               </div>
@@ -256,9 +173,7 @@ export default function DataUrusan() {
                         <p className="text-sm font-medium text-muted-foreground">
                           Filter Aktif
                         </p>
-                        <h3 className="text-3xl font-bold mt-1">
-                          {(searchQuery ? 1 : 0) + (categoryFilter ? 1 : 0)}
-                        </h3>
+                        <h3 className="text-3xl font-bold mt-1">{getActiveFiltersCount()}</h3>
                       </div>
                       <div className="p-3 rounded-xl bg-purple-100 dark:bg-purple-900/20">
                         <Search className="h-6 w-6 text-purple-600 dark:text-purple-400" />
@@ -318,10 +233,7 @@ export default function DataUrusan() {
                         variant="outline"
                         size="sm"
                         className="mt-6"
-                        onClick={() => {
-                          setSearchQuery("");
-                          setCategoryFilter("");
-                        }}
+                        onClick={resetFilters}
                       >
                         Reset Filter
                       </Button>
@@ -372,7 +284,7 @@ export default function DataUrusan() {
                             </TableCell>
                           </TableRow>
                         ) : (
-                          filteredData.map((item: UrusanItem) => {
+                          filteredData.map((item) => {
                             const category = item.kode_urusan.split('.')[0];
                             return (
                               <TableRow key={item.kode_urusan} className="hover:bg-muted/50 transition-colors">
