@@ -1,12 +1,26 @@
 import { useState, useEffect } from "react";
 import organisasiApi from "../api/organisasiApi.js";
 
-export default function useOrganisasi() {
-  const [activeTab, setActiveTab] = useState("Semua");
-  const [organisasiData, setOrganisasiData] = useState([]);
-  const [loading, setLoading] = useState(true);
+// ===========================
+// Type Definitions
+// ===========================
 
-  const tabs = [
+export type OrganisasiItem = {
+  id: number;
+  nama_opd: string;
+  [key: string]: any;
+};
+
+// ===========================
+// Hook
+// ===========================
+
+export default function useOrganisasi() {
+  const [activeTab, setActiveTab] = useState<string>("Semua");
+  const [organisasiData, setOrganisasiData] = useState<OrganisasiItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const tabs: string[] = [
     "Semua",
     "Puskesmas",
     "Badan",
@@ -21,7 +35,7 @@ export default function useOrganisasi() {
   useEffect(() => {
     async function fetchOrganisasi() {
       try {
-        const data = await organisasiApi.getOrganisasiList();
+        const data: OrganisasiItem[] = await organisasiApi.getOrganisasiList();
         setOrganisasiData(data);
       } catch (error) {
         console.error("Gagal mengambil data:", error);
@@ -33,14 +47,14 @@ export default function useOrganisasi() {
     fetchOrganisasi();
   }, []);
 
-  const filteredData =
+  const filteredData: OrganisasiItem[] =
     activeTab === "Semua"
       ? organisasiData
       : organisasiData.filter((org) =>
-          org.nama_opd.toLowerCase().includes(activeTab.toLowerCase())
+          org.nama_opd?.toLowerCase().includes(activeTab.toLowerCase())
         );
 
-  const truncateNamaOpd = (nama) => {
+  const truncateNamaOpd = (nama: string): string => {
     if (!nama) return "";
     return nama.length > 100 ? nama.slice(0, 100) + "..." : nama;
   };

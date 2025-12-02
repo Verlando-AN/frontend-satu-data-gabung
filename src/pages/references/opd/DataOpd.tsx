@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Plus, Search, RefreshCw, Download, Building2, MapPin, Hash, Shield, Filter } from "lucide-react";
 import {
@@ -25,107 +25,23 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset } from "@/components/ui/sidebar";
 
-import { getAuthHeaders } from "@/api/auth";
-
-const API_URL =
-  import.meta.env.VITE_API_URL ||
-  "https://api-satudata.lampungtimurkab.go.id";
-
-interface OpdItem {
-  id_opd: number;
-  kode_wilayah: string;
-  kode_bidang_urusan_1: string;
-  kode_bidang_urusan_2: string;
-  kode_bidang_urusan_3: string;
-  kode_main_opd: string;
-  kode_sub_opd: string;
-  nama_opd: string;
-  level: number;
-  level_string: string;
-}
+import { useOpdData } from "@/hooks/useOpdData";
 
 export default function DataOpd() {
-  const [data, setData] = useState<OpdItem[]>([]);
-  const [filteredData, setFilteredData] = useState<OpdItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [levelFilter, setLevelFilter] = useState("");
-
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-
-      const response = await fetch(
-        `${API_URL}/strict/ref-data/list-opd`,
-        {
-          method: "GET",
-          headers: getAuthHeaders(),
-        }
-      );
-
-      if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
-
-      const result = await response.json();
-
-      const finalData =
-        result?.data ??
-        result?.hasil ??
-        result?.result ??
-        (Array.isArray(result) ? result : null);
-
-      setData(finalData || []);
-      setFilteredData(finalData || []);
-    } catch (error) {
-      console.error("Error fetching:", error);
-      setData([]);
-      setFilteredData([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // Filter data based on search and level
-  useEffect(() => {
-    let result = data;
-
-    if (searchQuery) {
-      result = result.filter(item =>
-        item.nama_opd.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.kode_wilayah.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    if (levelFilter) {
-      result = result.filter(item => item.level_string === levelFilter);
-    }
-
-    setFilteredData(result);
-  }, [searchQuery, levelFilter, data]);
-
-  // Get unique levels for filter
-  const uniqueLevels = Array.from(new Set(data.map(item => item.level_string)));
-
-  // Calculate statistics
-  const stats = {
-    total: data.length,
-    byLevel: data.reduce((acc: any, item) => {
-      acc[item.level_string] = (acc[item.level_string] || 0) + 1;
-      return acc;
-    }, {})
-  };
-
-  const getBadgeVariant = (level: string) => {
-    switch(level) {
-      case 'MAIN': return 'default';
-      case 'SUB': return 'secondary';
-      case 'UPTD': return 'outline';
-      default: return 'secondary';
-    }
-  };
+  const {
+    data,
+    filteredData,
+    loading,
+    searchQuery,
+    setSearchQuery,
+    levelFilter,
+    setLevelFilter,
+    uniqueLevels,
+    stats,
+    getBadgeVariant,
+    fetchData,
+    resetFilters
+  } = useOpdData();
 
   return (
     <div className="[--header-height:calc(--spacing(14))]">
@@ -162,18 +78,6 @@ export default function DataOpd() {
                   >
                     <RefreshCw className="w-4 h-4" />
                     Refresh
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="gap-2"
-                  >
-                    <Download className="w-4 h-4" />
-                    Export
-                  </Button>
-                  <Button className="gap-2">
-                    <Plus className="w-4 h-4" />
-                    Tambah OPD
                   </Button>
                 </div>
               </div>
@@ -289,6 +193,14 @@ export default function DataOpd() {
                         ))}
                       </NativeSelect>
                     </div>
+
+                    {(searchQuery || levelFilter) && (
+                      <div className="space-y-1.5 flex items-end">
+                        <Button variant="outline" size="sm" onClick={resetFilters}>
+                          Reset Filter
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -350,10 +262,9 @@ export default function DataOpd() {
                                 <div className="flex items-start gap-2">
                                   <Building2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                                   <span className="font-medium">
-
                                     {item.nama_opd.length > 40
-                                  ? item.nama_opd.substring(0, 40) + "..."
-                                  : item.nama_opd}
+                                      ? item.nama_opd.substring(0, 40) + "..."
+                                      : item.nama_opd}
                                   </span>
                                 </div>
                               </TableCell>
