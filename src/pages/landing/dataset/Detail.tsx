@@ -40,10 +40,8 @@ export default function Detail(): JSX.Element {
             Temukan kumpulan data mentah yang bisa diolah lebih lanjut.
           </p>
 
-          {/* Info Dataset */}
           <DatasetInfoTable dataset={dataset as DatasetType} />
 
-          {/* Tabs */}
           <div className="card mt-4">
             <div className="card-header">
               <button

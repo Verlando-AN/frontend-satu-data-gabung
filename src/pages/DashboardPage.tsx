@@ -17,13 +17,13 @@ import {
     CardContent,
     CardDescription,
 } from "@/components/ui/card";
-import { 
-    Folder, 
-    Database, 
-    Newspaper, 
-    FileText, 
-    ArrowRight, 
-    Activity, 
+import {
+    Folder,
+    Database,
+    Newspaper,
+    FileText,
+    ArrowRight,
+    Activity,
     BookOpen,
     Search,
     Building2,
@@ -213,7 +213,7 @@ export default function DashboardPage() {
                     Dashboard Satu Data
                   </h1>
                   <p className="text-lg text-primary-foreground/90 max-w-2xl">
-                    Selamat datang di portal Satu Data Lampung Timur
+                    Selamat Datang di Portal Satu Data Lampung Timur
                   </p>
                 </div>
               </div>

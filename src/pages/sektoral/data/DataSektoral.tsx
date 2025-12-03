@@ -110,7 +110,6 @@ export default function DataSektoral() {
 
           <SidebarInset>
             <div className="flex flex-1 flex-col gap-6 p-6 bg-muted/30">
-              {/* Header Section */}
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
@@ -136,7 +135,6 @@ export default function DataSektoral() {
                 </div>
               </div>
 
-              {/* Stats Cards */}
               <div className="grid gap-4 md:grid-cols-4">
                 <Card className="border-2">
                   <CardContent className="p-6">
@@ -203,7 +201,6 @@ export default function DataSektoral() {
                 </Card>
               </div>
 
-              {/* Filter Section */}
               <Card className="border-2">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-lg">
@@ -264,7 +261,6 @@ export default function DataSektoral() {
                 </CardContent>
               </Card>
 
-              {/* Table Section */}
               <Card className="border-2">
                 <CardHeader>
                   <CardTitle className="text-lg">Daftar Data Sektoral</CardTitle>
@@ -386,7 +382,6 @@ export default function DataSektoral() {
                 </CardContent>
               </Card>
 
-              {/* Pagination */}
               {!loading && data.length > 0 && (
                 <div className="flex items-center justify-between">
                   <p className="text-sm text-muted-foreground">
@@ -447,7 +442,6 @@ export default function DataSektoral() {
         </div>
       </SidebarProvider>
 
-      {/* Tambah Data Transaksi */}
       <Dialog open={isDialogOpen} onOpenChange={handleCloseDialog}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
@@ -482,7 +476,6 @@ export default function DataSektoral() {
             </div>
           )}
 
-          {/* Alert status submit */}
           {submitStatus.type && (
             <Alert 
               variant={submitStatus.type === 'error' ? 'destructive' : 'default'}

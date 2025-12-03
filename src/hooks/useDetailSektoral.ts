@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { getAuthHeaders } from "@/api/auth";
+import type { JSX } from "react/jsx-runtime";
+import client from "@/api/client"
 
-const API_URL =
-  import.meta.env.VITE_API_URL ||
-  "https://api-satudata.lampungtimurkab.go.id";
+const API_URL = client.defaults.baseURL || "";
 
 export interface InputItem {
   id_opd: number;
@@ -28,6 +28,8 @@ export interface DetailSektoral {
 }
 
 export interface DatasetDetail {
+  map(arg0: (item: any, index: any) => JSX.Element): unknown;
+  length: number;
   id: number;
   nama_publisher: string;
   type_publisher: string;

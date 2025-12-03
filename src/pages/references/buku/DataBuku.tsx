@@ -36,7 +36,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useBookData, } from "@/hooks/useBookData";
 
-// Table components
 const Table = ({ children, ...props }: any) => (
   <div className="w-full overflow-auto">
     <table className="w-full caption-bottom text-sm" {...props}>
@@ -120,7 +119,6 @@ export default function DataBuku() {
           <SidebarInset>
             <div className="flex flex-1 flex-col gap-6 p-6 bg-muted/30">
 
-              {/* HEADER */}
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
@@ -145,7 +143,6 @@ export default function DataBuku() {
                 </div>
               </div>
 
-              {/* FILTERS */}
               <Card className="border-2">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-lg">
@@ -192,7 +189,6 @@ export default function DataBuku() {
                 </CardContent>
               </Card>
 
-              {/* TABEL */}
               <Card className="border-2">
                 <CardHeader>
                   <CardTitle className="text-lg">Daftar Buku Digital</CardTitle>
@@ -231,7 +227,6 @@ export default function DataBuku() {
                             <TableRow key={item.id_buku_digital}>
                               <TableCell className="text-center">{index + 1}</TableCell>
 
-                              {/* ==== DROPDOWN ACTION ==== */}
                               <TableCell>
                                 <ButtonGroup>
                                   <Button variant="outline" size="sm">Aksi</Button>
@@ -255,7 +250,6 @@ export default function DataBuku() {
 
                                       <DropdownMenuSeparator />
 
-                                      {/* ==== BUTTON HAPUS ==== */}
                                       <DropdownMenuItem
                                         className="cursor-pointer text-red-600"
                                         onClick={() => handleDelete(item.id_buku_digital, fetchData)}

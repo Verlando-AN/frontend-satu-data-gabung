@@ -10,13 +10,11 @@ import Head from "@/backbone/Header.jsx";
 import Foot from "@/backbone/Footer.jsx";
 import useBerandaData from "@/hooks/useBerandaData";
 
-// ---- TYPING OPD ITEM ----
 interface OpdItem {
   nama_opd: string;
   total_ref_sektoral?: number;
 }
 
-// ---- TYPING DATA TOTAL ----
 interface DataTotal {
   dataset: number;
   data_sektoral: number;
@@ -47,7 +45,6 @@ export default function Index(): JSX.Element {
       <Head />
 
       <div className="beranda-container">
-        {/* ---------------- HERO SECTION ---------------- */}
         <section id="home" className="hero-section">
           <div className="hero-background">
             <div className="floating-shape shape-1"></div>
@@ -111,7 +108,6 @@ export default function Index(): JSX.Element {
           </div>
         </section>
 
-        {/* ---------------- CATEGORY SECTION ---------------- */}
         <section className="categories-section" id="categories" ref={categoryRef}>
           <div className="section-header">
             <h2 className="section-title">Data Sektoral Berdasarkan OPD</h2>
@@ -149,7 +145,6 @@ export default function Index(): JSX.Element {
           </div>
         </section>
 
-        {/* ---------------- COUNTER SECTION ---------------- */}
         <section className="counter-section" id="counterSection" ref={counterRef}>
           <div className="counter-container">
             <div className="counter-grid">
@@ -159,21 +154,21 @@ export default function Index(): JSX.Element {
                   description:
                     "Kumpulan data yang diatur dalam format terstruktur dan tersedia di Portal Satu Data.",
                   count: dataTotal.dataset,
-                  link: "/dataset",
+                  link: "/dataset-landing",
                 },
                 {
                   title: "Statistik Sektoral",
                   description:
                     "Data statistik yang digunakan untuk kebutuhan instansi pemerintah tertentu.",
                   count: dataTotal.data_sektoral,
-                  link: "/sektoral",
+                  link: "/sektoral-landing",
                 },
                 {
                   title: "Urusan",
                   description:
                     "Kebijakan tata kelola data pemerintah untuk menghasilkan data berkualitas.",
                   count: dataTotal.urusan,
-                  link: "/urusan",
+                  link: "/urusan-landing",
                 }
               ].map((item, index) => (
                 <div
@@ -207,7 +202,6 @@ export default function Index(): JSX.Element {
           </div>
         </section>
 
-        {/* ---------------- FEATURE SECTION ---------------- */}
         <section className="feature-section" ref={featureRef}>
           <div className="feature-container">
             <div className="feature-grid">
@@ -231,7 +225,6 @@ export default function Index(): JSX.Element {
           </div>
         </section>
 
-        {/* ---------------- WHY SECTION ---------------- */}
         <section className="why-section">
           <div className="why-container">
             <div className="why-grid">
