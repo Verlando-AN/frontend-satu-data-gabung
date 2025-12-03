@@ -1,10 +1,9 @@
 // File: hooks/TrxSektoral.ts
 import { useEffect, useState, useCallback } from "react"
 import { getAuthHeaders } from "@/api/auth"
+import client from "@/api/client"
 
-const API_URL =
-  import.meta.env.VITE_API_URL ||
-  "https://api-satudata.lampungtimurkab.go.id"
+const API_URL = client.defaults.baseURL || "";
 
 export interface TrxSektoral {
   id_data_sektoral: number

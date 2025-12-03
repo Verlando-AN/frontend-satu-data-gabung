@@ -16,7 +16,6 @@ import { SiteHeader } from "@/components/site-header";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { useUrusanData } from "@/hooks/useUrusanData";
 
-// Simplified table components
 const Table = ({ children, ...props }: any) => (
   <div className="w-full overflow-auto">
     <table className="w-full caption-bottom text-sm" {...props}>
@@ -87,7 +86,6 @@ export default function DataUrusan() {
 
           <SidebarInset>
             <div className="flex flex-1 flex-col gap-6 p-6 bg-muted/30">
-              {/* Header Section */}
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
@@ -116,7 +114,6 @@ export default function DataUrusan() {
                 </div>
               </div>
 
-              {/* Stats Cards */}
               <div className="grid gap-4 md:grid-cols-4">
                 <Card className="border-2 hover:shadow-lg transition-all">
                   <CardContent className="p-6">
@@ -183,7 +180,6 @@ export default function DataUrusan() {
                 </Card>
               </div>
 
-              {/* Filter Section */}
               <Card className="border-2">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-lg">
@@ -242,7 +238,6 @@ export default function DataUrusan() {
                 </CardContent>
               </Card>
 
-              {/* Single Table Section */}
               <Card className="border-2">
                 <CardHeader>
                   <CardTitle className="text-lg">Daftar Urusan</CardTitle>
@@ -317,7 +312,6 @@ export default function DataUrusan() {
                 </CardContent>
               </Card>
 
-              {/* Summary Info */}
               {!loading && filteredData.length > 0 && (
                 <div className="flex items-center justify-between text-sm text-muted-foreground">
                   <p>

@@ -42,7 +42,6 @@ export default function CreateDataset() {
 
           <SidebarInset>
             <div className="flex flex-col flex-1 gap-6 p-6 bg-muted/30">
-              {/* Header Section */}
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
@@ -83,7 +82,6 @@ export default function CreateDataset() {
                       </Alert>
                     )}
 
-                    {/* ID REF SEKTORAL */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <Hash className="w-4 h-4 text-muted-foreground" />
@@ -92,7 +90,6 @@ export default function CreateDataset() {
                       <Input value={id} disabled className="bg-muted" />
                     </div>
 
-                    {/* FILE */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <Upload className="w-4 h-4 text-muted-foreground" />
@@ -110,7 +107,6 @@ export default function CreateDataset() {
                       )}
                     </div>
 
-                    {/* Judul Dataset */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <FileText className="w-4 h-4 text-muted-foreground" />
@@ -124,7 +120,6 @@ export default function CreateDataset() {
                       />
                     </div>
 
-                    {/* Definisi Dataset */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <FileText className="w-4 h-4 text-muted-foreground" />
@@ -138,7 +133,6 @@ export default function CreateDataset() {
                       />
                     </div>
 
-                    {/* Nama Walidata */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <User className="w-4 h-4 text-muted-foreground" />
@@ -152,7 +146,6 @@ export default function CreateDataset() {
                       />
                     </div>
 
-                    {/* Email Walidata */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <Mail className="w-4 h-4 text-muted-foreground" />
@@ -167,7 +160,6 @@ export default function CreateDataset() {
                       />
                     </div>
 
-                    {/* Nama Publisher */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <Building className="w-4 h-4 text-muted-foreground" />
@@ -181,7 +173,6 @@ export default function CreateDataset() {
                       />
                     </div>
 
-                    {/* Tanggal Publikasi */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <Calendar className="w-4 h-4 text-muted-foreground" />
@@ -196,7 +187,6 @@ export default function CreateDataset() {
                       />
                     </div>
 
-                    {/* Keyword */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <Tag className="w-4 h-4 text-muted-foreground" />
@@ -210,7 +200,6 @@ export default function CreateDataset() {
                       />
                     </div>
 
-                    {/* Theme */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <Palette className="w-4 h-4 text-muted-foreground" />
@@ -224,7 +213,6 @@ export default function CreateDataset() {
                       />
                     </div>
 
-                    {/* BUTTON */}
                     <div className="flex gap-3 pt-4 border-t">
                       <Button 
                         onClick={handleSubmit} 

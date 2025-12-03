@@ -34,7 +34,7 @@ import { useCreateSektoral } from "@/hooks/useCreateSektoral";
 
 const NativeSelect = ({ children, className = "", ...props }: any) => (
   <select
-    className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm 
+    className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm
     ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${className}`}
     {...props}
   >
@@ -66,7 +66,6 @@ export default function CreateSektoral() {
 
           <SidebarInset>
             <div className="flex flex-col flex-1 gap-6 p-6 bg-muted/30">
-              {/* Header Section */}
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
@@ -116,7 +115,6 @@ export default function CreateSektoral() {
                       </Alert>
                     )}
 
-                    {/* -------------- KODE URUSAN ------------- */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <Hash className="w-4 h-4 text-muted-foreground" />
@@ -131,7 +129,6 @@ export default function CreateSektoral() {
                       />
                     </div>
 
-                    {/* ------------------ JENIS ------------------- */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <FileText className="w-4 h-4 text-muted-foreground" />
@@ -139,7 +136,7 @@ export default function CreateSektoral() {
                       </Label>
                       <NativeSelect
                         value={formData.jenis}
-                        onChange={(e) =>
+                        onChange={(e: { target: { value: string } }) =>
                           handleInputChange("jenis", e.target.value)
                         }
                       >
@@ -149,7 +146,6 @@ export default function CreateSektoral() {
                       </NativeSelect>
                     </div>
 
-                    {/* ------------------ KATEGORI ------------------- */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <FileText className="w-4 h-4 text-muted-foreground" />
@@ -157,7 +153,7 @@ export default function CreateSektoral() {
                       </Label>
                       <NativeSelect
                         value={formData.kategori}
-                        onChange={(e) =>
+                        onChange={(e: { target: { value: string } }) =>
                           handleInputChange("kategori", e.target.value)
                         }
                       >
@@ -169,7 +165,6 @@ export default function CreateSektoral() {
                       </NativeSelect>
                     </div>
 
-                    {/* ------------------ KODE DSSD ------------------- */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <Hash className="w-4 h-4 text-muted-foreground" />
@@ -184,7 +179,6 @@ export default function CreateSektoral() {
                       />
                     </div>
 
-                    {/* ------------------ URAIAN ------------------- */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <FileText className="w-4 h-4 text-muted-foreground" />
@@ -199,7 +193,6 @@ export default function CreateSektoral() {
                       />
                     </div>
 
-                    {/* ------------------ SATUAN ------------------- */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <Ruler className="w-4 h-4 text-muted-foreground" />
@@ -214,17 +207,15 @@ export default function CreateSektoral() {
                       />
                     </div>
 
-                    {/* ------------------ DIMENSI ------------------- */}
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <Ruler className="w-4 h-4 text-muted-foreground" />
                         Dimensi (Opsional)
                       </Label>
 
-                      {/* GANTI TEXTAREA JADI SELECT BIAR SESUAI API */}
                       <NativeSelect
                         value={formData.dimensi}
-                        onChange={(e) =>
+                        onChange={(e: { target: { value: string } }) =>
                           handleInputChange("dimensi", e.target.value)
                         }
                       >
@@ -235,7 +226,6 @@ export default function CreateSektoral() {
                       </NativeSelect>
                     </div>
 
-                    {/* ------------------ BUTTON ------------------- */}
                     <div className="flex gap-3 pt-4 border-t">
                       <Button
                         onClick={handleSubmit}

@@ -273,7 +273,6 @@ const panduanSections = [
   }
 ];
 
-// Komponen Skeleton untuk loading state
 const SectionSkeleton = () => (
   <div className="space-y-6 p-6 rounded-xl bg-slate-50 border-2 border-slate-200">
     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -325,7 +324,6 @@ export default function PanduanPenggunaan() {
   const [isLoading, setIsLoading] = useState(true);
   const sectionRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
 
-  // Simulasi loading data
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -334,7 +332,6 @@ export default function PanduanPenggunaan() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Handle hash change in URL
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.substring(1);
@@ -349,19 +346,15 @@ export default function PanduanPenggunaan() {
       }
     };
 
-    // Check initial hash
     handleHashChange();
     
-    // Listen for hash changes
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  // Handle section change
   const handleSectionChange = (sectionId: string) => {
     setActiveSection(sectionId);
     
-    // Update URL hash without triggering a page reload
     const newUrl = `${window.location.pathname}#${sectionId}`;
     window.history.pushState(null, '', newUrl);
     
@@ -393,7 +386,6 @@ export default function PanduanPenggunaan() {
           <SidebarInset>
             <div className="p-4 md:p-6 lg:p-8 space-y-8 max-w-6xl mx-auto">
               
-              {/* Header */}
               <div className="space-y-4 py-4">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Home className="h-4 w-4" />
@@ -422,7 +414,6 @@ export default function PanduanPenggunaan() {
 
               <Separator />
 
-              {/* Search Bar */}
               <div className="relative max-w-xl mx-auto">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
@@ -433,7 +424,6 @@ export default function PanduanPenggunaan() {
                 />
               </div>
 
-              {/* Quick Navigation */}
               {isLoading ? (
                 <QuickNavigationSkeleton />
               ) : (
@@ -460,7 +450,6 @@ export default function PanduanPenggunaan() {
 
               <Separator />
 
-              {/* Panduan Content */}
               <div className="space-y-8">
                 {isLoading ? (
                   <>
@@ -569,7 +558,6 @@ export default function PanduanPenggunaan() {
                 )}
               </div>
 
-              {/* Quick Help Section */}
               <Card className="border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-blue-50">
                 <CardHeader className="pb-4">
                   <CardTitle className="flex items-center gap-2 text-xl">
