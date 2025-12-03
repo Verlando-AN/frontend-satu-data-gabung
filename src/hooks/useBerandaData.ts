@@ -1,10 +1,6 @@
 import { useEffect, useState, useRef } from "react"
 import berandaApi from "../api/berandaApi"
 
-// ======================
-// Interface Types
-// ======================
-
 interface TotalData {
   dataset: number
   data_sektoral: number
@@ -21,10 +17,6 @@ interface VisibilityState {
   [key: string]: boolean
 }
 
-// ======================
-// Hook
-// ======================
-
 export default function useBerandaData() {
   const [opdList, setOpdList] = useState<OpdItem[]>([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -33,20 +25,14 @@ export default function useBerandaData() {
     data_sektoral: 0,
     urusan: 0,
   })
-  const [actualData, setActualData] = useState<TotalData>({
-    dataset: 0,
-    data_sektoral: 0,
-    urusan: 0,
-  })
+
   const [isVisible, setIsVisible] = useState<VisibilityState>({})
 
   const counterRef = useRef<HTMLDivElement | null>(null)
   const featureRef = useRef<HTMLDivElement | null>(null)
   const categoryRef = useRef<HTMLDivElement | null>(null)
 
-  // ======================
-  // Load Data from API
-  // ======================
+  // Ambil data awal
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -56,12 +42,12 @@ export default function useBerandaData() {
         ])
 
         setOpdList(opd)
-        setActualData(total)
+        setDataTotal(total) // ← langsung tampil, tanpa animasi
       } catch (err) {
         console.error("Gagal memuat data:", err)
 
-        // fallback untuk demo
-        setActualData({
+        // fallback dummy
+        setDataTotal({
           dataset: 1234,
           data_sektoral: 567,
           urusan: 89,
@@ -74,50 +60,7 @@ export default function useBerandaData() {
     loadData()
   }, [])
 
-  // ======================
-  // Animasi Counter
-  // ======================
-  useEffect(() => {
-    if (isVisible.counterSection && actualData.dataset > 0) {
-      const duration = 2000
-      const steps = 60
-
-      const increment = {
-        dataset: actualData.dataset / steps,
-        data_sektoral: actualData.data_sektoral / steps,
-        urusan: actualData.urusan / steps,
-      }
-
-      let currentStep = 0
-
-      const timer = setInterval(() => {
-        currentStep++
-
-        setDataTotal({
-          dataset: Math.min(
-            Math.floor(increment.dataset * currentStep),
-            actualData.dataset
-          ),
-          data_sektoral: Math.min(
-            Math.floor(increment.data_sektoral * currentStep),
-            actualData.data_sektoral
-          ),
-          urusan: Math.min(
-            Math.floor(increment.urusan * currentStep),
-            actualData.urusan
-          ),
-        })
-
-        if (currentStep >= steps) clearInterval(timer)
-      }, duration / steps)
-
-      return () => clearInterval(timer)
-    }
-  }, [isVisible.counterSection, actualData])
-
-  // ======================
-  // Intersection Observer
-  // ======================
+  // Intersection observer jika masih dibutuhkan
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -140,9 +83,6 @@ export default function useBerandaData() {
     return () => observer.disconnect()
   }, [])
 
-  // ======================
-  // Return Values
-  // ======================
   return {
     opdList,
     loading,

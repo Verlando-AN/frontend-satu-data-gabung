@@ -1,6 +1,7 @@
 "use client";
-import React from 'react';
 
+import React from 'react';
+import { Link } from "react-router-dom";
 import useDataset from "@/hooks/useDataset.js";
 import useBerandaData from "@/hooks/useBerandaData";
 import { AppSidebar } from "@/components/app-sidebar";
@@ -38,6 +39,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Produsen {
   id_opd: string | number;
@@ -61,6 +63,67 @@ interface DataTotal {
   urusan: number;
 }
 
+const StatsCardSkeleton = () => (
+  <div className="group relative overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm">
+    <div className="p-6 space-y-4">
+      <div className="inline-flex rounded-lg p-3">
+        <Skeleton className="h-6 w-6" />
+      </div>
+      <div className="space-y-2">
+        <Skeleton className="h-6 w-3/4" />
+        <Skeleton className="h-4 w-full" />
+      </div>
+      <div className="flex items-center justify-between pt-2">
+        <Skeleton className="h-8 w-16" />
+        <Skeleton className="h-5 w-5" />
+      </div>
+    </div>
+  </div>
+);
+
+const DatasetListSkeleton = () => (
+  <>
+    {Array.from({ length: 3 }).map((_, index) => (
+      <Card key={index} className="hover:bg-accent/50 transition-all duration-200">
+        <CardContent className="p-4 space-y-3">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex-1 min-w-0 space-y-2">
+              <Skeleton className="h-5 w-3/4" />
+              <Skeleton className="h-4 w-full" />
+            </div>
+            <Skeleton className="h-6 w-16" />
+          </div>
+          
+          <div className="flex items-center flex-wrap gap-3">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-16" />
+          </div>
+        </CardContent>
+      </Card>
+    ))}
+  </>
+);
+
+const DocumentationCardSkeleton = () => (
+  <Card className="border shadow-sm">
+    <CardHeader className="pb-4 border-b">
+      <div className="flex items-center gap-2">
+        <Skeleton className="h-5 w-5" />
+        <Skeleton className="h-6 w-32" />
+      </div>
+      <Skeleton className="h-4 w-48 mt-1" />
+    </CardHeader>
+    <CardContent className="p-4 space-y-2">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <Skeleton key={index} className="h-10 w-full" />
+      ))}
+      <Separator className="my-3" />
+      <Skeleton className="h-10 w-full" />
+    </CardContent>
+  </Card>
+);
+
 export default function DashboardPage() {
   const {
     datasetSearch,
@@ -82,47 +145,51 @@ export default function DashboardPage() {
     totalDatasets: number;
   };
 
-const { loading, dataTotal, counterRef } = useBerandaData();
-
+  const { loading, dataTotal, counterRef } = useBerandaData();
 
   const sections = [
     {
       title: 'Data Sektoral',
       description: 'Data statistik untuk kebutuhan instansi pemerintah tertentu',
       icon: Folder,
-      count: dataTotal?.data_sektoral || 0,
-      link: '/sektoral',
+      count: dataTotal?.data_sektoral,
+      link: '/data-sektoral',
     },
     {
       title: 'Dataset',
       description: 'Kumpulan data terstruktur di Portal Satu Data',
       icon: Database,
       count: dataTotal.dataset,
-      link: '/dataset',
+      link: '/monitoring-data',
     },
     {
       title: 'Urusan',
       description: 'Kebijakan tata kelola data untuk data berkualitas',
       icon: Newspaper,
-      count: dataTotal?.urusan || 0,
-      link: '/urusan',
+      count: dataTotal?.urusan,
+      link: '/data-urusan',
     }
   ];
 
-  const documentationLinks = [
-    { title: "Panduan Upload Dataset", icon: Database },
-    { title: "API Documentation", icon: FileText },
-    { title: "FAQ & Support", icon: BookOpen }
-  ];
-
-  const quickLinks = [
-    { label: "Portal Data Nasional", href: "#" },
-    { label: "Peraturan & Kebijakan", href: "#" },
-    { label: "Hubungi Admin", href: "#" }
+  const documentationLinks = [ 
+    { 
+      title: "Panduan Upload Dataset",
+      icon: Database,
+      link: "/dokumentasi#dataset",
+    },
+    { 
+      title: "Membuat Akun Baru",
+      icon: FileText,
+      link: "/dokumentasi#manajemen-akun",
+    },
+    {
+      title: "Panduan Sistem",
+      icon: BookOpen,
+      link: "/dokumentasi#dashboard",
+    }
   ];
 
   return (
-    
     <div className="[--header-height:calc(--spacing(14))]">
       <SidebarProvider className="flex flex-col">
         <SiteHeader />
@@ -132,7 +199,6 @@ const { loading, dataTotal, counterRef } = useBerandaData();
 
           <SidebarInset>
             <div className="p-4 md:p-6 lg:p-8 space-y-6">
-              {/* Hero Section */}
               <div className="relative overflow-hidden rounded-xl border bg-gradient-to-br from-primary via-primary/90 to-primary/80 p-6 md:p-10 text-primary-foreground shadow-lg">
                 <div className="absolute inset-0 bg-grid-white/10" />
                 <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/5 blur-3xl" />
@@ -147,27 +213,26 @@ const { loading, dataTotal, counterRef } = useBerandaData();
                     Dashboard Satu Data
                   </h1>
                   <p className="text-lg text-primary-foreground/90 max-w-2xl">
-                    Selamat datang di portal data terpadu Lampung Timur
+                    Selamat datang di portal Satu Data Lampung Timur
                   </p>
                 </div>
               </div>
 
-              {/* Main Content Grid */}
               <div className="grid gap-6 lg:grid-cols-12">
-                {/* Left Column */}
                 <div className="lg:col-span-8 space-y-6">
-                  {/* Stats Cards */}
-                  {loading ? (
-                    <div className="flex items-center justify-center p-12">
-                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                    </div>
-                  ) : (
-                      <div
-                        id="counterSection"
-                        ref={counterRef}
-                        className="grid gap-4 md:grid-cols-3"
-                    >
-                      {sections.map((section, index) => {
+                  <div
+                    id="counterSection"
+                    ref={counterRef}
+                    className="grid gap-4 md:grid-cols-3"
+                  >
+                    {loading ? (
+                      <>
+                        <StatsCardSkeleton />
+                        <StatsCardSkeleton />
+                        <StatsCardSkeleton />
+                      </>
+                    ) : (
+                      sections.map((section, index) => {
                         const Icon = section.icon;
                         return (
                           <a 
@@ -176,7 +241,7 @@ const { loading, dataTotal, counterRef } = useBerandaData();
                             className="group relative overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-md transition-all duration-300"
                           >
                             <div className="p-6 space-y-4">
-                              <div className={`inline-flex rounded-lgp-3`}>
+                              <div className={`inline-flex rounded-lg p-3 bg-primary/10 text-primary`}>
                                 <Icon className={`h-6 w-6`} />
                               </div>
                               <div className="space-y-2">
@@ -187,16 +252,16 @@ const { loading, dataTotal, counterRef } = useBerandaData();
                               </div>
                               <div className="flex items-center justify-between pt-2">
                                 <span className={`text-2xl font-bold`}>
-                                  {section.count.toLocaleString('id-ID')}
+                                  {section.count?.toLocaleString('id-ID') || '0'}
                                 </span>
                                 <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
                               </div>
                             </div>
                           </a>
                         );
-                      })}
-                    </div>
-                  )}
+                      })
+                    )}
+                  </div>
 
                   <Card className="border shadow-sm">
                     <CardHeader className="border-b bg-muted/50">
@@ -215,7 +280,6 @@ const { loading, dataTotal, counterRef } = useBerandaData();
                     </CardHeader>
                     
                     <CardContent className="p-4 md:p-6 space-y-4">
-                      {/* Search */}
                       <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
@@ -226,13 +290,16 @@ const { loading, dataTotal, counterRef } = useBerandaData();
                         />
                       </div>
 
-                      {/* Dataset List */}
                       <div className="space-y-3">
                         {filteredDatasets.length === 0 ? (
-                          <div className="text-center py-12 text-muted-foreground">
-                            <Database className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                            <p>Tidak ada dataset ditemukan</p>
-                          </div>
+                          datasetSearch ? (
+                            <div className="text-center py-12 text-muted-foreground">
+                              <Database className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                              <p>Tidak ada dataset ditemukan</p>
+                            </div>
+                          ) : (
+                            <DatasetListSkeleton />
+                          )
                         ) : (
                           filteredDatasets.map((dataset) => (
                             <Card 
@@ -278,24 +345,12 @@ const { loading, dataTotal, counterRef } = useBerandaData();
                                     </span>
                                   )}
                                 </div>
-
-                                <div className="pt-2 border-t">
-                                  <Button 
-                                    size="sm" 
-                                    variant="outline" 
-                                    className="w-full justify-center gap-2"
-                                  >
-                                    <Eye className="h-4 w-4" />
-                                    Lihat Detail
-                                  </Button>
-                                </div>
                               </CardContent>
                             </Card>
                           ))
                         )}
                       </div>
 
-                      {/* Pagination */}
                       {filteredDatasets.length > 0 && (
                         <div className="flex items-center justify-between pt-4 border-t">
                           <Button 
@@ -325,62 +380,48 @@ const { loading, dataTotal, counterRef } = useBerandaData();
                   </Card>
                 </div>
 
-                {/* Right Column */}
                 <div className="lg:col-span-4 space-y-6">
-                  {/* Documentation Card */}
-                  <Card className="border shadow-sm">
-                    <CardHeader className="pb-4 border-b">
-                      <div className="flex items-center gap-2">
-                        <BookOpen className="h-5 w-5 text-primary" />
-                        <CardTitle className="text-lg">Dokumentasi</CardTitle>
-                      </div>
-                      <CardDescription className="mt-1">
-                        Panduan lengkap sistem
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="p-4 space-y-2">
-                      {documentationLinks.map((doc, index) => {
-                        const Icon = doc.icon;
-                        return (
-                          <Button 
-                            key={index}
-                            variant="outline" 
-                            className="w-full justify-between group"
-                          >
-                            <span className="flex items-center gap-2 text-sm font-medium">
-                              <Icon className="h-4 w-4" />
-                              {doc.title}
-                            </span>
-                            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                  {loading ? (
+                    <DocumentationCardSkeleton />
+                  ) : (
+                    <Card className="border shadow-sm">
+                      <CardHeader className="pb-4 border-b">
+                        <div className="flex items-center gap-2">
+                          <BookOpen className="h-5 w-5 text-primary" />
+                          <CardTitle className="text-lg">Dokumentasi</CardTitle>
+                        </div>
+                        <CardDescription className="mt-1">
+                          Panduan lengkap sistem
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="p-4 space-y-2">
+                        {documentationLinks.map((doc, index) => {
+                          const Icon = doc.icon;
+                          return (
+                            <Link key={index} to={doc.link}>
+                              <Button 
+                                variant="outline" 
+                                className="w-full justify-between group"
+                              >
+                                <span className="flex items-center gap-2 text-sm font-medium">
+                                  <Icon className="h-4 w-4" />
+                                  {doc.title}
+                                </span>
+                                <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                              </Button>
+                            </Link>
+                          );
+                        })}
+                        <Separator className="my-3" />
+                        <Link to="/dokumentasi">  
+                          <Button className="w-full gap-2">
+                            <BookOpen className="h-4 w-4" />
+                            Lihat Semua Dokumentasi
                           </Button>
-                        );
-                      })}
-                      <Separator className="my-3" />
-                      <Button className="w-full gap-2">
-                        <BookOpen className="h-4 w-4" />
-                        Lihat Semua Dokumentasi
-                      </Button>
-                    </CardContent>
-                  </Card>
-
-                  {/* Quick Links Card */}
-                  <Card className="border shadow-sm">
-                    <CardHeader className="pb-4 border-b">
-                      <CardTitle className="text-lg">Link Cepat</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-4 space-y-1">
-                      {quickLinks.map((link, index) => (
-                        <a 
-                          key={index}
-                          href={link.href}
-                          className="flex items-center justify-between p-3 rounded-md hover:bg-accent transition-colors text-sm group"
-                        >
-                          <span className="font-medium">{link.label}</span>
-                          <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-                        </a>
-                      ))}
-                    </CardContent>
-                  </Card>
+                        </Link>
+                      </CardContent>
+                    </Card>
+                  )}
                 </div>
               </div>
             </div>

@@ -5,6 +5,7 @@ import GuestRoute from "@/lib/GuestRoute"
 
 // Lazy load pages
 const DashboardPage = lazy(() => import("@/pages/DashboardPage"))
+const Dokumentasi = lazy(() => import("@/pages/dokumentasi/Dokumentasi"))
 const LoginPage = lazy(() => import("@/pages/LoginPage"))
 const Sektoral = lazy(() => import("@/pages/sektoral/data/DataSektoral"))
 const DetailSektoral = lazy(() => import("@/pages/sektoral/data/DetailSektoral"))
@@ -155,6 +156,14 @@ function App() {
           element={
             <ProtectedRoute>
               <NotfoundAdmin />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dokumentasi"
+          element={
+            <ProtectedRoute>
+              <Dokumentasi />
             </ProtectedRoute>
           }
         />
