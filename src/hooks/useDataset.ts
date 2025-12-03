@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
 import datasetApi from "@/api/datasetApi";
 
-// ===========================
-// Type Definitions
-// ===========================
-
 export type ProdusenItem = {
   id: number;
   nama_opd: string;

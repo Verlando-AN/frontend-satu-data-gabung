@@ -12,7 +12,7 @@ import {
   Shield,
   ChevronRight,
 } from "lucide-react"
-
+import { Link } from "react-router-dom";
 import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
 import { NavSecondary } from "@/components/nav-secondary"
@@ -191,9 +191,11 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Akses dokumentasi dan panduan lengkap sistem
               </p>
+              <Link to="/dokumentasi">  
               <button className="w-full mt-2 px-3 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-medium hover:bg-primary/90 transition-colors">
                 Buka Dokumentasi
               </button>
+              </Link> 
             </div>
           </div>
         </div>
