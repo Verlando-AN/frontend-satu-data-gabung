@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react"
-import berandaApi from "../api/berandaApi"
+import berandaApi from "@/api/berandaApi"
 
 interface TotalData {
   dataset: number

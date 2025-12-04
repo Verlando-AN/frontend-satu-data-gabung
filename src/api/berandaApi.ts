@@ -1,9 +1,5 @@
 import client from "./client"
 
-// =========================
-// Interface response API
-// =========================
-
 export interface OpdItem {
   id: number
   nama_opd: string
@@ -21,17 +17,11 @@ interface TotalResponse {
 }
 
 const berandaApi = {
-  // =========================
-  // Ambil daftar OPD
-  // =========================
   getOpdList: async (): Promise<OpdItem[]> => {
     const res = await client.get<OpdItem[]>("/list-opd")
     return res.data
   },
 
-  // =========================
-  // Ambil statistik data total
-  // =========================
   getTotalData: async (): Promise<TotalData> => {
     const res = await client.get<TotalResponse>("/data-sektoral/beranda")
 

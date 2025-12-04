@@ -1,22 +1,8 @@
 import type { ChangeEvent, JSX } from "react";
-import useSektoral from "@/hooks/useSektoral.js";
+import useSektoral from "@/hooks/useSektoral";
 import "@/css/sektoral.css";
-import Head from "@/backbone/Header.jsx";
-import Foot from "@/backbone/Footer.jsx";
-
-// Interface opsional untuk data OPD dan sektoral
-interface OPDItem {
-  id_opd: string;
-  nama_opd: string;
-}
-
-interface SektoralItem {
-  id: string | number;
-  kode_dssd: string;
-  uraian_dssd: string;
-  satuan: string;
-  input?: { tahun: string | number; jumlah: number }[];
-}
+import Head from "@/backbone/Header";
+import Foot from "@/backbone/Footer";
 
 export default function Sektoral(): JSX.Element {
   const {
@@ -36,24 +22,7 @@ export default function Sektoral(): JSX.Element {
     handlePrev,
     handleNext,
     perPage,
-  } = useSektoral() as {
-    opdList: OPDItem[];
-    selectedOPD: string;
-    setSelectedOPD: (val: string) => void;
-    dariTahun: string;
-    setDariTahun: (val: string) => void;
-    sampaiTahun: string;
-    setSampaiTahun: (val: string) => void;
-    dataSektoral: SektoralItem[];
-    tahunList: (string | number)[];
-    loading: boolean;
-    currentPage: number;
-    totalPages: number;
-    handleTampilkan: () => void;
-    handlePrev: () => void;
-    handleNext: () => void;
-    perPage: number;
-  };
+  } = useSektoral()
 
   return (
     <>

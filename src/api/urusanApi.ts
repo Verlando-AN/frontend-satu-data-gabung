@@ -1,9 +1,5 @@
 import apiClient from "./client";
 
-// =======================
-// Interface Types
-// =======================
-
 export interface UrusanItem {
   id: number;
   kode_urusan: string;
@@ -29,10 +25,6 @@ export interface GetDataSektoralByUrusanResponse {
   data: SektoralUrusanItem[];
   pagination: PaginationInfo;
 }
-
-// =======================
-// API Functions
-// =======================
 
 export const getUrusanList = async (): Promise<UrusanItem[]> => {
   const response = await apiClient.get<UrusanItem[]>("/list-opd/urusan");
@@ -63,7 +55,6 @@ export const getDataSektoralByUrusan = async (
     totalCount: parseInt(response.headers["x-pagination-total-count"]) || 0,
   };
 
-  // Pastikan data selalu array
   const data: SektoralUrusanItem[] = Array.isArray(response.data.data)
     ? response.data.data
     : response.data;

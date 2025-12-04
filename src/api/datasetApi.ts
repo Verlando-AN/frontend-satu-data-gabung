@@ -1,22 +1,16 @@
 import client from "./client";
 
 const datasetApi = {
-  // ============================
-  // GET LIST OPD
-  // ============================
   async getProdusenList() {
     try {
       const res = await client.get("/list-opd");
       return res.data;
     } catch (error) {
       console.error("Error getProdusenList:", error);
-      return []; // fallback aman
+      return [];
     }
   },
 
-  // ============================
-  // GET DATASET + PAGINATION
-  // ============================
   async getDatasets(page = 1, id_opd = null, perPage = 7) {
     try {
       let url = `/dataset?per_page=${perPage}&page=${page}`;
@@ -24,7 +18,6 @@ const datasetApi = {
 
       const res = await client.get(url);
 
-      // Header pagination (dari API Yii2 / Laravel custom)
       const current =
         parseInt(res.headers["x-pagination-current-page"]) ||
         res.data?.meta?.current_page ||
@@ -49,7 +42,6 @@ const datasetApi = {
     } catch (error) {
       console.error("Error getDatasets:", error);
 
-      // fallback respons kosong agar UI tidak error
       return {
         data: [],
         current: 1,
@@ -59,16 +51,13 @@ const datasetApi = {
     }
   },
 
-  // ============================
-  // GET DETAIL DATASET
-  // ============================
   async getDatasetDetail(id: any) {
     try {
       const res = await client.get(`/dataset/detail/${id}`);
       return res.data;
     } catch (error) {
       console.error("Error getDatasetDetail:", error);
-      return null; // fallback aman
+      return null;
     }
   },
 };

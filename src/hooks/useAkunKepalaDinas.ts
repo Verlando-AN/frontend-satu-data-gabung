@@ -1,4 +1,3 @@
-// File: hooks/useAkunKepalaDinas.ts
 import { useEffect, useState, useCallback } from "react"
 import { getAuthHeaders } from "@/api/auth"
 import client from "@/api/client"

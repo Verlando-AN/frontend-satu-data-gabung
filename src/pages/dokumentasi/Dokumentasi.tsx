@@ -390,11 +390,11 @@ export default function PanduanPenggunaan() {
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Home className="h-4 w-4" />
                   <ChevronRight className="h-4 w-4" />
-                  <span>Panduan Penggunaan</span>
+                  <span>Dokumentasi Panduan Penggunaan</span>
                 </div>
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
-                    <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Panduan Penggunaan Website Admin</h1>
+                    <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Panduan Penggunaan Website Satu Data</h1>
                     <p className="text-lg text-muted-foreground mt-2">
                       Pelajari cara menggunakan semua fitur sistem dengan mudah
                     </p>
@@ -427,7 +427,7 @@ export default function PanduanPenggunaan() {
               {isLoading ? (
                 <QuickNavigationSkeleton />
               ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3">
                   {panduanSections.map((section) => {
                     const Icon = section.icon;
                     const isActive = activeSection === section.id;
@@ -435,7 +435,7 @@ export default function PanduanPenggunaan() {
                       <Button
                         key={section.id}
                         variant={isActive ? "default" : "outline"}
-                        className="justify-start h-auto p-3"
+                        className="justify-center h-auto p-3"
                         onClick={() => handleSectionChange(section.id)}
                       >
                         <div className="flex items-center gap-2">
