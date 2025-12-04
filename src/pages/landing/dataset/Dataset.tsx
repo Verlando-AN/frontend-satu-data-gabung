@@ -1,27 +1,11 @@
-import type { JSX } from "react";
 import { Link } from "react-router-dom";
-import icon from "../../../assets/dataseticon.png";
-import useDataset from "../../../hooks/useDataset.js";
+import icon from "@/assets/dataseticon.png";
+import useDataset from "@/hooks/useDataset";
 import "@/css/dataset.css";
-import Head from "@/backbone/Header.jsx";
-import Foot from "@/backbone/Footer.jsx";
+import Head from "@/backbone/Header";
+import Foot from "@/backbone/Footer";
 
-// Interface untuk dataset dan produsen
-interface Produsen {
-  id_opd: string | number;
-  nama_opd: string;
-}
-
-interface Dataset {
-  id: string | number;
-  title: string;
-  description?: string;
-  producer: string;
-  date: string;
-  daysAgo: number;
-}
-
-export default function DatasetLanding(): JSX.Element {
+export default function DatasetLanding() {
   const {
     produsenSearch,
     setProdusenSearch,
@@ -37,22 +21,7 @@ export default function DatasetLanding(): JSX.Element {
     currentPage,
     totalPages,
     totalDatasets,
-  } = useDataset() as {
-    produsenSearch: string;
-    setProdusenSearch: (value: string) => void;
-    datasetSearch: string;
-    setDatasetSearch: (value: string) => void;
-    filteredProdusen: Produsen[];
-    filteredDatasets: Dataset[];
-    selectedProdusen: string | number;
-    setSelectedProdusen: (value: string | number) => void;
-    fetchDatasets: (page: number, id_opd?: string | number) => void;
-    handlePrev: () => void;
-    handleNext: () => void;
-    currentPage: number;
-    totalPages: number;
-    totalDatasets: number;
-  };
+  } = useDataset() 
 
   const categories = [
     { name: "Sarana & Infrastruktur", count: 0 },

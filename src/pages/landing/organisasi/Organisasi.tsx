@@ -1,17 +1,9 @@
-import type { JSX } from "react";
-import useOrganisasi from "@/hooks/useOrganisasi.js";
+import useOrganisasi from "@/hooks/useOrganisasi";
 import "@/css/organisasi.css";
-import Head from "@/backbone/Header.jsx";
-import Foot from "@/backbone/Footer.jsx";
+import Head from "@/backbone/Header";
+import Foot from "@/backbone/Footer";
 
-// Interface opsional untuk data organisasi
-interface OrganisasiItem {
-  id_opd: string;
-  nama_opd: string;
-  total_ref_sektoral: number;
-}
-
-export default function Organisasi(): JSX.Element {
+export default function Organisasi() {
   const {
     tabs,
     activeTab,
@@ -19,14 +11,7 @@ export default function Organisasi(): JSX.Element {
     filteredData,
     loading,
     truncateNamaOpd,
-  } = useOrganisasi() as {
-    tabs: string[];
-    activeTab: string;
-    setActiveTab: (tab: string) => void;
-    filteredData: OrganisasiItem[];
-    loading: boolean;
-    truncateNamaOpd: (name: string) => string;
-  };
+  } = useOrganisasi()
 
   return (
     <>
@@ -91,7 +76,7 @@ export default function Organisasi(): JSX.Element {
                   </div>
 
                   <div className="org-card-body">
-                    <h7 className="org-name">{truncateNamaOpd(org.nama_opd)}</h7>
+                    <span className="org-name">{truncateNamaOpd(org.nama_opd)}</span>
 
                     <div className="data-count">
                       <span className="count-number">{org.total_ref_sektoral}</span>

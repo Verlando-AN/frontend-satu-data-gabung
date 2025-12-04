@@ -1,11 +1,5 @@
 import client from "./client";
 
-// =====================
-// Interfaces
-// =====================
-
-// Jika kamu tahu struktur data publikasi, bisa ditambah.
-// Untuk sekarang dibuat generic dan fleksibel.
 export interface PublikasiItem {
   id: number;
   title: string;
@@ -21,9 +15,6 @@ export interface PublikasiDetail {
   [key: string]: any;
 }
 
-// =====================
-// API
-// =====================
 const publikasiApi = {
   async getPublikasiList(): Promise<PublikasiItem[]> {
     const res = await client.get<PublikasiItem[]>("/buku-digital");

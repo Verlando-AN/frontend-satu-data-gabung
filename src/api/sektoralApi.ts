@@ -1,9 +1,5 @@
 import client from "./client";
 
-// =======================
-// Interface Types
-// =======================
-
 export interface OpdItem {
   id: number;
   nama_opd: string;
@@ -32,10 +28,6 @@ export interface GetDataSektoralResponse {
   totalCount: number;
 }
 
-// =======================
-// API
-// =======================
-
 const sektoralApi = {
   async getOpdList(): Promise<OpdItem[]> {
     const res = await client.get<OpdItem[]>("/list-opd");
@@ -59,7 +51,6 @@ const sektoralApi = {
     const total = parseInt(res.headers["x-pagination-page-count"]) || 1;
     const totalCount = parseInt(res.headers["x-pagination-total-count"]) || 0;
 
-    // Pastikan selalu array
     const data: SektoralItem[] = Array.isArray(res.data.data)
       ? res.data.data
       : res.data;

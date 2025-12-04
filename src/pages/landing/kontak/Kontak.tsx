@@ -1,8 +1,8 @@
 import { useState, type ChangeEvent, type FormEvent, type JSX } from 'react';
 import "@/css/kontak.css";
 import Logo from "@/assets/IMG_Logo.png";
-import Head from "@/backbone/Header.jsx";
-import Foot from "@/backbone/Footer.jsx";
+import Head from "@/backbone/Header";
+import Foot from "@/backbone/Footer";
 
 interface FormData {
   nama: string;

@@ -43,9 +43,6 @@ export default function Publikasi() {
     };
   }, [publikasiData]);
 
-  // ===========================
-  // FILTER DATA
-  // ===========================
   const filteredData = useMemo(() => {
     return publikasiData.filter((item) => {
       const matchesSearch =
@@ -76,7 +73,6 @@ export default function Publikasi() {
       <Head />
 
       <div className="publikasi-container">
-        {/* HEADER */}
         <div className="publikasi-header">
           <div className="header-content">
             <BookOpen className="header-icon-satu" size={48} />
@@ -87,7 +83,6 @@ export default function Publikasi() {
           </div>
         </div>
 
-        {/* FILTER & SEARCH */}
         <div className="cari-filter-wrapper">
           <div className="filter-controls">
             <button
@@ -137,7 +132,6 @@ export default function Publikasi() {
             </div>
           </div>
 
-          {/* FILTER PANEL */}
           {showFilters && (
             <div className="filter-panel">
               <div className="filter-grid">
@@ -183,7 +177,6 @@ export default function Publikasi() {
           )}
         </div>
 
-        {/* LIST PUBLIKASI */}
         {loading ? (
           <div className="loading-container">
             <div className="loading-spinner"></div>

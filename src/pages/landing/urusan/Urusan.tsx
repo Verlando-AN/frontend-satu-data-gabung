@@ -1,27 +1,8 @@
 import { type ChangeEvent, type JSX } from "react";
-import { useUrusan } from "@/hooks/useUrusan.js";
+import { useUrusan } from "@/hooks/useUrusan";
 import "@/css/urusan.css";
-import Head from "@/backbone/Header.jsx";
-import Foot from "@/backbone/Footer.jsx";
-
-interface UrusanItem {
-  kode_urusan: string;
-  nama_urusan: string;
-}
-
-interface DataSektoralItem {
-  id?: string | number;
-  kode_dssd: string;
-  uraian_dssd: string;
-  satuan: string;
-  input?: { tahun: string | number; jumlah: number }[];
-}
-
-interface Pagination {
-  current: number;
-  perPage: number;
-  total: number;
-}
+import Head from "@/backbone/Header";
+import Foot from "@/backbone/Footer";
 
 export default function Urusan(): JSX.Element {
   const {
@@ -39,22 +20,7 @@ export default function Urusan(): JSX.Element {
     fetchData,
     handlePrev,
     handleNext,
-  } = useUrusan() as {
-    urusanList: UrusanItem[];
-    selectedOPD: string;
-    dariTahun: string;
-    sampaiTahun: string;
-    dataSektoral: DataSektoralItem[];
-    tahunList: (string | number)[];
-    loading: boolean;
-    pagination: Pagination;
-    setSelectedOPD: (val: string) => void;
-    setDariTahun: (val: string) => void;
-    setSampaiTahun: (val: string) => void;
-    fetchData: (page: number) => void;
-    handlePrev: () => void;
-    handleNext: () => void;
-  };
+  } = useUrusan() 
 
   return (
     <>

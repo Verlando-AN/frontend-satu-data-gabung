@@ -55,7 +55,6 @@ export default function Footer() {
                 width="100%"
                 height="100%"
                 title="Lokasi Kabupaten Lampung Timur"
-                allowFullScreen=""
                 loading="lazy"
               ></iframe>
             </div>

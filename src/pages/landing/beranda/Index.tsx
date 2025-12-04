@@ -1,4 +1,3 @@
-import React, { type JSX } from "react";
 import "@/css/beranda.css";
 
 import Bupati from "@/assets/bupati.png";
@@ -6,22 +5,11 @@ import Beranda2 from "@/assets/logolamptim.jpeg";
 import Card1 from "@/assets/card1.png";
 import Berkas from "@/assets/berkas.png";
 
-import Head from "@/backbone/Header.jsx";
-import Foot from "@/backbone/Footer.jsx";
+import Head from "@/backbone/Header";
+import Foot from "@/backbone/Footer";
 import useBerandaData from "@/hooks/useBerandaData";
 
-interface OpdItem {
-  nama_opd: string;
-  total_ref_sektoral?: number;
-}
-
-interface DataTotal {
-  dataset: number;
-  data_sektoral: number;
-  urusan: number;
-}
-
-export default function Index(): JSX.Element {
+export default function Index() {
   const {
     opdList,
     loading,
@@ -30,14 +18,6 @@ export default function Index(): JSX.Element {
     counterRef,
     featureRef,
     categoryRef
-  }: {
-    opdList: OpdItem[];
-    loading: boolean;
-    dataTotal: DataTotal;
-    isVisible: any;
-    counterRef: React.RefObject<HTMLDivElement>;
-    featureRef: React.RefObject<HTMLDivElement>;
-    categoryRef: React.RefObject<HTMLDivElement>;
   } = useBerandaData();
 
   return (

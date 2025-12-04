@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import datasetApi from "../api/datasetApi.js";
-
-// ===========================
-// Type Definitions
-// ===========================
+import datasetApi from "@/api/datasetApi";
 
 export type DatasetDetail = {
   id: number;

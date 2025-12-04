@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
-import { useState, type JSX } from "react";
+import { useState } from "react";
 import "@/css/detail.css";
-import useDatasetDetail from "@/hooks/useDatasetDetail.js";
+import useDatasetDetail from "@/hooks/useDatasetDetail";
 import DatasetInfoTable from "@/backbone/DatasetInfoTable.jsx";
 import DatasetChart from "@/backbone/DatasetChart.jsx";
 import DatasetSeriesTable from "@/backbone/DatasetSeriesTable.jsx";
-import Head from "@/backbone/Header.jsx";
-import Foot from "@/backbone/Footer.jsx";
+import Head from "@/backbone/Header";
+import Foot from "@/backbone/Footer";
 
 interface DatasetInput {
   tahun: number | string;
@@ -21,9 +21,11 @@ interface DatasetType {
   [key: string]: any; 
 }
 
-export default function Detail(): JSX.Element {
+export default function Detail() {
   const { id } = useParams<{ id: string }>();
-  const { dataset, loading, error } = useDatasetDetail(id);
+  const datasetId = id ? id : null;
+  
+  const { dataset, loading, error } = useDatasetDetail(datasetId);
   const [activeTab, setActiveTab] = useState<"visualisasi" | "dataSeries">("visualisasi");
 
   if (loading) return <div className="text-center mt-5">Memuat...</div>;

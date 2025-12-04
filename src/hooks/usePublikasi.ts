@@ -1,20 +1,14 @@
 import { useState, useEffect } from "react"
-import publikasiApi from "../api/publikasiApi.js"
+import publikasiApi from "@/api/publikasiApi"
 
-// -----------------------------------------
-// 1. Tipe untuk item publikasi
-// -----------------------------------------
 export interface PublikasiItem {
   buku: string
   buku_slug: string
   nama_opd: string
   created_at: number
-  [key: string]: any // Jika ada field lain yang tidak pasti
+  [key: string]: any 
 }
 
-// -----------------------------------------
-// 2. Hook utama
-// -----------------------------------------
 export default function usePublikasi(slug: string | null = null) {
   const [publikasiData, setPublikasiData] = useState<PublikasiItem[] | PublikasiItem>([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -28,7 +22,6 @@ export default function usePublikasi(slug: string | null = null) {
           ? await publikasiApi.getPublikasiDetail(slug)
           : await publikasiApi.getPublikasiList()
 
-        // Jika slug digunakan dan API mengembalikan 1 array item → jadikan objek tunggal
         if (slug && Array.isArray(data) && data.length === 1) {
           setPublikasiData(data[0])
         } else {
