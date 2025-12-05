@@ -452,7 +452,7 @@ export function TableSection({
                                 </DropdownMenuItem>
                               </Link>
 
-                              <DropdownMenuItem className="cursor-pointer">
+                              {/* <DropdownMenuItem className="cursor-pointer">
                                 <Pencil className="mr-2 h-4 w-4" />
                                 Edit Data
                               </DropdownMenuItem>
@@ -460,15 +460,15 @@ export function TableSection({
                               <DropdownMenuItem className="cursor-pointer">
                                 <Power className="mr-2 h-4 w-4" />
                                 Ubah Status
-                              </DropdownMenuItem>
+                              </DropdownMenuItem> */}
                             </DropdownMenuGroup>
 
                             <DropdownMenuSeparator />
 
-                            <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600">
+                            {/* <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600">
                               <Trash2 className="mr-2 h-4 w-4" />
                               Hapus
-                            </DropdownMenuItem>
+                            </DropdownMenuItem> */}
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </ButtonGroup>
