@@ -44,6 +44,11 @@ export interface DatasetDetail {
   ModifiedFormatted: string;
 }
 
+export interface OperationResult {
+  success: boolean;
+  error?: string;
+}
+
 export function useDetailSektoral(id?: string) {
   const [data, setData] = useState<DetailSektoral | null>(null);
   const [dataset, setDataset] = useState<DatasetDetail | null>(null);
@@ -118,9 +123,7 @@ export function useDetailSektoral(id?: string) {
   const deleteSektoral = async (
     id_data_sektoral: number,
     tahun: number
-  ) => {
-    if (!confirm(`Hapus data tahun ${tahun}?`)) return;
-
+  ): Promise<OperationResult> => {
     try {
       const res = await fetch(
         `${API_URL}/strict/trx-data-sektoral/${id_data_sektoral}/${tahun}`,
@@ -133,9 +136,10 @@ export function useDetailSektoral(id?: string) {
       if (!res.ok) throw new Error("Gagal menghapus data");
 
       await fetchAll();
-    } catch (err) {
+      return { success: true };
+    } catch (err: any) {
       console.error(err);
-      alert("Gagal menghapus data");
+      return { success: false, error: err.message || "Gagal menghapus data" };
     }
   };
 
@@ -143,7 +147,7 @@ export function useDetailSektoral(id?: string) {
     id_data_sektoral: number,
     tahun: number,
     jumlahBaru: number
-  ) => {
+  ): Promise<OperationResult> => {
     try {
       const res = await fetch(
         `${API_URL}/strict/trx-data-sektoral/${id_data_sektoral}/${tahun}`,
@@ -159,15 +163,14 @@ export function useDetailSektoral(id?: string) {
 
       if (!res.ok) throw new Error("Gagal mengubah data");
       await fetchAll();
-    } catch (err) {
-      alert("Gagal mengubah data");
+      return { success: true };
+    } catch (err: any) {
       console.error(err);
+      return { success: false, error: err.message || "Gagal mengubah data" };
     }
   };
 
-  const deleteDataset = async (id_dataset: number | string) => {
-    if (!confirm("Yakin ingin menghapus dataset ini?")) return;
-
+  const deleteDataset = async (id_dataset: number | string): Promise<OperationResult> => {
     try {
       const res = await fetch(
         `${API_URL}/strict/dataset/delete-dataset/${id_dataset}`,
@@ -184,11 +187,10 @@ export function useDetailSektoral(id?: string) {
 
       const refreshed = await fetchDataset();
       setDataset(refreshed);
-
-      alert("Dataset berhasil dihapus");
-    } catch (err) {
+      return { success: true };
+    } catch (err: any) {
       console.error(err);
-      alert("Gagal menghapus dataset");
+      return { success: false, error: err.message || "Gagal menghapus dataset" };
     }
   };
 

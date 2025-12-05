@@ -29,7 +29,21 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { useDetailSektoral } from "@/hooks/useDetailSektoral";
+import { useDetailSektoral, type OperationResult } from "@/hooks/useDetailSektoral";
+import { useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const Table = ({ children, ...props }: any) => (
   <div className="w-full overflow-auto">
@@ -97,6 +111,65 @@ export default function DetailSektoral() {
     updateSektoral,
     deleteDataset,
   } = useDetailSektoral(id);
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteData, setDeleteData] = useState<{id: number, tahun: number} | null>(null);
+  
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editData, setEditData] = useState<{id: number, tahun: number, jumlah: number} | null>(null);
+  const [editValue, setEditValue] = useState("");
+  
+  const [deleteDatasetDialogOpen, setDeleteDatasetDialogOpen] = useState(false);
+  const [deleteDatasetId, setDeleteDatasetId] = useState<number | null>(null);
+
+  const openDeleteDialog = (id: number, tahun: number) => {
+    setDeleteData({ id, tahun });
+    setDeleteDialogOpen(true);
+  };
+  
+  const openEditDialog = (id: number, tahun: number, jumlah: number) => {
+    setEditData({ id, tahun, jumlah });
+    setEditValue(jumlah.toString());
+    setEditDialogOpen(true);
+  };
+  
+  const handleSaveEdit = async () => {
+    if (editData && editValue !== "" && !isNaN(Number(editValue))) {
+      const result: OperationResult = await updateSektoral(editData.id, editData.tahun, Number(editValue));
+      if (result.success) {
+        setEditDialogOpen(false);
+      } else {
+        alert(result.error);
+      }
+    }
+  };
+  
+  const openDeleteDatasetDialog = (id: number) => {
+    setDeleteDatasetId(id);
+    setDeleteDatasetDialogOpen(true);
+  };
+
+  const handleDeleteSektoral = async () => {
+    if (deleteData) {
+      const result: OperationResult = await deleteSektoral(deleteData.id, deleteData.tahun);
+      if (result.success) {
+        setDeleteDialogOpen(false);
+      } else {
+        alert(result.error);
+      }
+    }
+  };
+
+  const handleDeleteDataset = async () => {
+    if (deleteDatasetId) {
+      const result: OperationResult = await deleteDataset(deleteDatasetId);
+      if (result.success) {
+        setDeleteDatasetDialogOpen(false);
+      } else {
+        alert(result.error);
+      }
+    }
+  };
 
   return (
     <div className="[--header-height:calc(--spacing(14))]">
@@ -450,29 +523,71 @@ export default function DetailSektoral() {
                                     </TableCell>
                                     <TableCell>
                                       <div className="flex gap-2 whitespace-nowrap">
-                                        <Button 
-                                          variant="outline" 
-                                          size="sm" 
-                                          className="gap-1"
-                                          onClick={() => {
-                                            const jumlahBaru = prompt("Masukkan jumlah baru:", row.jumlah.toString());
-                                            if (jumlahBaru !== null && !isNaN(Number(jumlahBaru))) {
-                                              updateSektoral(row.id_data_sektoral, row.tahun, Number(jumlahBaru));
-                                            }
-                                          }}
-                                        >
-                                          <Edit className="w-3 h-3" />
-                                          <span className="hidden sm:inline">Edit</span>
-                                        </Button>
-                                        <Button 
-                                          variant="outline" 
-                                          size="sm" 
-                                          className="gap-1 text-red-500 hover:text-red-700"
-                                          onClick={() => deleteSektoral(row.id_data_sektoral, row.tahun)}
-                                        >
-                                          <XCircle className="w-3 h-3" />
-                                          <span className="hidden sm:inline">Hapus</span>
-                                        </Button>
+                                        <AlertDialog open={editDialogOpen && editData?.id === row.id_data_sektoral} onOpenChange={setEditDialogOpen}>
+                                          <AlertDialogTrigger asChild>
+                                            <Button 
+                                              variant="outline" 
+                                              size="sm" 
+                                              className="gap-1"
+                                              onClick={() => openEditDialog(row.id_data_sektoral, row.tahun, row.jumlah)}
+                                            >
+                                              <Edit className="w-3 h-3" />
+                                              <span className="hidden sm:inline">Edit</span>
+                                            </Button>
+                                          </AlertDialogTrigger>
+                                          <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                              <AlertDialogTitle>Edit Data</AlertDialogTitle>
+                                              <AlertDialogDescription>
+                                                Ubah jumlah data untuk tahun {editData?.tahun}
+                                              </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <div className="py-4">
+                                              <Label htmlFor="jumlah">Jumlah</Label>
+                                              <Input
+                                                id="jumlah"
+                                                value={editValue}
+                                                onChange={(e) => setEditValue(e.target.value)}
+                                                className="mt-1"
+                                              />
+                                            </div>
+                                            <AlertDialogFooter>
+                                              <AlertDialogCancel>Batal</AlertDialogCancel>
+                                              <AlertDialogAction onClick={handleSaveEdit}>Simpan</AlertDialogAction>
+                                            </AlertDialogFooter>
+                                          </AlertDialogContent>
+                                        </AlertDialog>
+                                        
+                                        <AlertDialog open={deleteDialogOpen && deleteData?.id === row.id_data_sektoral} onOpenChange={setDeleteDialogOpen}>
+                                          <AlertDialogTrigger asChild>
+                                            <Button 
+                                              variant="outline" 
+                                              size="sm" 
+                                              className="gap-1 text-red-500 hover:text-red-700"
+                                              onClick={() => openDeleteDialog(row.id_data_sektoral, row.tahun)}
+                                            >
+                                              <XCircle className="w-3 h-3" />
+                                              <span className="hidden sm:inline">Hapus</span>
+                                            </Button>
+                                          </AlertDialogTrigger>
+                                          <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                              <AlertDialogTitle>Konfirmasi Hapus</AlertDialogTitle>
+                                              <AlertDialogDescription>
+                                                Apakah Anda yakin ingin menghapus data untuk tahun {deleteData?.tahun}? Tindakan ini tidak dapat dibatalkan.
+                                              </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                              <AlertDialogCancel>Batal</AlertDialogCancel>
+                                              <AlertDialogAction 
+                                                onClick={handleDeleteSektoral}
+                                                className="bg-red-500 hover:bg-red-600"
+                                              >
+                                                Hapus
+                                              </AlertDialogAction>
+                                            </AlertDialogFooter>
+                                          </AlertDialogContent>
+                                        </AlertDialog>
                                       </div>
                                     </TableCell>
                                   </TableRow>
@@ -555,15 +670,36 @@ export default function DetailSektoral() {
                                       </div>
                                     </TableCell>
                                     <TableCell className="whitespace-nowrap">
-                                      <Button 
-                                        variant="outline" 
-                                        size="sm" 
-                                        className="gap-1 text-red-500 hover:text-red-700"
-                                        onClick={() => deleteDataset(item.id)}
-                                      >
-                                        <XCircle className="w-3 h-3" />
-                                        <span className="hidden sm:inline">Hapus</span>
-                                      </Button>
+                                      <AlertDialog open={deleteDatasetDialogOpen && deleteDatasetId === item.id} onOpenChange={setDeleteDatasetDialogOpen}>
+                                        <AlertDialogTrigger asChild>
+                                          <Button 
+                                            variant="outline" 
+                                            size="sm" 
+                                            className="gap-1 text-red-500 hover:text-red-700"
+                                            onClick={() => openDeleteDatasetDialog(item.id)}
+                                          >
+                                            <XCircle className="w-3 h-3" />
+                                            <span className="hidden sm:inline">Hapus</span>
+                                          </Button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                          <AlertDialogHeader>
+                                            <AlertDialogTitle>Konfirmasi Hapus Dataset</AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                              Apakah Anda yakin ingin menghapus dataset ini? Tindakan ini tidak dapat dibatalkan.
+                                            </AlertDialogDescription>
+                                          </AlertDialogHeader>
+                                          <AlertDialogFooter>
+                                            <AlertDialogCancel>Batal</AlertDialogCancel>
+                                            <AlertDialogAction 
+                                              onClick={handleDeleteDataset}
+                                              className="bg-red-500 hover:bg-red-600"
+                                            >
+                                              Hapus
+                                            </AlertDialogAction>
+                                          </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                      </AlertDialog>
                                     </TableCell>
                                   </TableRow>
                                 ))}
