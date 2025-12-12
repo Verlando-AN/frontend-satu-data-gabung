@@ -4,20 +4,18 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card"
-
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { CheckCircle2, AlertCircle, Upload, FileText, Hash, User, Mail, Building, Calendar, Tag, Palette } from "lucide-react"
 
-import { useCreateDataset } from "@/hooks/useCreateDataset";
+import { 
+  CheckCircle2, AlertCircle, Upload, FileText, Hash,
+  User, Mail, Building, Calendar, Tag, Palette 
+} from "lucide-react"
+
+import { useCreateDataset } from "@/hooks/useCreateDataset"
+import { Editor } from "@tinymce/tinymce-react"
+
+const TINYMCE_KEY = import.meta.env.VITE_TINYMCE_API_KEY;
 
 export default function CreateDataset() {
   const {
@@ -30,18 +28,18 @@ export default function CreateDataset() {
     handleFileChange,
     handleSubmit,
     resetForm
-  } = useCreateDataset();
+  } = useCreateDataset()
 
   return (
     <div className="[--header-height:calc(--spacing(14))]">
       <SidebarProvider className="flex flex-col">
         <SiteHeader />
-
         <div className="flex flex-1">
           <AppSidebar />
 
           <SidebarInset>
             <div className="flex flex-col flex-1 gap-6 p-6 bg-muted/30">
+
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
@@ -61,23 +59,17 @@ export default function CreateDataset() {
               <Card className="border-2">
                 <CardHeader>
                   <CardTitle>Form Dataset</CardTitle>
-                  <CardDescription>
-                    Isi informasi dataset dan upload file
-                  </CardDescription>
+                  <CardDescription>Isi informasi dataset dan upload file</CardDescription>
                 </CardHeader>
 
                 <CardContent>
                   <div className="space-y-6">
 
                     {message && (
-                      <Alert
-                        variant={message.type === "error" ? "destructive" : "default"}
-                      >
-                        {message.type === "success" ? (
-                          <CheckCircle2 className="h-4 w-4" />
-                        ) : (
-                          <AlertCircle className="h-4 w-4" />
-                        )}
+                      <Alert variant={message.type === "error" ? "destructive" : "default"}>
+                        {message.type === "success"
+                          ? <CheckCircle2 className="h-4 w-4" />
+                          : <AlertCircle className="h-4 w-4" />}
                         <AlertDescription>{message.text}</AlertDescription>
                       </Alert>
                     )}
@@ -95,16 +87,14 @@ export default function CreateDataset() {
                         <Upload className="w-4 h-4 text-muted-foreground" />
                         File Dataset (PDF) <span className="text-red-500">*</span>
                       </Label>
-                      <Input
-                        type="file"
-                        accept=".pdf"
-                        onChange={(e) => handleFileChange(e.target.files?.[0] || null)}
+                      <Input 
+                        type="file" 
+                        accept=".pdf" 
+                        onChange={(e) => handleFileChange(e.target.files?.[0] || null)} 
                       />
-                      {file && (
-                        <p className="text-sm text-green-600 font-medium">
-                          ✓ File dipilih: {file.name}
-                        </p>
-                      )}
+                      {file && <p className="text-sm text-green-600 font-medium">
+                        ✓ File dipilih: {file.name}
+                      </p>}
                     </div>
 
                     <div className="space-y-2">
@@ -114,25 +104,31 @@ export default function CreateDataset() {
                       </Label>
                       <Input
                         value={form.title_dataset}
-                        onChange={(e) =>
-                          handleInputChange("title_dataset", e.target.value)
-                        }
+                        onChange={(e) => handleInputChange("title_dataset", e.target.value)}
                       />
                     </div>
-
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <FileText className="w-4 h-4 text-muted-foreground" />
                         Definisi Dataset <span className="text-red-500">*</span>
                       </Label>
-                      <Textarea
+
+                      <Editor
+                        apiKey={TINYMCE_KEY}
                         value={form.description}
-                        onChange={(e) =>
-                          handleInputChange("description", e.target.value)
+                        onEditorChange={(content) =>
+                          handleInputChange("description", content)
                         }
+                        init={{
+                          height: 400,
+                          menubar: true,
+                          plugins: "table image link media code lists",
+                          toolbar:
+                            "undo redo | bold italic underline | alignleft aligncenter alignright | " +
+                            "bullist numlist outdent indent | table | image media link | code",
+                        }}
                       />
                     </div>
-
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <User className="w-4 h-4 text-muted-foreground" />
@@ -140,9 +136,7 @@ export default function CreateDataset() {
                       </Label>
                       <Input
                         value={form.fn}
-                        onChange={(e) =>
-                          handleInputChange("fn", e.target.value)
-                        }
+                        onChange={(e) => handleInputChange("fn", e.target.value)}
                       />
                     </div>
 
@@ -154,9 +148,7 @@ export default function CreateDataset() {
                       <Input
                         type="email"
                         value={form.has_email}
-                        onChange={(e) =>
-                          handleInputChange("has_email", e.target.value)
-                        }
+                        onChange={(e) => handleInputChange("has_email", e.target.value)}
                       />
                     </div>
 
@@ -167,9 +159,7 @@ export default function CreateDataset() {
                       </Label>
                       <Input
                         value={form.nama_publisher}
-                        onChange={(e) =>
-                          handleInputChange("nama_publisher", e.target.value)
-                        }
+                        onChange={(e) => handleInputChange("nama_publisher", e.target.value)}
                       />
                     </div>
 
@@ -181,9 +171,7 @@ export default function CreateDataset() {
                       <Input
                         type="date"
                         value={form.issued}
-                        onChange={(e) =>
-                          handleInputChange("issued", e.target.value)
-                        }
+                        onChange={(e) => handleInputChange("issued", e.target.value)}
                       />
                     </div>
 
@@ -194,9 +182,7 @@ export default function CreateDataset() {
                       </Label>
                       <Input
                         value={form.keyword}
-                        onChange={(e) =>
-                          handleInputChange("keyword", e.target.value)
-                        }
+                        onChange={(e) => handleInputChange("keyword", e.target.value)}
                       />
                     </div>
 
@@ -207,16 +193,14 @@ export default function CreateDataset() {
                       </Label>
                       <Input
                         value={form.theme}
-                        onChange={(e) =>
-                          handleInputChange("theme", e.target.value)
-                        }
+                        onChange={(e) => handleInputChange("theme", e.target.value)}
                       />
                     </div>
 
                     <div className="flex gap-3 pt-4 border-t">
-                      <Button 
-                        onClick={handleSubmit} 
-                        disabled={loading} 
+                      <Button
+                        onClick={handleSubmit}
+                        disabled={loading}
                         className="flex-1 gap-2"
                       >
                         {loading ? (

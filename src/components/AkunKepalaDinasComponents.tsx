@@ -1,4 +1,3 @@
-// File: components/AkunKepalaDinasComponents.tsx
 import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -17,10 +16,8 @@ import {
   Plus, 
   Search, 
   RefreshCw, 
-  Download, 
   UserCog, 
   Building2,
-  Eye,
   Pencil,
   Trash2,
   Shield,
@@ -32,7 +29,6 @@ import {
 } from "lucide-react"
 import { useAkunKepalaDinas, type AccountItem } from "@/hooks/useAkunKepalaDinas"
 
-// Simplified table components
 export const Table = ({ children, ...props }: any) => (
   <div className="w-full overflow-auto">
     <table className="w-full caption-bottom text-sm" {...props}>
@@ -77,7 +73,6 @@ export const NativeSelectOption = ({ children, ...props }: any) => (
   <option {...props}>{children}</option>
 )
 
-// Header Section Component
 export function HeaderSection({ onRefresh }: { onRefresh: () => void }) {
   return (
     <div className="flex items-start justify-between">
@@ -115,7 +110,6 @@ export function HeaderSection({ onRefresh }: { onRefresh: () => void }) {
   )
 }
 
-// Info Card Component
 export function InfoCard() {
   return (
     <Card className="border-2 bg-blue-50 dark:bg-blue-950/20">
@@ -141,7 +135,6 @@ export function InfoCard() {
   )
 }
 
-// Stats Cards Component
 export function StatsCards({ 
   totalCount, 
   activeCount, 
@@ -222,7 +215,6 @@ export function StatsCards({
   )
 }
 
-// Filter Section Component
 export function FilterSection({ 
   searchQuery, 
   setSearchQuery, 
@@ -294,7 +286,6 @@ export function FilterSection({
   )
 }
 
-// Table Section Component
 export function TableSection({ 
   loading, 
   filteredData, 
@@ -451,7 +442,6 @@ export function TableSection({
   )
 }
 
-// Summary Info Component
 export function SummaryInfo({ 
   filteredData, 
   totalCount, 

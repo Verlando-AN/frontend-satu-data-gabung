@@ -32,7 +32,6 @@ export default function useBerandaData() {
   const featureRef = useRef<HTMLDivElement | null>(null)
   const categoryRef = useRef<HTMLDivElement | null>(null)
 
-  // Ambil data awal
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -42,11 +41,10 @@ export default function useBerandaData() {
         ])
 
         setOpdList(opd)
-        setDataTotal(total) // ← langsung tampil, tanpa animasi
+        setDataTotal(total)
       } catch (err) {
         console.error("Gagal memuat data:", err)
 
-        // fallback dummy
         setDataTotal({
           dataset: 1234,
           data_sektoral: 567,
@@ -60,7 +58,6 @@ export default function useBerandaData() {
     loadData()
   }, [])
 
-  // Intersection observer jika masih dibutuhkan
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {

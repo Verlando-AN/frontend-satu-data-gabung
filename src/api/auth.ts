@@ -79,14 +79,29 @@ export function isAuthenticated(): boolean {
  * Helper untuk membuat header otorisasi (Authorization Bearer Token)
  * — digunakan untuk request ke endpoint yang butuh autentikasi
  */
-export function getAuthHeaders(): HeadersInit {
-    const token = getToken();
-    return token
-        ? {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        }
-        : {
-            "Content-Type": "application/json",
-        };
+// eksport lama
+// export function getAuthHeaders(): HeadersInit {
+//     const token = getToken();
+//     return token
+//         ? {
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${token}`,
+//         }
+//         : {
+//             "Content-Type": "application/json",
+//         };
+// }
+
+export function getAuthHeaders() {
+  const token = getToken();
+
+  const headers: Record<string, string> = {
+    Accept: "application/json",
+  };
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  return headers;
 }
