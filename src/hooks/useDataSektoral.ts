@@ -1,4 +1,3 @@
-// hooks/useDataSektoral.ts
 import { useState, useEffect } from "react";
 import { useTrxSektoral } from "@/hooks/useTrxSektoral";
 import { getAuthHeaders } from "@/api/auth";

@@ -112,9 +112,6 @@ export function HeaderSection({ onRefresh }: { onRefresh: () => void }) {
   )
 }
 
-// -----------------------------------------------------------------------------
-// Stats Cards
-// -----------------------------------------------------------------------------
 export function StatsCards({ totalCount, activeCount, inactiveCount, filteredCount } : {
   totalCount: number,
   activeCount: number,
@@ -186,9 +183,6 @@ export function StatsCards({ totalCount, activeCount, inactiveCount, filteredCou
   )
 }
 
-// -----------------------------------------------------------------------------
-// Filter Section
-// -----------------------------------------------------------------------------
 export function FilterSection({
   searchQuery, setSearchQuery,
   statusFilter, setStatusFilter,
@@ -248,9 +242,6 @@ export function FilterSection({
   )
 }
 
-// -----------------------------------------------------------------------------
-// Table Section
-// -----------------------------------------------------------------------------
 export function TableSection({
   loading,
   filteredData,
@@ -265,7 +256,6 @@ export function TableSection({
   statusFilter: string
 }) {
 
-  // 🔥 Panggil hook DI DALAM komponen
   const { deleteAccount } = useAkunKepalaBidang()
 
   const handleDelete = async (id: number) => {
@@ -416,9 +406,6 @@ export function TableSection({
   )
 }
 
-// -----------------------------------------------------------------------------
-// Summary
-// -----------------------------------------------------------------------------
 export function SummaryInfo({
   filteredData,
   totalCount,

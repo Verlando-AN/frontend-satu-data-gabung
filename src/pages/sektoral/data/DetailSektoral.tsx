@@ -93,7 +93,6 @@ const InfoRow = ({ icon: Icon, label, value, valueClassName = "" }: any) => (
   </div>
 );
 
-
 export default function DetailSektoral() {
   const { id } = useParams();
   const {
@@ -104,6 +103,7 @@ export default function DetailSektoral() {
     chartData,
     totalYears,
     latestYear,
+    stripHtml,
     totalValue,
     avgValue,
     fetchAll,
@@ -642,8 +642,7 @@ export default function DetailSektoral() {
                                   <TableHead className="font-semibold whitespace-nowrap">Akses Level</TableHead>
                                   <TableHead className="font-semibold whitespace-nowrap">Tipe Dataset</TableHead>
                                   <TableHead className="font-semibold whitespace-nowrap">Diterbitkan</TableHead>
-                                  <TableHead className="font-semibold whitespace-nowrap">Dimodifikasi</TableHead>
-                                  <TableHead className="font-semibold whitespace-nowrap">Deskripsi</TableHead>
+                                  <TableHead className="font-semibold whitespace-nowrap">Definisi</TableHead>
                                   <TableHead className="font-semibold whitespace-nowrap">Aksi</TableHead>
                                 </TableRow>
                               </TableHeader>
@@ -661,14 +660,13 @@ export default function DetailSektoral() {
                                     </TableCell>
                                     <TableCell className="whitespace-nowrap">{item.type_dataset}</TableCell>
                                     <TableCell className="whitespace-nowrap">{item.IssuedFormatted}</TableCell>
-                                    <TableCell className="whitespace-nowrap">{item.ModifiedFormatted}</TableCell>
-                                    <TableCell className="max-w-[300px]">
-                                      <div className="truncate" title={item.description}>
-                                        {item.description.length > 40
-                                          ? item.description.substring(0, 40) + "..."
-                                          : item.description}
+                                    <TableCell className="max-w-[200px]">
+                                      <div className="max-h-24 overflow-y-auto whitespace-normal break-words">
+                                        {stripHtml(item.description)}
                                       </div>
                                     </TableCell>
+
+
                                     <TableCell className="whitespace-nowrap">
                                       <AlertDialog open={deleteDatasetDialogOpen && deleteDatasetId === item.id} onOpenChange={setDeleteDatasetDialogOpen}>
                                         <AlertDialogTrigger asChild>

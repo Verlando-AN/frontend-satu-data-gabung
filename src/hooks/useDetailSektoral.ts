@@ -55,6 +55,11 @@ export function useDetailSektoral(id?: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+    function stripHtml(html: string) {
+    if (!html) return "";
+    return html.replace(/<[^>]+>/g, "");
+  }
+
   const fetchSektoral = async () => {
     const response = await fetch(
       `${API_URL}/strict/data-sektoral/detail/${id}`,
@@ -194,18 +199,20 @@ export function useDetailSektoral(id?: string) {
     }
   };
 
+
+
+
   return {
     data,
     dataset,
     loading,
     error,
-
+    stripHtml,
     chartData,
     totalYears,
     latestYear,
     totalValue,
     avgValue,
-
     fetchAll,
     deleteSektoral,
     updateSektoral,
