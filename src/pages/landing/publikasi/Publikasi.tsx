@@ -9,18 +9,9 @@ import gambar from "@/assets/logolamptimm.png";
 import Head from "@/backbone/Header.jsx";
 import Foot from "@/backbone/Footer.jsx";
 
-interface PublikasiItem {
-  buku: string;
-  buku_slug: string;
-  nama_opd: string;
-  created_at: number;
-}
-
 export default function Publikasi() {
-  const { publikasiData = [], loading } = usePublikasi() as {
-    publikasiData: PublikasiItem[];
-    loading: boolean;
-  };
+  const { list: publikasiData, loading } = usePublikasi();
+
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedYear, setSelectedYear] = useState<string>("");

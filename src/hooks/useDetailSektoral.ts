@@ -118,9 +118,10 @@ export function useDetailSektoral(id?: string) {
       .sort((a, b) => Number(a.tahun) - Number(b.tahun)) || [];
 
   const totalYears = data?.input?.length || 0;
-  const latestYear = totalYears
-    ? Math.max(...data.input.map((i) => i.tahun))
-    : "-";
+
+  const years = data?.input?.map((i) => i.tahun) ?? [];
+  const latestYear = years.length > 0 ? Math.max(...years) : "-";
+
   const totalValue =
     data?.input?.reduce((sum, item) => sum + item.jumlah, 0) || 0;
   const avgValue = totalYears > 0 ? Math.round(totalValue / totalYears) : 0;
@@ -198,9 +199,6 @@ export function useDetailSektoral(id?: string) {
       return { success: false, error: err.message || "Gagal menghapus dataset" };
     }
   };
-
-
-
 
   return {
     data,

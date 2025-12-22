@@ -1,4 +1,3 @@
-// File: hooks/TrxSektoral.ts
 import { useEffect, useState, useCallback } from "react"
 import { getAuthHeaders } from "@/api/auth"
 import client from "@/api/client"
@@ -15,9 +14,6 @@ export function useTrxSektoral() {
   const [data, setData] = useState<TrxSektoral[]>([])
   const [loading, setLoading] = useState(true)
 
-  // =====================
-  // FETCH DATA
-  // =====================
   const fetchData = useCallback(async () => {
     try {
       setLoading(true)
@@ -48,9 +44,6 @@ export function useTrxSektoral() {
     }
   }, [])
 
-  // =====================
-  // CREATE DATA
-  // =====================
   const createData = useCallback(
     async (payload: TrxSektoral) => {
       try {
@@ -78,9 +71,6 @@ export function useTrxSektoral() {
     [fetchData]
   )
 
-  // =====================
-  // SET ACTIVE STATUS
-  // =====================
   const setActiveStatus = useCallback(
     async (id_data_sektoral: number, active: boolean) => {
       try {
@@ -103,9 +93,8 @@ export function useTrxSektoral() {
           throw new Error(`Update status error: ${response.status}`)
         }
 
-        const result = await response.json() // true
+        const result = await response.json()
 
-        // refresh data setelah update
         fetchData()
 
         return result

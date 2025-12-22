@@ -7,28 +7,9 @@ import Foot from "@/backbone/Footer.jsx";
 
 import "@/css/buku.css";
 
-interface PublikasiData {
-  buku: string;
-  created_at: number;
-  foto_cover?: string;
-  url_file: string;
-  ukuran_file?: string;
-  nomor_katalog?: string;
-  nomor_publikasi?: string;
-  issn_isbn?: string;
-  frekuensi_terbit?: string;
-  bahasa?: string;
-  nama_opd?: string;
-  tahun?: string | number;
-  deskripsi?: string;
-}
-
 export default function Buku(): JSX.Element {
-  const { slug } = useParams<{ slug: string }>();
-  const { publikasiData, loading } = usePublikasi(slug) as {
-    publikasiData: PublikasiData | null;
-    loading: boolean;
-  };
+  const { slug } = useParams<{ slug: string }>(); 
+  const { detail, loading } = usePublikasi(slug);
 
   if (loading) {
     return (
@@ -38,23 +19,24 @@ export default function Buku(): JSX.Element {
     );
   }
 
-  if (!publikasiData || !publikasiData.buku) {
+  if (!detail || !detail.buku) {
     return <p className="not-found">Data tidak ditemukan.</p>;
   }
 
-  const tanggal = new Date(publikasiData.created_at * 1000).toLocaleDateString("id-ID");
-  const gambar = publikasiData.foto_cover
-    ? `https://api-satudata.lampungtimurkab.go.id/${publikasiData.foto_cover}`
+
+  const tanggal = new Date(detail.created_at * 1000).toLocaleDateString("id-ID");
+  const gambar = detail.foto_cover
+    ? `https://api-satudata.lampungtimurkab.go.id/${detail.foto_cover}`
     : img_logo;
 
-  const nomor_katalog = publikasiData.nomor_katalog || "1102001.1804072";
-  const nomor_publikasi = publikasiData.nomor_publikasi || "18040.25034";
-  const issn_isbn = publikasiData.issn_isbn || "-";
-  const frekuensi_terbit = publikasiData.frekuensi_terbit || "Tahunan";
-  const bahasa = publikasiData.bahasa || "Indonesia dan Inggris";
+  const nomor_katalog = detail.nomor_katalog || "1102001.1804072";
+  const nomor_publikasi = detail.nomor_publikasi || "18040.25034";
+  const issn_isbn = detail.issn_isbn || "-";
+  const frekuensi_terbit = detail.frekuensi_terbit || "Tahunan";
+  const bahasa = detail.bahasa || "Indonesia dan Inggris";
 
   const abstrak =
-    publikasiData.deskripsi ||
+    detail.deskripsi ||
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pretium, sem in porta faucibus, enim massa mattis justo, non eleifend velit mi et urna.";
 
   const kategori = ["Pendidikan", "Assessment", "Evaluasi", "Bahasa Indonesia", "Ilmu Pendidikan"];
@@ -80,7 +62,7 @@ export default function Buku(): JSX.Element {
 
               <div className="info-item">
                 <span className="info-label">Ukuran File:</span>
-                <span className="info-value">{publikasiData.ukuran_file || "-"}</span>
+                <span className="info-value">{detail.ukuran_file || "-"}</span>
               </div>
 
               <div className="info-item">
@@ -110,7 +92,7 @@ export default function Buku(): JSX.Element {
             </div>
 
             <a
-              href={`https://api-satudata.lampungtimurkab.go.id/${publikasiData.url_file}`}
+              href={`https://api-satudata.lampungtimurkab.go.id/${detail.url_file}`}
               target="_blank"
               rel="noopener noreferrer"
               className="download-btn"
@@ -120,14 +102,14 @@ export default function Buku(): JSX.Element {
           </div>
 
           <div className="right-section">
-            <h1 className="title">{publikasiData.buku}</h1>
+            <h1 className="title">{detail.buku}</h1>
 
             <div className="meta-info">
               <p className="opd">
-                <strong>OPD:</strong> {publikasiData.nama_opd}
+                <strong>OPD:</strong> {detail.nama_opd}
               </p>
               <p className="year">
-                <strong>Tahun:</strong> {publikasiData.tahun}
+                <strong>Tahun:</strong> {detail.tahun}
               </p>
             </div>
 

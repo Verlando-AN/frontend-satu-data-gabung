@@ -16,6 +16,8 @@ export default function MonitoringData() {
   const {
     data,
     loading,
+    deleting,
+    updating,
     perPage,
     setPerPage,
     active,
@@ -33,7 +35,8 @@ export default function MonitoringData() {
     chartData,
     pieData,
     refreshData,
-    
+    deleteSektoral,
+    updateSektoral,
   } = useMonitoringData()
 
   const handlePerPageChange = (value: string) => {
@@ -90,8 +93,12 @@ export default function MonitoringData() {
 
               <TableSection 
                 loading={loading}
+                deleting={deleting}
+                updating={updating}
                 data={data}
                 totalCount={totalCount}
+                deleteSektoral={deleteSektoral}
+                updateSektoral={updateSektoral}
               />
 
               {!loading && data.length > 0 && (

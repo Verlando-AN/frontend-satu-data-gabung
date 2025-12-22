@@ -142,7 +142,7 @@ function App() {
         />
 
         <Route
-          path="/Notfound-landing"
+          path="/notfound-landing"
           element={
             <GuestRoute>
               <NotfoundLanding />

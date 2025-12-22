@@ -21,10 +21,13 @@ const publikasiApi = {
     return res.data;
   },
 
-  async getPublikasiDetail(slug: string): Promise<PublikasiDetail> {
-    const res = await client.get<PublikasiDetail>(`/buku-digital/detail/${slug}`);
-    return res.data;
-  },
+async getPublikasiDetail(slug: string): Promise<any | null> {
+  const res = await client.get<any[]>(
+    `/buku-digital/detail/${slug}`
+  );
+  return res.data?.[0] || null;
+},
+
 };
 
 export default publikasiApi;

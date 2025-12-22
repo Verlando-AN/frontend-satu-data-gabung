@@ -1,19 +1,11 @@
 import { useState, useEffect } from "react";
 import organisasiApi from "../api/organisasiApi.js";
 
-// ===========================
-// Type Definitions
-// ===========================
-
 export type OrganisasiItem = {
   id: number;
   nama_opd: string;
   [key: string]: any;
 };
-
-// ===========================
-// Hook
-// ===========================
 
 export default function useOrganisasi() {
   const [activeTab, setActiveTab] = useState<string>("Semua");

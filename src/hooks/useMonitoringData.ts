@@ -1,4 +1,3 @@
-// File: hooks/useMonitoringData.ts
 import { useEffect, useState, useCallback } from "react"
 import { getAuthHeaders } from "@/api/auth"
 import jsPDF from "jspdf"
@@ -7,9 +6,6 @@ import client from "@/api/client"
 
 const API_URL = client.defaults.baseURL || "";
 
-// ==============================
-// Types
-// ==============================
 export interface SektoralItem {
   id: number
   kode_urusan: string
@@ -39,12 +35,21 @@ export interface PieItem {
   value: number
 }
 
-// ==============================
-// Hook utama
-// ==============================
+export interface UpdateSektoralData {
+  dimensi: string
+  jenis: string
+  kategori: string
+  kode_dssd: string
+  kode_urusan: string
+  satuan: string
+  uraian_dssd: string
+}
+
 export function useMonitoringData() {
   const [data, setData] = useState<SektoralItem[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const [deleting, setDeleting] = useState<boolean>(false)
+  const [updating, setUpdating] = useState<boolean>(false)
   const [perPage, setPerPage] = useState<string>("20")
   const [active, setActive] = useState<string>("")
   const [opd, setOpd] = useState<string>("")
@@ -53,9 +58,6 @@ export function useMonitoringData() {
   const [pageCount, setPageCount] = useState<number>(1)
   const [totalCount, setTotalCount] = useState<number>(0)
 
-  // ==============================
-  // Fetch OPD List
-  // ==============================
   const fetchOPD = useCallback(async () => {
     try {
       const res = await fetch(`${API_URL}/list-opd`)
@@ -66,9 +68,6 @@ export function useMonitoringData() {
     }
   }, [])
 
-  // ==============================
-  // Fetch Data Sektoral
-  // ==============================
   const fetchData = useCallback(async () => {
     try {
       setLoading(true)
@@ -115,9 +114,60 @@ export function useMonitoringData() {
     }
   }, [page, perPage, active, opd])
 
-  // ==============================
-  // Export to PDF
-  // ==============================
+  const deleteSektoral = useCallback(async (id: string) => {
+    try {
+      setDeleting(true)
+      
+      const response = await fetch(`${API_URL}/strict/data-sektoral/${id}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders(),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.message || `Gagal menghapus data (HTTP ${response.status})`)
+      }
+
+      await fetchData()
+      
+      return true
+    } catch (error) {
+      console.error("Gagal menghapus data sektoral:", error)
+      throw error
+    } finally {
+      setDeleting(false)
+    }
+  }, [fetchData])
+
+  const updateSektoral = useCallback(async (id: string, data: UpdateSektoralData) => {
+    try {
+      setUpdating(true)
+      
+      const response = await fetch(`${API_URL}/strict/data-sektoral/update-sektoral/${id}`, {
+        method: 'PUT',
+        headers: {
+          ...getAuthHeaders(),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.message || `Gagal mengupdate data (HTTP ${response.status})`)
+      }
+
+      await fetchData()
+      
+      return true
+    } catch (error) {
+      console.error("Gagal mengupdate data sektoral:", error)
+      throw error
+    } finally {
+      setUpdating(false)
+    }
+  }, [fetchData])
+
   const exportToPDF = useCallback(() => {
     const doc = new jsPDF()
 
@@ -144,9 +194,6 @@ export function useMonitoringData() {
     doc.save("monitoring-data.pdf")
   }, [data, totalCount])
 
-  // ==============================
-  // Effects
-  // ==============================
   useEffect(() => {
     fetchOPD()
   }, [fetchOPD])
@@ -155,15 +202,9 @@ export function useMonitoringData() {
     fetchData()
   }, [fetchData])
 
-  // ==============================
-  // Statistik
-  // ==============================
   const activeCount = data.filter((item) => item.active).length
   const inactiveCount = data.filter((item) => !item.active).length
 
-  // ==============================
-  // Chart kategori
-  // ==============================
   const groupedKategori = data.reduce<Record<string, number>>((acc, item) => {
     const kategori = item.kategori_string || "Lainnya"
     acc[kategori] = (acc[kategori] || 0) + 1
@@ -174,9 +215,6 @@ export function useMonitoringData() {
     .map(([name, value]) => ({ name, value }))
     .slice(0, 5)
 
-  // ==============================
-  // Data Pie
-  // ==============================
   const pieData: PieItem[] = [
     { name: "Aktif", value: activeCount },
     { name: "Tidak Aktif", value: inactiveCount },
@@ -185,6 +223,8 @@ export function useMonitoringData() {
   return {
     data,
     loading,
+    deleting,
+    updating,
     perPage,
     setPerPage,
     active,
@@ -202,5 +242,7 @@ export function useMonitoringData() {
     chartData,
     pieData,
     refreshData: fetchData,
+    deleteSektoral,
+    updateSektoral,
   }
 }
