@@ -62,9 +62,7 @@ function App() {
         <Route
           path="/"
           element={
-            <GuestRoute>
               <BerandaLanding />
-            </GuestRoute>
           }
         />
 
