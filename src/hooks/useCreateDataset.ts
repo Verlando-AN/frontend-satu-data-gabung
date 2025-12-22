@@ -80,7 +80,12 @@ export const useCreateDataset = () => {
     
     try {
       const fd = new FormData();
+      if (!file) {
+        throw new Error("File tidak ditemukan");
+      }
+
       fd.append("files", file);
+
       
       const query = new URLSearchParams({
         ...form,

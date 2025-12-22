@@ -1,67 +1,105 @@
 import { useState, useEffect } from "react";
-import { getUrusanList, getDataSektoralByUrusan } from "../api/urusanApi.js";
+import apiClient from "@/api/client";
 
-// ======================
-// Type Definitions
-// ======================
-
-export type UrusanItem = {
+export interface UrusanItem {
   id: number;
-  nama_opd: string;
+  kode_urusan: string;
+  nama_urusan: string;
   [key: string]: any;
-};
+}
 
-export type InputItem = {
+export interface InputItem {
   tahun?: number;
   [key: string]: any;
-};
+}
 
-export type DataSektoralItem = {
+export interface SektoralUrusanItem {
   id: number;
   input?: InputItem[];
+  tahun?: number;
+  nilai?: number;
   [key: string]: any;
-};
+}
 
-export type PaginationType = {
+export interface PaginationInfo {
   current: number;
   total: number;
   perPage: number;
   totalCount: number;
+}
+
+export interface GetDataSektoralByUrusanResponse {
+  data: SektoralUrusanItem[];
+  pagination: PaginationInfo;
+}
+
+export const getUrusanList = async (): Promise<UrusanItem[]> => {
+  const response = await apiClient.get("/list-opd/urusan");
+
+  return Array.isArray(response.data) ? response.data : [];
 };
 
-// ======================
-// Hook
-// ======================
+export const getDataSektoralByUrusan = async (
+  kode_urusan: string | number,
+  dariTahun: string | number,
+  sampaiTahun: string | number,
+  page = 1,
+  perPage = 20
+): Promise<GetDataSektoralByUrusanResponse> => {
+  const response = await apiClient.get("/data-sektoral/list-by-urusan", {
+    params: {
+      kode_urusan,
+      dari_tahun: dariTahun,
+      sampai_tahun: sampaiTahun,
+      page,
+      per_page: perPage,
+    },
+  });
+
+  const pagination: PaginationInfo = {
+    current: Number(response.headers["x-pagination-current-page"]) || 1,
+    total: Number(response.headers["x-pagination-page-count"]) || 1,
+    perPage: Number(response.headers["x-pagination-page-size"]) || perPage,
+    totalCount: Number(response.headers["x-pagination-total-count"]) || 0,
+  };
+
+  const data: SektoralUrusanItem[] =
+    Array.isArray(response.data?.data)
+      ? response.data.data
+      : Array.isArray(response.data)
+      ? response.data
+      : [];
+
+  return { data, pagination };
+};
 
 export const useUrusan = () => {
   const [urusanList, setUrusanList] = useState<UrusanItem[]>([]);
   const [selectedOPD, setSelectedOPD] = useState<string>("");
   const [dariTahun, setDariTahun] = useState<string>("");
   const [sampaiTahun, setSampaiTahun] = useState<string>("");
-  const [dataSektoral, setDataSektoral] = useState<DataSektoralItem[]>([]);
+  const [dataSektoral, setDataSektoral] = useState<SektoralUrusanItem[]>([]);
   const [tahunList, setTahunList] = useState<number[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
 
-  const [pagination, setPagination] = useState<PaginationType>({
+  const [pagination, setPagination] = useState<PaginationInfo>({
     current: 1,
     total: 1,
     perPage: 20,
     totalCount: 0,
   });
 
-  // Load list OPD / urusan
   useEffect(() => {
     getUrusanList()
       .then(setUrusanList)
-      .catch((err) => console.error("Gagal memuat data urusan:", err));
+      .catch((err) => {
+        console.error("Gagal memuat urusan:", err);
+        setUrusanList([]);
+      });
   }, []);
 
-  // Fetch data sektoral
   const fetchData = async (page = 1) => {
-    if (!selectedOPD || !dariTahun || !sampaiTahun) {
-      alert("Isi semua field (urusan, dari tahun, sampai tahun)!");
-      return;
-    }
+    if (!selectedOPD || !dariTahun || !sampaiTahun) return;
 
     setLoading(true);
     try {
@@ -73,16 +111,16 @@ export const useUrusan = () => {
       );
 
       setPagination(pagination);
+      setDataSektoral(data);
 
       const tahunSet = new Set<number>();
-      data.forEach((item: DataSektoralItem) => {
+      data.forEach((item) => {
         item.input?.forEach((i) => {
           if (i.tahun) tahunSet.add(i.tahun);
         });
       });
 
       setTahunList([...tahunSet].sort((a, b) => a - b));
-      setDataSektoral(data);
     } catch (err) {
       console.error("Gagal mengambil data sektoral:", err);
       setDataSektoral([]);
@@ -90,14 +128,6 @@ export const useUrusan = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handlePrev = () => {
-    if (pagination.current > 1) fetchData(pagination.current - 1);
-  };
-
-  const handleNext = () => {
-    if (pagination.current < pagination.total) fetchData(pagination.current + 1);
   };
 
   return {
@@ -113,7 +143,10 @@ export const useUrusan = () => {
     setDariTahun,
     setSampaiTahun,
     fetchData,
-    handlePrev,
-    handleNext,
+    handlePrev: () =>
+      pagination.current > 1 && fetchData(pagination.current - 1),
+    handleNext: () =>
+      pagination.current < pagination.total &&
+      fetchData(pagination.current + 1),
   };
 };

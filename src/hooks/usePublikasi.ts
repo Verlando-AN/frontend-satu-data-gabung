@@ -1,34 +1,28 @@
 import { useState, useEffect } from "react"
 import publikasiApi from "@/api/publikasiApi"
 
-export interface PublikasiItem {
-  buku: string
-  buku_slug: string
-  nama_opd: string
-  created_at: number
-  [key: string]: any 
-}
-
 export default function usePublikasi(slug: string | null = null) {
-  const [publikasiData, setPublikasiData] = useState<PublikasiItem[] | PublikasiItem>([])
-  const [loading, setLoading] = useState<boolean>(true)
+  const [list, setList] = useState<any[]>([])
+  const [detail, setDetail] = useState<any | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
       setLoading(true)
-
       try {
-        const data: PublikasiItem[] = slug
-          ? await publikasiApi.getPublikasiDetail(slug)
-          : await publikasiApi.getPublikasiList()
-
-        if (slug && Array.isArray(data) && data.length === 1) {
-          setPublikasiData(data[0])
+        if (slug) {
+          const res = await publikasiApi.getPublikasiDetail(slug)
+          setDetail(res)
+          setList([])
         } else {
-          setPublikasiData(data)
+          const res = await publikasiApi.getPublikasiList()
+          setList(res)
+          setDetail(null)
         }
-      } catch (error) {
-        console.error("Gagal mengambil data publikasi:", error)
+      } catch (e) {
+        console.error("Gagal mengambil data publikasi:", e)
+        setList([])
+        setDetail(null)
       } finally {
         setLoading(false)
       }
@@ -37,5 +31,5 @@ export default function usePublikasi(slug: string | null = null) {
     fetchData()
   }, [slug])
 
-  return { publikasiData, loading }
+  return { list, detail, loading }
 }

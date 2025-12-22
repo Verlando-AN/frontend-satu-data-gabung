@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
 import sektoralApi from "../api/sektoralApi.js";
 
-// ==========================
-// Type definitions
-// ==========================
-
 export type OpdItem = {
   id: number;
   nama_opd: string;
@@ -28,10 +24,6 @@ export type SektoralResponse = {
   total: number;
   totalCount: number;
 };
-
-// ==========================
-// Hook
-// ==========================
 
 export default function useSektoral() {
   const [opdList, setOpdList] = useState<OpdItem[]>([]);

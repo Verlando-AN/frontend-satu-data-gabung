@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom"
+import React, { useState } from "react"
+import { DeleteConfirmationDialog } from "@/components/DeleteConfirmationDialog"
+import { EditSektoralDialog } from "@/components/EditSektoralDialog"
 import {
   Card,
   CardContent,
@@ -64,7 +67,8 @@ import {
   Pie, 
   Cell 
 } from "recharts"
-import type { SektoralItem, OPD } from "@/hooks/useMonitoringData"
+import type { SektoralItem, OPD, 
+  UpdateSektoralData  } from "@/hooks/useMonitoringData"
 
 export function HeaderSection({ onRefresh, onExportPDF }: { 
   onRefresh: () => void, 
@@ -382,132 +386,197 @@ export function FilterSection({
 
 export function TableSection({ 
   loading, 
+  deleting, 
+  updating,
   data, 
-  totalCount 
+  totalCount,
+  deleteSektoral,
+  updateSektoral
 }: { 
   loading: boolean, 
+  deleting: boolean,
+  updating: boolean,
   data: SektoralItem[], 
-  totalCount: number 
+  totalCount: number,
+  deleteSektoral: (id: string) => Promise<boolean>,
+  updateSektoral: (
+    id: string,
+    data: UpdateSektoralData
+  ) => Promise<boolean>
+
 }) {
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [editDialogOpen, setEditDialogOpen] = useState(false)
+  const [selectedItem, setSelectedItem] = useState<SektoralItem | null>(null)
+
+  const handleDeleteClick = (item: SektoralItem) => {
+    setSelectedItem(item)
+    setDeleteDialogOpen(true)
+  }
+
+  const handleEditClick = (item: SektoralItem) => {
+    setSelectedItem(item)
+    setEditDialogOpen(true)
+  }
+
+  const handleDeleteConfirm = async () => {
+    if (selectedItem) {
+      try {
+        await deleteSektoral(String(selectedItem.id))
+      } catch (error) {
+      }
+    }
+  }
+
+  const handleEditSubmit = async (formData: any) => {
+    if (selectedItem) {
+      try {
+        await updateSektoral(String(selectedItem.id), formData)
+      } catch (error) {
+      }
+    }
+  }
+
   return (
-    <Card className="border-2">
-      <CardHeader>
-        <CardTitle className="text-lg">Daftar Data Monitoring</CardTitle>
-        <CardDescription>
-          Menampilkan {data.length} dari {totalCount} total data
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="rounded-lg border">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-muted/50">
-                <TableHead className="font-semibold">Aksi</TableHead>
-                <TableHead className="font-semibold">ID</TableHead>
-                <TableHead className="font-semibold">Status</TableHead>
-                <TableHead className="font-semibold">Kode DSSD</TableHead>
-                <TableHead className="font-semibold">Kategori</TableHead>
-                <TableHead className="font-semibold">Uraian DSSD</TableHead>
-              </TableRow>
-            </TableHeader>
-
-            <TableBody>
-              {loading ? (
-                <TableRow>
-                  <TableCell colSpan={6} className="text-center py-12">
-                    <div className="flex flex-col items-center gap-2">
-                      <RefreshCw className="w-6 h-6 animate-spin text-muted-foreground" />
-                      <p className="text-sm text-muted-foreground">Memuat data...</p>
-                    </div>
-                  </TableCell>
+    <>
+      <Card className="border-2">
+        <CardHeader>
+          <CardTitle className="text-lg">Daftar Data Monitoring</CardTitle>
+          <CardDescription>
+            Menampilkan {data.length} dari {totalCount} total data
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-lg border">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/50">
+                  <TableHead className="font-semibold">Aksi</TableHead>
+                  <TableHead className="font-semibold">ID</TableHead>
+                  <TableHead className="font-semibold">Status</TableHead>
+                  <TableHead className="font-semibold">Kode DSSD</TableHead>
+                  <TableHead className="font-semibold">Kategori</TableHead>
+                  <TableHead className="font-semibold">Uraian DSSD</TableHead>
                 </TableRow>
-              ) : data.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={6} className="text-center py-12">
-                    <div className="flex flex-col items-center gap-2">
-                      <Database className="w-12 h-12 text-muted-foreground/50" />
-                      <p className="text-sm text-muted-foreground">Tidak ada data ditemukan</p>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ) : (
-                data.map((item) => (
-                  <TableRow key={item.id} className="hover:bg-muted/50 transition-colors">
-                    <TableCell>
-                      <ButtonGroup>
-                        <Button variant="outline" size="sm">Aksi</Button>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="outline" size="sm" className="pl-2">
-                              <ChevronDown className="w-4 h-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
+              </TableHeader>
 
-                          <DropdownMenuContent align="end" className="[--radius:0.75rem] w-48">
-                            <DropdownMenuGroup>
-                              <Link to={`/detail-sektoral/${item.id}`}>
-                                <DropdownMenuItem className="cursor-pointer">
-                                  <Eye className="mr-2 h-4 w-4" />
-                                  Lihat Detail
-                                </DropdownMenuItem>
-                              </Link>
-
-                              {/* <DropdownMenuItem className="cursor-pointer">
-                                <Pencil className="mr-2 h-4 w-4" />
-                                Edit Data
-                              </DropdownMenuItem>
-
-                              <DropdownMenuItem className="cursor-pointer">
-                                <Power className="mr-2 h-4 w-4" />
-                                Ubah Status
-                              </DropdownMenuItem> */}
-                            </DropdownMenuGroup>
-
-                            <DropdownMenuSeparator />
-
-                            {/* <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600">
-                              <Trash2 className="mr-2 h-4 w-4" />
-                              Hapus
-                            </DropdownMenuItem> */}
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </ButtonGroup>
-                    </TableCell>
-                    <TableCell className="font-medium">#{item.id}</TableCell>
-                    <TableCell>
-                      {item.active ? (
-                        <Badge variant="default" className="gap-1">
-                          <CheckCircle2 className="w-3 h-3" />
-                          Aktif
-                        </Badge>
-                      ) : (
-                        <Badge variant="secondary" className="gap-1">
-                          <XCircle className="w-3 h-3" />
-                          Tidak Aktif
-                        </Badge>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <code className="px-2 py-1 rounded bg-muted text-sm font-mono">
-                        {item.kode_dssd}
-                      </code>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{item.kategori_string}</Badge>
-                    </TableCell>
-                    <TableCell>
-                      {item.uraian_dssd.length > 40
-                        ? item.uraian_dssd.substring(0, 40) + "..."
-                        : item.uraian_dssd}
+              <TableBody>
+                {loading ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center py-12">
+                      <div className="flex flex-col items-center gap-2">
+                        <RefreshCw className="w-6 h-6 animate-spin text-muted-foreground" />
+                        <p className="text-sm text-muted-foreground">Memuat data...</p>
+                      </div>
                     </TableCell>
                   </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </div>
-      </CardContent>
-    </Card>
+                ) : data.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center py-12">
+                      <div className="flex flex-col items-center gap-2">
+                        <Database className="w-12 h-12 text-muted-foreground/50" />
+                        <p className="text-sm text-muted-foreground">Tidak ada data ditemukan</p>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  data.map((item) => (
+                    <TableRow key={item.id} className="hover:bg-muted/50 transition-colors">
+                      <TableCell>
+                        <ButtonGroup>
+                          <Button variant="outline" size="sm">Aksi</Button>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="outline" size="sm" className="pl-2">
+                                <ChevronDown className="w-4 h-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+
+                            <DropdownMenuContent align="end" className="[--radius:0.75rem] w-48">
+                              <DropdownMenuGroup>
+                                <Link to={`/detail-sektoral/${item.id}`}>
+                                  <DropdownMenuItem className="cursor-pointer">
+                                    <Eye className="mr-2 h-4 w-4" />
+                                    Lihat Detail
+                                  </DropdownMenuItem>
+                                </Link>
+
+                                <DropdownMenuItem 
+                                  className="cursor-pointer"
+                                  onClick={() => handleEditClick(item)}
+                                  disabled={updating}
+                                >
+                                  <Pencil className="mr-2 h-4 w-4" />
+                                  Edit Data
+                                </DropdownMenuItem>
+
+                                <DropdownMenuItem 
+                                  className="cursor-pointer"
+                                  onClick={() => handleDeleteClick(item)}
+                                  disabled={deleting}
+                                >
+                                  <Trash2 className="mr-2 h-4 w-4" />
+                                  Hapus
+                                </DropdownMenuItem>
+                              </DropdownMenuGroup>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </ButtonGroup>
+                      </TableCell>
+                      <TableCell className="font-medium">#{item.id}</TableCell>
+                      <TableCell>
+                        {item.active ? (
+                          <Badge variant="default" className="gap-1">
+                            <CheckCircle2 className="w-3 h-3" />
+                            Aktif
+                          </Badge>
+                        ) : (
+                          <Badge variant="secondary" className="gap-1">
+                            <XCircle className="w-3 h-3" />
+                            Tidak Aktif
+                          </Badge>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <code className="px-2 py-1 rounded bg-muted text-sm font-mono">
+                          {item.kode_dssd}
+                        </code>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{item.kategori_string}</Badge>
+                      </TableCell>
+                      <TableCell>
+                        {item.uraian_dssd.length > 40
+                          ? item.uraian_dssd.substring(0, 40) + "..."
+                          : item.uraian_dssd}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Delete Confirmation Dialog */}
+      <DeleteConfirmationDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDeleteConfirm}
+        itemName={selectedItem?.uraian_dssd || ""}
+        isDeleting={deleting}
+      />
+
+      {/* Edit Form Dialog */}
+      <EditSektoralDialog
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        item={selectedItem}
+        onSubmit={handleEditSubmit}
+        isUpdating={updating}
+      />
+    </>
   )
 }
 

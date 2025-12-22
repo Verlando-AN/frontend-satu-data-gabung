@@ -11,7 +11,11 @@ const datasetApi = {
     }
   },
 
-  async getDatasets(page = 1, id_opd = null, perPage = 7) {
+  async getDatasets(
+  page: number = 1,
+  id_opd: number | null = null,
+  perPage: number = 7
+  ) {
     try {
       let url = `/dataset?per_page=${perPage}&page=${page}`;
       if (id_opd) url += `&id_user_opd=${id_opd}`;

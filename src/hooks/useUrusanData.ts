@@ -53,7 +53,6 @@ export const useUrusanData = () => {
     fetchData();
   }, []);
 
-  // Filter data based on search and category
   useEffect(() => {
     let result = data;
 
@@ -74,7 +73,6 @@ export const useUrusanData = () => {
     setFilteredData(result);
   }, [searchQuery, categoryFilter, data]);
 
-  // Get unique categories
   const categories = Array.from(new Set(data.map(item => item.kode_urusan.split('.')[0]))).sort();
 
   const categoryNames: Record<string, string> = {

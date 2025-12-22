@@ -30,7 +30,6 @@ export const useUpdateBuku = () => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
 
-  // GET DATA DETAIL
   useEffect(() => {
     async function fetchDetail() {
       try {
@@ -70,7 +69,6 @@ export const useUpdateBuku = () => {
     fetchDetail();
   }, [id_buku_digital]);
 
-  // Download ulang file lama
   async function getOldFileAsBlob(): Promise<File | null> {
     try {
       const response = await fetch(oldFileUrl);
@@ -85,7 +83,6 @@ export const useUpdateBuku = () => {
     }
   }
 
-  // Handle submit
   const handleSubmit = async () => {
     if (!formData.id_opd || !formData.tahun || !formData.buku) {
       setError("Semua field harus diisi");

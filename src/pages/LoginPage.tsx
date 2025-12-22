@@ -1,4 +1,3 @@
-// src/pages/LoginPage.tsx
 import { useNavigate } from "react-router-dom"
 import { LoginForm } from "@/components/login-form"
 import { login } from "@/api/auth"
@@ -10,7 +9,7 @@ export default function LoginPage() {
         try {
             const user = await login({ nip, password })
             localStorage.setItem("token", user.token)
-            navigate("/dashboard") // redirect ke dashboard
+            navigate("/dashboard")
         } catch (error: any) {
             alert(error.message)
         }
