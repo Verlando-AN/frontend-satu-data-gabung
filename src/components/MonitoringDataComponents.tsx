@@ -510,14 +510,14 @@ export function TableSection({
                                   Edit Data
                                 </DropdownMenuItem>
 
-                                <DropdownMenuItem 
+                                {/* <DropdownMenuItem 
                                   className="cursor-pointer"
                                   onClick={() => handleDeleteClick(item)}
                                   disabled={deleting}
                                 >
                                   <Trash2 className="mr-2 h-4 w-4" />
                                   Hapus
-                                </DropdownMenuItem>
+                                </DropdownMenuItem> */}
                               </DropdownMenuGroup>
                             </DropdownMenuContent>
                           </DropdownMenu>
