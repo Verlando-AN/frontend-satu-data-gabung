@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,6 +22,7 @@ import {
   Edit,
   Building2,
   BarChart3,
+  Trash2,
 } from "lucide-react";
 
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -95,10 +96,12 @@ const InfoRow = ({ icon: Icon, label, value, valueClassName = "" }: any) => (
 
 export default function DetailSektoral() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const {
     data,
     dataset,
     loading,
+    deleting,
     error,
     chartData,
     totalYears,
@@ -110,6 +113,10 @@ export default function DetailSektoral() {
     deleteSektoral,
     updateSektoral,
     deleteDataset,
+    deleteMainSektoral,
+    deleteErrorDialogOpen,
+    setDeleteErrorDialogOpen,
+    deleteErrorMessage,
   } = useDetailSektoral(id);
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -121,6 +128,8 @@ export default function DetailSektoral() {
   
   const [deleteDatasetDialogOpen, setDeleteDatasetDialogOpen] = useState(false);
   const [deleteDatasetId, setDeleteDatasetId] = useState<number | null>(null);
+  
+  const [deleteMainDialogOpen, setDeleteMainDialogOpen] = useState(false);
 
   const openDeleteDialog = (id: number, tahun: number) => {
     setDeleteData({ id, tahun });
@@ -168,6 +177,16 @@ export default function DetailSektoral() {
       } else {
         alert(result.error);
       }
+    }
+  };
+  
+  const handleDeleteMainSektoral = async () => {
+    if (!id) return;
+
+    const result: OperationResult = await deleteMainSektoral(id);
+
+    if (result.success) {
+      navigate("/data-sektoral");
     }
   };
 
@@ -317,19 +336,81 @@ export default function DetailSektoral() {
                             Informasi detail dan spesifikasi data sektoral
                           </CardDescription>
                         </div>
-                        <Badge variant={data.active ? "default" : "secondary"} className="gap-1 flex-shrink-0">
-                          {data.active ? (
-                            <>
-                              <CheckCircle2 className="w-3 h-3" />
-                              Aktif
-                            </>
-                          ) : (
-                            <>
-                              <XCircle className="w-3 h-3" />
-                              Tidak Aktif
-                            </>
-                          )}
-                        </Badge>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          <Badge variant={data.active ? "default" : "secondary"} className="gap-1">
+                            {data.active ? (
+                              <>
+                                <CheckCircle2 className="w-3 h-3" />
+                                Aktif
+                              </>
+                            ) : (
+                              <>
+                                <XCircle className="w-3 h-3" />
+                                Tidak Aktif
+                              </>
+                            )}
+                          </Badge>
+                          
+                          {/* delete sektoral*/}
+                          <AlertDialog open={deleteMainDialogOpen} onOpenChange={setDeleteMainDialogOpen}>
+                            <AlertDialogTrigger asChild>
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="gap-1 text-red-500 hover:text-red-700 hover:bg-red-50"
+                                disabled={deleting} 
+                              >
+                                {deleting ? (
+                                  <RefreshCw className="w-4 h-4 animate-spin" />
+                                ) : (
+                                  <Trash2 className="w-4 h-4" />
+                                )}
+                                <span className="hidden sm:inline">
+                                  {deleting ? "Menghapus..." : "Hapus"}
+                                </span>
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Konfirmasi Hapus Data Sektoral</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Apakah Anda yakin ingin menghapus data sektoral "{data.uraian_dssd}"?  
+                                  Tindakan ini tidak dapat dibatalkan.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel disabled={deleting}>Batal</AlertDialogCancel>
+                                <AlertDialogAction 
+                                  onClick={handleDeleteMainSektoral}
+                                  className="bg-red-500 hover:bg-red-600"
+                                  disabled={deleting} 
+                                >
+                                  {deleting ? "Menghapus..." : "Hapus"}
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+
+                          {/* //eror dialog */}
+                          <AlertDialog
+                            open={deleteErrorDialogOpen}
+                            onOpenChange={setDeleteErrorDialogOpen}
+                          >
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Gagal Menghapus Data</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  {deleteErrorMessage}
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogAction>OK</AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+
+                          
+                        </div>
                       </div>
                     </CardHeader>
 

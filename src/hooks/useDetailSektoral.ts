@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getAuthHeaders } from "@/api/auth";
-import type { JSX } from "react/jsx-runtime";
-import client from "@/api/client"
+import client from "@/api/client";
 
 const API_URL = client.defaults.baseURL || "";
 
@@ -27,9 +26,7 @@ export interface DetailSektoral {
   input: InputItem[];
 }
 
-export interface DatasetDetail {
-  map(arg0: (item: any, index: any) => JSX.Element): unknown;
-  length: number;
+export interface DatasetItem {
   id: number;
   nama_publisher: string;
   type_publisher: string;
@@ -44,18 +41,26 @@ export interface DatasetDetail {
   ModifiedFormatted: string;
 }
 
+export type DatasetList = DatasetItem[];
+
 export interface OperationResult {
   success: boolean;
   error?: string;
 }
 
+
 export function useDetailSektoral(id?: string) {
   const [data, setData] = useState<DetailSektoral | null>(null);
-  const [dataset, setDataset] = useState<DatasetDetail | null>(null);
+  const [dataset, setDataset] = useState<DatasetList | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-    function stripHtml(html: string) {
+  const [deleting, setDeleting] = useState(false);
+
+  const [deleteErrorDialogOpen, setDeleteErrorDialogOpen] = useState(false);
+  const [deleteErrorMessage, setDeleteErrorMessage] = useState("");
+
+  function stripHtml(html: string) {
     if (!html) return "";
     return html.replace(/<[^>]+>/g, "");
   }
@@ -70,17 +75,17 @@ export function useDetailSektoral(id?: string) {
     );
 
     if (!response.ok) throw new Error("Gagal mengambil data sektoral");
-    return await response.json();
+    return response.json();
   };
 
-  const fetchDataset = async () => {
+  const fetchDataset = async (): Promise<DatasetList> => {
     const response = await fetch(`${API_URL}/strict/dataset/${id}`, {
       method: "GET",
       headers: getAuthHeaders(),
     });
 
     if (!response.ok) throw new Error("Gagal mengambil data dataset");
-    return await response.json();
+    return response.json();
   };
 
   const fetchAll = async () => {
@@ -118,13 +123,12 @@ export function useDetailSektoral(id?: string) {
       .sort((a, b) => Number(a.tahun) - Number(b.tahun)) || [];
 
   const totalYears = data?.input?.length || 0;
-
   const years = data?.input?.map((i) => i.tahun) ?? [];
   const latestYear = years.length > 0 ? Math.max(...years) : "-";
-
   const totalValue =
     data?.input?.reduce((sum, item) => sum + item.jumlah, 0) || 0;
-  const avgValue = totalYears > 0 ? Math.round(totalValue / totalYears) : 0;
+  const avgValue =
+    totalYears > 0 ? Math.round(totalValue / totalYears) : 0;
 
   const deleteSektoral = async (
     id_data_sektoral: number,
@@ -144,8 +148,7 @@ export function useDetailSektoral(id?: string) {
       await fetchAll();
       return { success: true };
     } catch (err: any) {
-      console.error(err);
-      return { success: false, error: err.message || "Gagal menghapus data" };
+      return { success: false, error: err.message };
     }
   };
 
@@ -168,15 +171,66 @@ export function useDetailSektoral(id?: string) {
       );
 
       if (!res.ok) throw new Error("Gagal mengubah data");
+
       await fetchAll();
       return { success: true };
     } catch (err: any) {
-      console.error(err);
-      return { success: false, error: err.message || "Gagal mengubah data" };
+      return { success: false, error: err.message };
     }
   };
 
-  const deleteDataset = async (id_dataset: number | string): Promise<OperationResult> => {
+  const deleteMainSektoral = useCallback(
+    async (idToDelete: string): Promise<OperationResult> => {
+      try {
+        setDeleting(true);
+
+        const response = await fetch(
+          `${API_URL}/strict/data-sektoral/${idToDelete}`,
+          {
+            method: "DELETE",
+            headers: getAuthHeaders(),
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          const backendMessage = errorData?.message || "";
+
+          if (
+            response.status === 409 ||
+            backendMessage.includes("foreign key") ||
+            backendMessage.includes("SQLSTATE 23001")
+          ) {
+            setDeleteErrorMessage(
+              "Data tidak dapat dihapus, ada dataset atau data tahunan yang terhubung"
+            );
+          } else {
+            setDeleteErrorMessage(
+              backendMessage || "Gagal menghapus data sektoral"
+            );
+          }
+
+          setDeleteErrorDialogOpen(true);
+          return { success: false };
+        }
+
+        return { success: true };
+      } catch (err: any) {
+        setDeleteErrorMessage(
+          err.message || "Terjadi kesalahan sistem"
+        );
+        setDeleteErrorDialogOpen(true);
+        return { success: false };
+      } finally {
+        setDeleting(false);
+      }
+    },
+    []
+  );
+
+  const deleteDataset = async (
+    id_dataset: number | string
+  ): Promise<OperationResult> => {
     try {
       const res = await fetch(
         `${API_URL}/strict/dataset/delete-dataset/${id_dataset}`,
@@ -191,12 +245,10 @@ export function useDetailSektoral(id?: string) {
 
       if (!res.ok) throw new Error("Gagal menghapus dataset");
 
-      const refreshed = await fetchDataset();
-      setDataset(refreshed);
+      await fetchAll();
       return { success: true };
     } catch (err: any) {
-      console.error(err);
-      return { success: false, error: err.message || "Gagal menghapus dataset" };
+      return { success: false, error: err.message };
     }
   };
 
@@ -204,16 +256,24 @@ export function useDetailSektoral(id?: string) {
     data,
     dataset,
     loading,
+    deleting,
     error,
+
+    deleteErrorDialogOpen,
+    setDeleteErrorDialogOpen,
+    deleteErrorMessage,
+
     stripHtml,
     chartData,
     totalYears,
     latestYear,
     totalValue,
     avgValue,
+
     fetchAll,
     deleteSektoral,
     updateSektoral,
+    deleteMainSektoral,
     deleteDataset,
   };
 }
