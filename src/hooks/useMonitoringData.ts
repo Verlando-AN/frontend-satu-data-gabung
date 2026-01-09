@@ -52,7 +52,7 @@ export function useMonitoringData() {
   const [updating, setUpdating] = useState<boolean>(false)
   const [perPage, setPerPage] = useState<string>("20")
   const [active, setActive] = useState<string>("")
-  const [opd, setOpd] = useState<string>("")
+  const [opd, setOpd] = useState<string>("15")
   const [listOpd, setListOpd] = useState<OPD[]>([])
   const [page, setPage] = useState<number>(1)
   const [pageCount, setPageCount] = useState<number>(1)
