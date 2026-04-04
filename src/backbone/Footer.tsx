@@ -33,7 +33,7 @@ export default function Footer() {
                 <div className="footer-contact-item">
                   <span className="contact-icon">✉</span>
                   <a href="" className="contact-link">
-                    email
+                    diskominfo@lampungtimurkab.go.id
                   </a>
                 </div>
                 
@@ -70,7 +70,7 @@ export default function Footer() {
             </div>
             <div className="footer-credits">
               <p>
-                Dinas Komunikasi, Informatika dan Statistik<br className="mobile-break" />
+                Dinas Komunikasi dan Informatika<br className="mobile-break" />
                 <span className="desktop-separator"> - </span>Kabupaten Lampung Timur
               </p>
             </div>
