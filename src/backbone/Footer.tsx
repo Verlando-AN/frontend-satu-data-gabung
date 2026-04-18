@@ -26,14 +26,14 @@ export default function Footer() {
               <h5 className="footer-title">Hubungi Kami</h5>
               <div className="footer-contact">
                 <div className="footer-contact-header">
-                  <p className="contact-name">Dinas Kominfo dan Statistik</p>
+                  <p className="contact-name">Dinas Komunikasi dan Informatika</p>
                   <p className="contact-location">Kabupaten Lampung Timur</p>
                 </div>
                 
                 <div className="footer-contact-item">
                   <span className="contact-icon">✉</span>
                   <a href="" className="contact-link">
-                    email
+                     diskominfo@lampungtimurkab.go.id
                   </a>
                 </div>
                 
@@ -70,7 +70,7 @@ export default function Footer() {
             </div>
             <div className="footer-credits">
               <p>
-                Dinas Komunikasi, Informatika dan Statistik<br className="mobile-break" />
+                Dinas Komunikasi dan  Informatika<br className="mobile-break" />
                 <span className="desktop-separator"> - </span>Kabupaten Lampung Timur
               </p>
             </div>
@@ -80,3 +80,4 @@ export default function Footer() {
     </footer>
   );
 }
+
