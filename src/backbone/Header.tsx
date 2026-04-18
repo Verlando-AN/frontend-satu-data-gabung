@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
 import Logo from "@/assets/IMG_Logo.png";
 import "@/css/header.css";
+import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,14 +9,16 @@ export default function Header() {
   const navItems = [
     { name: "Beranda", to: "/" },
     { name: "Dataset", to: "/dataset-landing" },
-    { name: "Sektoral", to: "/sektoral-landing" },
-    { name: "Urusan", to: "/urusan-landing" },
+    { name: "E-walidata", to: "/sektoral-landing" },
+    // { name: "Urusan", to: "/urusan-landing" },
+    { name: "Geospasial", to: "http://lampungtimurkab.ina-sdi.or.id", external: true },
     { name: "Organisasi", to: "/organisasi-landing" },
     { name: "Publikasi", to: "/publikasi-landing" },
     { name: "Contact", to: "/kontak-landing" },
   ];
 
   return (
+    
     <nav className="navbar-satu">
       <div className="nav-satu">
         <Link to="/" className="nav-logo-satu">

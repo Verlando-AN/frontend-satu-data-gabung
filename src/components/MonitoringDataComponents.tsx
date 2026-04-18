@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom"
-import React, { useState } from "react"
 import { DeleteConfirmationDialog } from "@/components/DeleteConfirmationDialog"
 import { EditSektoralDialog } from "@/components/EditSektoralDialog"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
 import {
   Card,
   CardContent,
@@ -9,15 +10,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
+import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import {
   Pagination,
   PaginationContent,
@@ -28,47 +28,47 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination"
 import {
-  ChevronDown,
-  Pencil,
-  Trash2,
-  Power,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import type {
+  OPD,
+  SektoralItem,
+  UpdateSektoralData
+} from "@/hooks/useMonitoringData"
+import {
   Activity,
-  TrendingUp,
-  Database,
+  BarChart3,
   Building2,
   CheckCircle2,
-  XCircle,
-  RefreshCw,
+  ChevronDown,
+  Database,
   Download,
-  Filter,
   Eye,
-  BarChart3,
+  Filter,
+  Pencil,
+  RefreshCw,
+  TrendingUp,
+  XCircle
 } from "lucide-react"
-import { ButtonGroup } from "@/components/ui/button-group"
+import { useState } from "react"
+import { Link } from "react-router-dom"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
-import { Button } from "@/components/ui/button"
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer, 
-  PieChart, 
-  Pie, 
-  Cell 
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
 } from "recharts"
-import type { SektoralItem, OPD, 
-  UpdateSektoralData  } from "@/hooks/useMonitoringData"
 
 export function HeaderSection({ onRefresh, onExportPDF }: { 
   onRefresh: () => void, 
@@ -82,9 +82,9 @@ export function HeaderSection({ onRefresh, onExportPDF }: {
             <Activity className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Monitoring Data Sektoral</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Monitoring E-walidata</h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Pantau dan analisis data sektoral secara real-time
+              Pantau dan analisis data E-walidata secara real-time
             </p>
           </div>
         </div>
