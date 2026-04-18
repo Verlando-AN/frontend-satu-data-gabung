@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -6,14 +7,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Pencil } from "lucide-react"
-import { useState } from "react"
 import type { SektoralItem, UpdateSektoralData } from "@/hooks/useMonitoringData"
-import React from "react"
+import { Pencil } from "lucide-react"
+import React, { useState } from "react"
 
 interface EditSektoralDialogProps {
   open: boolean
@@ -81,7 +80,7 @@ export function EditSektoralDialog({
             <DialogTitle className="text-lg">Edit Data Sektoral</DialogTitle>
           </div>
           <DialogDescription>
-            Perbarui data sektoral untuk ID: <span className="font-semibold">#{item.id}</span>
+            Perbarui E-walidata untuk ID: <span className="font-semibold">#{item.id}</span>
           </DialogDescription>
         </DialogHeader>
         

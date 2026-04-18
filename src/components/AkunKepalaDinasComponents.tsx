@@ -1,9 +1,7 @@
-import { Link } from "react-router-dom"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,22 +10,24 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  Plus, 
-  Search, 
-  RefreshCw, 
-  UserCog, 
-  Building2,
-  Pencil,
-  Trash2,
-  Shield,
-  Filter,
-  ChevronDown,
-  UserCheck,
-  UserX,
-  Crown,
-} from "lucide-react"
+import { Input } from "@/components/ui/input"
 import { useAkunKepalaDinas, type AccountItem } from "@/hooks/useAkunKepalaDinas"
+import {
+  Building2,
+  ChevronDown,
+  Crown,
+  Filter,
+  Pencil,
+  Plus,
+  RefreshCw,
+  Search,
+  Shield,
+  Trash2,
+  UserCheck,
+  UserCog,
+  UserX,
+} from "lucide-react"
+import { Link } from "react-router-dom"
 
 export const Table = ({ children, ...props }: any) => (
   <div className="w-full overflow-auto">
@@ -126,7 +126,7 @@ export function InfoCard() {
             Kepala Dinas
           </Badge>
           <p className="text-sm text-muted-foreground">
-            Akun kepala dinas memiliki akses penuh untuk monitoring seluruh data sektoral 
+            Akun kepala dinas memiliki akses penuh untuk monitoring seluruh E-walidata 
             dalam OPD yang dipimpinnya serta dapat melihat laporan dan statistik lengkap.
           </p>
         </div>

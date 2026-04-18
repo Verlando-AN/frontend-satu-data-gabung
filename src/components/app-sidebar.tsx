@@ -1,23 +1,23 @@
-import * as React from "react"
+import { NavMain } from "@/components/nav-main";
+import { NavProjects } from "@/components/nav-projects";
+import { NavSecondary } from "@/components/nav-secondary";
+import { NavUser } from "@/components/nav-user";
+import { Separator } from "@/components/ui/separator";
 import {
-  BookOpen,
-  Command,
-  Settings2,
-  Database,
-  Users,
-  BookMarked,
-  LayoutDashboard,
   Activity,
-  Folder,
-  Shield,
+  BookMarked,
+  BookOpen,
   ChevronRight,
-} from "lucide-react"
+  Command,
+  Database,
+  Folder,
+  LayoutDashboard,
+  Settings2,
+  Shield,
+  Users,
+} from "lucide-react";
+import * as React from "react";
 import { Link } from "react-router-dom";
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
-import { Separator } from "@/components/ui/separator"
 
 import {
   Sidebar,
@@ -27,7 +27,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 const data = {
   user: {
@@ -45,17 +45,17 @@ const data = {
       badge: "New",
     },
     {
-      title: "Data Sektoral",
+      title: "E-walidata",
       icon: Database,
       isActive: false,
       items: [
         { 
-          title: "Data Sektoral", 
+          title: "Data E-walidata", 
           url: "/data-sektoral",
           icon: Folder,
         },
         { 
-          title: "Relokasi Sektoral", 
+          title: "Relokasi E-walidata", 
           url: "/relokasi-sektoral",
           icon: Activity,
         },
@@ -76,9 +76,14 @@ const data = {
           url: "/data-opd",
           icon: Shield,
         },
+        // { 
+        //   title: "Data Urusan", 
+        //   url: "/data-urusan",
+        //   icon: BookOpen,
+        // },
         { 
-          title: "Data Urusan", 
-          url: "/data-urusan",
+          title: "Geospasial", 
+          url: " http://lampungtimurkab.ina-sdi.or.id",
           icon: BookOpen,
         },
         { 

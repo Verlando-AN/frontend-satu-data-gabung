@@ -1,45 +1,43 @@
 "use client";
 
-import React from 'react';
-import { Link } from "react-router-dom";
-import useDataset from "@/hooks/useDataset.js";
-import useBerandaData from "@/hooks/useBerandaData";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
-import {
-    SidebarInset,
-    SidebarProvider,
-} from "@/components/ui/sidebar";
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardContent,
-    CardDescription,
-} from "@/components/ui/card";
-import {
-    Folder,
-    Database,
-    Newspaper,
-    FileText,
-    ArrowRight,
-    Activity,
-    BookOpen,
-    Search,
-    Building2,
-    Calendar,
-    Eye,
-    Download,
-    ChevronLeft,
-    ChevronRight,
-    TrendingUp,
-    Loader2
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import {
+  SidebarInset,
+  SidebarProvider,
+} from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
+import useBerandaData from "@/hooks/useBerandaData";
+import useDataset from "@/hooks/useDataset.js";
+import {
+  Activity,
+  ArrowRight,
+  BookOpen,
+  Building2,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  Database,
+  Download,
+  Eye,
+  FileText,
+  Folder,
+  Newspaper,
+  Search,
+  TrendingUp
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface Produsen {
   id_opd: string | number;
@@ -149,7 +147,7 @@ export default function DashboardPage() {
 
   const sections = [
     {
-      title: 'Data Sektoral',
+      title: 'E-walidata',
       description: 'Data statistik untuk kebutuhan instansi pemerintah tertentu',
       icon: Folder,
       count: dataTotal?.data_sektoral,
@@ -162,12 +160,19 @@ export default function DashboardPage() {
       count: dataTotal.dataset,
       link: '/monitoring-data',
     },
-    {
-      title: 'Urusan',
+    // {
+    //   title: 'Urusan',
+    //   description: 'Kebijakan tata kelola data untuk data berkualitas',
+    //   icon: Newspaper,
+    //   count: dataTotal?.urusan,
+    //   link: '/data-urusan',
+    // }
+  {
+      title: 'Geospasial',
       description: 'Kebijakan tata kelola data untuk data berkualitas',
       icon: Newspaper,
-      count: dataTotal?.urusan,
-      link: '/data-urusan',
+      // count: dataTotal?.urusan,
+      link: ' http://lampungtimurkab.ina-sdi.or.id',
     }
   ];
 

@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Plus, Search, Filter, RefreshCw } from "lucide-react";
-import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,6 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Filter, Plus, RefreshCw, Search } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import {
   Table,
@@ -34,16 +34,6 @@ import {
   NativeSelectOption,
 } from "@/components/ui/native-select";
 
-import {
-  ChevronDown,
-  Eye,
-  Power,
-  Database,
-  CheckCircle2,
-  XCircle,
-  FileText,
-  AlertCircle,
-} from "lucide-react";
 import { ButtonGroup } from "@/components/ui/button-group";
 import {
   DropdownMenu,
@@ -53,13 +43,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertCircle,
+  CheckCircle2,
+  ChevronDown,
+  Database,
+  Eye,
+  FileText,
+  Power,
+  XCircle,
+} from "lucide-react";
 
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
-import { SidebarInset } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Dialog,
   DialogContent,
@@ -69,7 +69,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useDataSektoral } from "@/hooks/useDataSektoral";
 
 export default function DataSektoral() {
@@ -119,7 +118,7 @@ export default function DataSektoral() {
                     <div>
                       <h1 className="text-3xl font-bold tracking-tight">Data Sektoral</h1>
                       <p className="text-sm text-muted-foreground mt-1">
-                        Kelola dan pantau data sektoral antar OPD secara terpusat
+                        Kelola dan pantau E-walidata antar OPD secara terpusat
                       </p>
                     </div>
                   </div>
@@ -263,7 +262,7 @@ export default function DataSektoral() {
 
               <Card className="border-2">
                 <CardHeader>
-                  <CardTitle className="text-lg">Daftar Data Sektoral</CardTitle>
+                  <CardTitle className="text-lg">Daftar E-walidata</CardTitle>
                   <CardDescription>
                     Menampilkan {data.length} dari {totalCount} total data
                   </CardDescription>
@@ -447,16 +446,16 @@ export default function DataSektoral() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Plus className="w-5 h-5" />
-              Tambah Data Transaksi Sektoral
+              Tambah Data Transaksi E-walidata
             </DialogTitle>
             <DialogDescription>
-              Tambahkan data transaksi untuk item sektoral yang dipilih
+              Tambahkan data transaksi untuk item E-walidata yang dipilih
             </DialogDescription>
           </DialogHeader>
 
           {selectedItem && (
             <div className="mb-4 p-4 rounded-lg bg-muted">
-              <p className="text-sm font-medium mb-2">Data Sektoral:</p>
+              <p className="text-sm font-medium mb-2">Data E-walidata:</p>
               <div className="space-y-1">
                 <p className="text-sm">
                   <span className="text-muted-foreground">Kode DSSD:</span>{" "}

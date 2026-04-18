@@ -1,9 +1,9 @@
 import { AppSidebar } from "@/components/app-sidebar"
 import { SiteHeader } from "@/components/site-header"
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { Textarea } from "@/components/ui/textarea"
 
 import {
@@ -14,23 +14,23 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-import { 
-  Alert, 
-  AlertDescription 
+import {
+  Alert,
+  AlertDescription
 } from "@/components/ui/alert"
 
 import {
-  Save,
+  AlertCircle,
   ArrowLeft,
+  CheckCircle2,
   Database,
   FileText,
   Hash,
-  AlertCircle,
   Ruler,
-  CheckCircle2,
+  Save,
 } from "lucide-react"
 
-import { useCreateSektoral } from "@/hooks/useCreateSektoral";
+import { useCreateSektoral } from "@/hooks/useCreateSektoral"
 
 const NativeSelect = ({ children, className = "", ...props }: any) => (
   <select
@@ -73,9 +73,9 @@ export default function CreateSektoral() {
                       <Database className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h1 className="text-3xl font-bold tracking-tight">Input Data Sektoral</h1>
+                      <h1 className="text-3xl font-bold tracking-tight">Input E-walidata</h1>
                       <p className="text-sm text-muted-foreground mt-1">
-                        Tambahkan data sektoral baru ke sistem
+                        Tambahkan E-walidata baru ke sistem
                       </p>
                     </div>
                   </div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Logo from "../assets/IMG_Logo.png";
 import "../component/css/header.css";
 
@@ -14,7 +14,7 @@ export const Atas = () => {
   const navItems: NavItem[] = [
     { name: "Beranda", to: "/" },
     { name: "Dataset", to: "/dataset" },
-    { name: "Sektoral", to: "/sektoral" },
+    { name: "E-walidata", to: "/sektoral" },
     { name: "Urusan", to: "/urusan" },
     { name: "Organisasi", to: "/organisasi" },
     { name: "Publikasi", to: "/publikasi" },
