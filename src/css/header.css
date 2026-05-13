@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> cf669ba (tes)
 .navbar-satu {
   background-color: #ffffff;
   border-bottom: 1px solid #e2e2e2;
@@ -14,11 +18,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+<<<<<<< HEAD
   height: 80px;
+=======
+>>>>>>> cf669ba (tes)
 }
 
 .nav-logo-satu img {
   height: 60px;
+<<<<<<< HEAD
+=======
+  /* background: red; */
+>>>>>>> cf669ba (tes)
   width: auto;
   padding-right: 3rem;
 }
@@ -44,12 +55,17 @@
 
 .nav-links ul {
   display: flex;
+<<<<<<< HEAD
   align-items: center; 
+=======
+  align-items: center;
+>>>>>>> cf669ba (tes)
   gap: 2rem;
   list-style: none;
   margin: 0;
   padding: 0;
   padding-right: 3rem;
+<<<<<<< HEAD
   height: 100%; /* 🔥 tambah */
 }
 
@@ -65,6 +81,11 @@
   line-height: 1;
   white-space: nowrap;
 
+=======
+}
+
+.nav-item {
+>>>>>>> cf669ba (tes)
   color: #333;
   text-decoration: none;
   font-weight: 500;
@@ -107,15 +128,26 @@
 @media (max-width: 768px) {
   .nav-satu {
     padding: 1rem 2rem;
+<<<<<<< HEAD
     height: auto;
+=======
+>>>>>>> cf669ba (tes)
   }
 
   .nav-logo-satu img {
     height: 40px;
+<<<<<<< HEAD
     width: auto;
     padding-right: 3rem;
   }
 
+=======
+    /* background: red; */
+    width: auto;
+    padding-right: 3rem;
+  }
+  
+>>>>>>> cf669ba (tes)
   .nav-toggle {
     display: block;
   }
@@ -135,10 +167,15 @@
     display: flex;
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> cf669ba (tes)
   .nav-links ul {
     flex-direction: column;
     gap: 1rem;
     padding: 10px 0;
+<<<<<<< HEAD
     height: auto;
   }
 
@@ -152,3 +189,8 @@
     padding: 10px 0;
   }
 }
+=======
+  }
+
+}
+>>>>>>> cf669ba (tes)

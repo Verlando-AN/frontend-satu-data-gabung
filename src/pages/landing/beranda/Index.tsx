@@ -1,5 +1,6 @@
 import "@/css/beranda.css";
 
+<<<<<<< HEAD
 import Berkas from "@/assets/berkas.png";
 import Bupati from "@/assets/bupati.png";
 import Card1 from "@/assets/card1.png";
@@ -7,6 +8,15 @@ import Beranda2 from "@/assets/logolamptim.jpeg";
 
 import Foot from "@/backbone/Footer";
 import Head from "@/backbone/Header";
+=======
+import Bupati from "@/assets/bupati.png";
+import Beranda2 from "@/assets/logolamptim.jpeg";
+import Card1 from "@/assets/card1.png";
+import Berkas from "@/assets/berkas.png";
+
+import Head from "@/backbone/Header";
+import Foot from "@/backbone/Footer";
+>>>>>>> cf669ba (tes)
 import useBerandaData from "@/hooks/useBerandaData";
 
 export default function Index() {
@@ -69,7 +79,11 @@ export default function Index() {
                   </div>
                   <div className="stat-item">
                     <div className="stat-number">{dataTotal.data_sektoral}</div>
+<<<<<<< HEAD
                     <div className="stat-label">E-walidata</div>
+=======
+                    <div className="stat-label">Sektoral</div>
+>>>>>>> cf669ba (tes)
                   </div>
                   <div className="stat-item">
                     <div className="stat-number">{dataTotal.urusan}</div>
@@ -90,7 +104,11 @@ export default function Index() {
 
         <section className="categories-section" id="categories" ref={categoryRef}>
           <div className="section-header">
+<<<<<<< HEAD
             <h2 className="section-title">E-walidata Berdasarkan OPD</h2>
+=======
+            <h2 className="section-title">Data Sektoral Berdasarkan OPD</h2>
+>>>>>>> cf669ba (tes)
             <p className="section-subtitle">
               Akses data dari berbagai Organisasi Perangkat Daerah
             </p>
@@ -137,13 +155,18 @@ export default function Index() {
                   link: "/dataset-landing",
                 },
                 {
+<<<<<<< HEAD
                   title: "Statistik E-walidata",
+=======
+                  title: "Statistik Sektoral",
+>>>>>>> cf669ba (tes)
                   description:
                     "Data statistik yang digunakan untuk kebutuhan instansi pemerintah tertentu.",
                   count: dataTotal.data_sektoral,
                   link: "/sektoral-landing",
                 },
                 {
+<<<<<<< HEAD
                   // title: "Urusan",
                   title: "Geospasial",
                   description:
@@ -151,6 +174,13 @@ export default function Index() {
                   count: dataTotal.urusan,
                   // link: "/urusan-landing",
                   link: "http://lampungtimurkab.ina-sdi.or.id",
+=======
+                  title: "Urusan",
+                  description:
+                    "Kebijakan tata kelola data pemerintah untuk menghasilkan data berkualitas.",
+                  count: dataTotal.urusan,
+                  link: "/urusan-landing",
+>>>>>>> cf669ba (tes)
                 }
               ].map((item, index) => (
                 <div

@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+=======
+import { Link } from "react-router-dom"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ButtonGroup } from "@/components/ui/button-group"
+>>>>>>> cf669ba (tes)
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+<<<<<<< HEAD
 import { Input } from "@/components/ui/input"
 import { useAkunKepalaDinas, type AccountItem } from "@/hooks/useAkunKepalaDinas"
 import {
@@ -28,6 +38,24 @@ import {
   UserX,
 } from "lucide-react"
 import { Link } from "react-router-dom"
+=======
+import {
+  Plus, 
+  Search, 
+  RefreshCw, 
+  UserCog, 
+  Building2,
+  Pencil,
+  Trash2,
+  Shield,
+  Filter,
+  ChevronDown,
+  UserCheck,
+  UserX,
+  Crown,
+} from "lucide-react"
+import { useAkunKepalaDinas, type AccountItem } from "@/hooks/useAkunKepalaDinas"
+>>>>>>> cf669ba (tes)
 
 export const Table = ({ children, ...props }: any) => (
   <div className="w-full overflow-auto">
@@ -126,7 +154,11 @@ export function InfoCard() {
             Kepala Dinas
           </Badge>
           <p className="text-sm text-muted-foreground">
+<<<<<<< HEAD
             Akun kepala dinas memiliki akses penuh untuk monitoring seluruh E-walidata 
+=======
+            Akun kepala dinas memiliki akses penuh untuk monitoring seluruh data sektoral 
+>>>>>>> cf669ba (tes)
             dalam OPD yang dipimpinnya serta dapat melihat laporan dan statistik lengkap.
           </p>
         </div>

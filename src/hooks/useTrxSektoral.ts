@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import { useEffect, useState, useCallback } from "react"
 import { getAuthHeaders } from "@/api/auth"
 import client from "@/api/client"
+=======
+import { getAuthHeaders } from "@/api/auth";
+import client from "@/api/client";
+import { useCallback, useEffect, useState } from "react";
+>>>>>>> cf669ba (tes)
 
 const API_URL = client.defaults.baseURL || "";
 
@@ -18,7 +24,11 @@ export function useTrxSektoral() {
     try {
       setLoading(true)
 
+<<<<<<< HEAD
       const response = await fetch(`${API_URL}/strict/trx-data-sektoral/list`, {
+=======
+      const response = await fetch(`${API_URL}/strict/data-sektoral`, {
+>>>>>>> cf669ba (tes)
         method: "GET",
         headers: getAuthHeaders(),
       })

@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 import { DeleteConfirmationDialog } from "@/components/DeleteConfirmationDialog"
 import { EditSektoralDialog } from "@/components/EditSektoralDialog"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
+=======
+import { Link } from "react-router-dom"
+import React, { useState } from "react"
+import { DeleteConfirmationDialog } from "@/components/DeleteConfirmationDialog"
+import { EditSektoralDialog } from "@/components/EditSektoralDialog"
+>>>>>>> cf669ba (tes)
 import {
   Card,
   CardContent,
@@ -10,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+<<<<<<< HEAD
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +26,17 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
+=======
+import { Badge } from "@/components/ui/badge"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+>>>>>>> cf669ba (tes)
 import {
   Pagination,
   PaginationContent,
@@ -28,6 +47,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination"
 import {
+<<<<<<< HEAD
   Table,
   TableBody,
   TableCell,
@@ -69,6 +89,49 @@ import {
   XAxis,
   YAxis
 } from "recharts"
+=======
+  ChevronDown,
+  Pencil,
+  Trash2,
+  Power,
+  Activity,
+  TrendingUp,
+  Database,
+  Building2,
+  CheckCircle2,
+  XCircle,
+  RefreshCw,
+  Download,
+  Filter,
+  Eye,
+  BarChart3,
+} from "lucide-react"
+import { ButtonGroup } from "@/components/ui/button-group"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
+import { Button } from "@/components/ui/button"
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer, 
+  PieChart, 
+  Pie, 
+  Cell 
+} from "recharts"
+import type { SektoralItem, OPD, 
+  UpdateSektoralData  } from "@/hooks/useMonitoringData"
+>>>>>>> cf669ba (tes)
 
 export function HeaderSection({ onRefresh, onExportPDF }: { 
   onRefresh: () => void, 
@@ -82,9 +145,15 @@ export function HeaderSection({ onRefresh, onExportPDF }: {
             <Activity className="w-6 h-6 text-primary" />
           </div>
           <div>
+<<<<<<< HEAD
             <h1 className="text-3xl font-bold tracking-tight">Monitoring E-walidata</h1>
             <p className="text-sm text-muted-foreground mt-1">
               Pantau dan analisis data E-walidata secara real-time
+=======
+            <h1 className="text-3xl font-bold tracking-tight">Monitoring Data Sektoral</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Pantau dan analisis data sektoral secara real-time
+>>>>>>> cf669ba (tes)
             </p>
           </div>
         </div>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavSecondary } from "@/components/nav-secondary";
@@ -18,6 +19,28 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { Link } from "react-router-dom";
+=======
+import * as React from "react"
+import {
+  BookOpen,
+  Command,
+  Settings2,
+  Database,
+  Users,
+  BookMarked,
+  LayoutDashboard,
+  Activity,
+  Folder,
+  Shield,
+  ChevronRight,
+} from "lucide-react"
+import { Link } from "react-router-dom";
+import { NavMain } from "@/components/nav-main"
+import { NavProjects } from "@/components/nav-projects"
+import { NavSecondary } from "@/components/nav-secondary"
+import { NavUser } from "@/components/nav-user"
+import { Separator } from "@/components/ui/separator"
+>>>>>>> cf669ba (tes)
 
 import {
   Sidebar,
@@ -27,7 +50,11 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+<<<<<<< HEAD
 } from "@/components/ui/sidebar";
+=======
+} from "@/components/ui/sidebar"
+>>>>>>> cf669ba (tes)
 
 const data = {
   user: {
@@ -45,17 +72,29 @@ const data = {
       badge: "New",
     },
     {
+<<<<<<< HEAD
       title: "E-walidata",
+=======
+      title: "Data Sektoral",
+>>>>>>> cf669ba (tes)
       icon: Database,
       isActive: false,
       items: [
         { 
+<<<<<<< HEAD
           title: "Data E-walidata", 
+=======
+          title: "Data Sektoral", 
+>>>>>>> cf669ba (tes)
           url: "/data-sektoral",
           icon: Folder,
         },
         { 
+<<<<<<< HEAD
           title: "Relokasi E-walidata", 
+=======
+          title: "Relokasi Sektoral", 
+>>>>>>> cf669ba (tes)
           url: "/relokasi-sektoral",
           icon: Activity,
         },
@@ -76,6 +115,7 @@ const data = {
           url: "/data-opd",
           icon: Shield,
         },
+<<<<<<< HEAD
         // { 
         //   title: "Data Urusan", 
         //   url: "/data-urusan",
@@ -84,6 +124,11 @@ const data = {
         { 
           title: "Geospasial", 
           url: " http://lampungtimurkab.ina-sdi.or.id",
+=======
+        { 
+          title: "Data Urusan", 
+          url: "/data-urusan",
+>>>>>>> cf669ba (tes)
           icon: BookOpen,
         },
         { 

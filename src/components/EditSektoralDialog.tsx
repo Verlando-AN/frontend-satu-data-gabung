@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import { Button } from "@/components/ui/button"
+=======
+>>>>>>> cf669ba (tes)
 import {
   Dialog,
   DialogContent,
@@ -7,12 +10,23 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+<<<<<<< HEAD
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { SektoralItem, UpdateSektoralData } from "@/hooks/useMonitoringData"
 import { Pencil } from "lucide-react"
 import React, { useState } from "react"
+=======
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Pencil } from "lucide-react"
+import { useState } from "react"
+import type { SektoralItem, UpdateSektoralData } from "@/hooks/useMonitoringData"
+import React from "react"
+>>>>>>> cf669ba (tes)
 
 interface EditSektoralDialogProps {
   open: boolean
@@ -80,7 +94,11 @@ export function EditSektoralDialog({
             <DialogTitle className="text-lg">Edit Data Sektoral</DialogTitle>
           </div>
           <DialogDescription>
+<<<<<<< HEAD
             Perbarui E-walidata untuk ID: <span className="font-semibold">#{item.id}</span>
+=======
+            Perbarui data sektoral untuk ID: <span className="font-semibold">#{item.id}</span>
+>>>>>>> cf669ba (tes)
           </DialogDescription>
         </DialogHeader>
         

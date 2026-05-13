@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+=======
+import { Button } from "@/components/ui/button";
+import { Plus, Search, Filter, RefreshCw } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
+>>>>>>> cf669ba (tes)
 import {
   Card,
   CardContent,
@@ -7,8 +14,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+<<<<<<< HEAD
 import { Filter, Plus, RefreshCw, Search } from "lucide-react";
 import { Link } from "react-router-dom";
+=======
+>>>>>>> cf669ba (tes)
 
 import {
   Table,
@@ -34,6 +44,19 @@ import {
   NativeSelectOption,
 } from "@/components/ui/native-select";
 
+<<<<<<< HEAD
+=======
+import {
+  ChevronDown,
+  Eye,
+  Power,
+  Database,
+  CheckCircle2,
+  XCircle,
+  FileText,
+  AlertCircle,
+} from "lucide-react";
+>>>>>>> cf669ba (tes)
 import { ButtonGroup } from "@/components/ui/button-group";
 import {
   DropdownMenu,
@@ -43,6 +66,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+<<<<<<< HEAD
 import {
   AlertCircle,
   CheckCircle2,
@@ -60,6 +84,15 @@ import { Input } from "@/components/ui/input";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
+=======
+
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SiteHeader } from "@/components/site-header";
+import { SidebarInset } from "@/components/ui/sidebar";
+import { Input } from "@/components/ui/input";
+
+>>>>>>> cf669ba (tes)
 import {
   Dialog,
   DialogContent,
@@ -69,6 +102,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+<<<<<<< HEAD
+=======
+import { Alert, AlertDescription } from "@/components/ui/alert";
+>>>>>>> cf669ba (tes)
 import { useDataSektoral } from "@/hooks/useDataSektoral";
 
 export default function DataSektoral() {
@@ -118,7 +155,11 @@ export default function DataSektoral() {
                     <div>
                       <h1 className="text-3xl font-bold tracking-tight">Data Sektoral</h1>
                       <p className="text-sm text-muted-foreground mt-1">
+<<<<<<< HEAD
                         Kelola dan pantau E-walidata antar OPD secara terpusat
+=======
+                        Kelola dan pantau data sektoral antar OPD secara terpusat
+>>>>>>> cf669ba (tes)
                       </p>
                     </div>
                   </div>
@@ -262,7 +303,11 @@ export default function DataSektoral() {
 
               <Card className="border-2">
                 <CardHeader>
+<<<<<<< HEAD
                   <CardTitle className="text-lg">Daftar E-walidata</CardTitle>
+=======
+                  <CardTitle className="text-lg">Daftar Data Sektoral</CardTitle>
+>>>>>>> cf669ba (tes)
                   <CardDescription>
                     Menampilkan {data.length} dari {totalCount} total data
                   </CardDescription>
@@ -446,16 +491,27 @@ export default function DataSektoral() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Plus className="w-5 h-5" />
+<<<<<<< HEAD
               Tambah Data Transaksi E-walidata
             </DialogTitle>
             <DialogDescription>
               Tambahkan data transaksi untuk item E-walidata yang dipilih
+=======
+              Tambah Data Transaksi Sektoral
+            </DialogTitle>
+            <DialogDescription>
+              Tambahkan data transaksi untuk item sektoral yang dipilih
+>>>>>>> cf669ba (tes)
             </DialogDescription>
           </DialogHeader>
 
           {selectedItem && (
             <div className="mb-4 p-4 rounded-lg bg-muted">
+<<<<<<< HEAD
               <p className="text-sm font-medium mb-2">Data E-walidata:</p>
+=======
+              <p className="text-sm font-medium mb-2">Data Sektoral:</p>
+>>>>>>> cf669ba (tes)
               <div className="space-y-1">
                 <p className="text-sm">
                   <span className="text-muted-foreground">Kode DSSD:</span>{" "}

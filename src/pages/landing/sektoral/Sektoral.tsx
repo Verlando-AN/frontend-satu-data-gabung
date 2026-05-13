@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 import Foot from "@/backbone/Footer";
 import Head from "@/backbone/Header";
 import "@/css/sektoral.css";
 import useSektoral from "@/hooks/useSektoral";
 import type { ChangeEvent, JSX } from "react";
+=======
+import type { ChangeEvent, JSX } from "react";
+import useSektoral from "@/hooks/useSektoral";
+import "@/css/sektoral.css";
+import Head from "@/backbone/Header";
+import Foot from "@/backbone/Footer";
+>>>>>>> cf669ba (tes)
 
 export default function Sektoral(): JSX.Element {
   const {
@@ -28,7 +36,11 @@ export default function Sektoral(): JSX.Element {
     <>
       <Head />
       <div className="sektoral-container">
+<<<<<<< HEAD
         <h2 className="sektoral-title">E-walidata Berdasarkan OPD</h2>
+=======
+        <h2 className="sektoral-title">Data Sektoral Berdasarkan OPD</h2>
+>>>>>>> cf669ba (tes)
 
         <div className="sektoral-card filter-card">
           <div className="form-row">

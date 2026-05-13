@@ -1,5 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar"
 import { SiteHeader } from "@/components/site-header"
+<<<<<<< HEAD
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -17,6 +18,18 @@ import {
   Tag,
   Upload,
   User
+=======
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+
+import { 
+  CheckCircle2, AlertCircle, Upload, FileText, Hash,
+  User, Mail, Building, Calendar, Tag, Palette 
+>>>>>>> cf669ba (tes)
 } from "lucide-react"
 
 import { useCreateDataset } from "@/hooks/useCreateDataset"
@@ -56,7 +69,11 @@ export default function CreateDataset() {
                     <div>
                       <h1 className="text-3xl font-bold tracking-tight">Tambah Dataset</h1>
                       <p className="text-sm text-muted-foreground mt-1">
+<<<<<<< HEAD
                         Upload dataset baru untuk E-walidata
+=======
+                        Upload dataset baru untuk data sektoral
+>>>>>>> cf669ba (tes)
                       </p>
                     </div>
                   </div>
@@ -84,7 +101,11 @@ export default function CreateDataset() {
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <Hash className="w-4 h-4 text-muted-foreground" />
+<<<<<<< HEAD
                         ID Ref E-walidata <span className="text-red-500">*</span>
+=======
+                        ID Ref Sektoral <span className="text-red-500">*</span>
+>>>>>>> cf669ba (tes)
                       </Label>
                       <Input value={id} disabled className="bg-muted" />
                     </div>

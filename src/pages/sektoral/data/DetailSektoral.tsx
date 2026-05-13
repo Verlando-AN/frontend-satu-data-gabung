@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+<<<<<<< HEAD
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -26,6 +27,41 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
+=======
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { Link, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { 
+  Database, 
+  CheckCircle2, 
+  XCircle, 
+  Plus,
+  FileText, 
+  ArrowLeft,
+  Hash,
+  Layers,
+  Tag,
+  Ruler,
+  Box,
+  Calendar,
+  TrendingUp,
+  RefreshCw,
+  Edit,
+  Building2,
+  BarChart3,
+  Trash2,
+} from "lucide-react";
+
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SiteHeader } from "@/components/site-header";
+import { SidebarInset } from "@/components/ui/sidebar";
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { useDetailSektoral, type OperationResult } from "@/hooks/useDetailSektoral";
+import { useState } from "react";
+>>>>>>> cf669ba (tes)
 import {
   AlertDialog,
   AlertDialogAction,
@@ -39,10 +75,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+<<<<<<< HEAD
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useDetailSektoral, type OperationResult } from "@/hooks/useDetailSektoral";
 import { useState } from "react";
 import { Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+=======
+>>>>>>> cf669ba (tes)
 
 const Table = ({ children, ...props }: any) => (
   <div className="w-full overflow-auto">
@@ -206,7 +245,11 @@ export default function DetailSektoral() {
                       <Database className="w-6 h-6 text-primary" />
                     </div>
                     <div>
+<<<<<<< HEAD
                       <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Detail Data E-walidata</h1>
+=======
+                      <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Detail Data Sektoral</h1>
+>>>>>>> cf669ba (tes)
                       <p className="text-sm text-muted-foreground mt-1">
                         Informasi lengkap dan riwayat input data
                       </p>
@@ -331,7 +374,11 @@ export default function DetailSektoral() {
                             <span className="break-words">{data.uraian_dssd}</span>
                           </CardTitle>
                           <CardDescription className="mt-2">
+<<<<<<< HEAD
                             Informasi detail dan spesifikasi E-walidata
+=======
+                            Informasi detail dan spesifikasi data sektoral
+>>>>>>> cf669ba (tes)
                           </CardDescription>
                         </div>
                         <div className="flex items-center gap-2 flex-shrink-0">
@@ -370,9 +417,15 @@ export default function DetailSektoral() {
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
+<<<<<<< HEAD
                                 <AlertDialogTitle>Konfirmasi Hapus E-walidata</AlertDialogTitle>
                                 <AlertDialogDescription>
                                   Apakah Anda yakin ingin menghapus E-walidata "{data.uraian_dssd}"?  
+=======
+                                <AlertDialogTitle>Konfirmasi Hapus Data Sektoral</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Apakah Anda yakin ingin menghapus data sektoral "{data.uraian_dssd}"?  
+>>>>>>> cf669ba (tes)
                                   Tindakan ini tidak dapat dibatalkan.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
