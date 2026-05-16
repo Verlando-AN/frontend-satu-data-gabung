@@ -1,16 +1,9 @@
 import { AppSidebar } from "@/components/app-sidebar"
 import { SiteHeader } from "@/components/site-header"
-<<<<<<< HEAD
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
-=======
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
->>>>>>> cf669ba (tes)
 import { Textarea } from "@/components/ui/textarea"
 
 import {
@@ -21,7 +14,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-<<<<<<< HEAD
 import {
   Alert,
   AlertDescription
@@ -39,25 +31,6 @@ import {
 } from "lucide-react"
 
 import { useCreateSektoral } from "@/hooks/useCreateSektoral"
-=======
-import { 
-  Alert, 
-  AlertDescription 
-} from "@/components/ui/alert"
-
-import {
-  Save,
-  ArrowLeft,
-  Database,
-  FileText,
-  Hash,
-  AlertCircle,
-  Ruler,
-  CheckCircle2,
-} from "lucide-react"
-
-import { useCreateSektoral } from "@/hooks/useCreateSektoral";
->>>>>>> cf669ba (tes)
 
 const NativeSelect = ({ children, className = "", ...props }: any) => (
   <select
@@ -100,15 +73,9 @@ export default function CreateSektoral() {
                       <Database className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-<<<<<<< HEAD
                       <h1 className="text-3xl font-bold tracking-tight">Input E-walidata</h1>
                       <p className="text-sm text-muted-foreground mt-1">
                         Tambahkan E-walidata baru ke sistem
-=======
-                      <h1 className="text-3xl font-bold tracking-tight">Input Data Sektoral</h1>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        Tambahkan data sektoral baru ke sistem
->>>>>>> cf669ba (tes)
                       </p>
                     </div>
                   </div>

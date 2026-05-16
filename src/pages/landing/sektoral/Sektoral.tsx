@@ -1,16 +1,8 @@
-<<<<<<< HEAD
 import Foot from "@/backbone/Footer";
 import Head from "@/backbone/Header";
 import "@/css/sektoral.css";
 import useSektoral from "@/hooks/useSektoral";
 import type { ChangeEvent, JSX } from "react";
-=======
-import type { ChangeEvent, JSX } from "react";
-import useSektoral from "@/hooks/useSektoral";
-import "@/css/sektoral.css";
-import Head from "@/backbone/Header";
-import Foot from "@/backbone/Footer";
->>>>>>> cf669ba (tes)
 
 export default function Sektoral(): JSX.Element {
   const {
@@ -27,69 +19,102 @@ export default function Sektoral(): JSX.Element {
     currentPage,
     totalPages,
     handleTampilkan,
+    handleReset,
     handlePrev,
     handleNext,
     perPage,
-  } = useSektoral()
+  } = useSektoral();
 
   return (
     <>
       <Head />
+
       <div className="sektoral-container">
-<<<<<<< HEAD
-        <h2 className="sektoral-title">E-walidata Berdasarkan OPD</h2>
-=======
-        <h2 className="sektoral-title">Data Sektoral Berdasarkan OPD</h2>
->>>>>>> cf669ba (tes)
+        <h2 className="sektoral-title">
+          E-walidata Berdasarkan OPD
+        </h2>
 
         <div className="sektoral-card filter-card">
           <div className="form-row">
             <div className="form-col form-col-6">
-              <label className="form-label">Perangkat Daerah</label>
+              <label className="form-label">
+                Perangkat Daerah
+              </label>
+
               <select
                 className="form-select"
                 value={selectedOPD}
-                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-                  setSelectedOPD(e.target.value)
-                }
+                onChange={(
+                  e: ChangeEvent<HTMLSelectElement>
+                ) => setSelectedOPD(e.target.value)}
               >
-                <option value="">Pilih OPD</option>
-                {opdList.map((opd) => (
-                  <option key={opd.id_opd} value={opd.id_opd}>
-                    {opd.nama_opd}
-                  </option>
-                ))}
+                {opdList.map(
+                  (opd: any, index: number) => (
+                    <option
+                      key={`${opd.id_user_opd}-${index}`}
+                      value={opd.id_user_opd}
+                    >
+                      {opd.nama_opd}
+                    </option>
+                  )
+                )}
               </select>
             </div>
 
             <div className="form-col form-col-3">
-              <label className="form-label">Dari Tahun</label>
+              <label className="form-label">
+                Dari Tahun
+              </label>
+
               <input
                 type="text"
                 className="form-control"
                 value={dariTahun}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setDariTahun(e.target.value)}
+                onChange={(
+                  e: ChangeEvent<HTMLInputElement>
+                ) =>
+                  setDariTahun(e.target.value)
+                }
               />
             </div>
 
             <div className="form-col form-col-3">
-              <label className="form-label">Sampai Tahun</label>
+              <label className="form-label">
+                Sampai Tahun
+              </label>
+
               <input
                 type="text"
                 className="form-control"
                 value={sampaiTahun}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setSampaiTahun(e.target.value)}
+                onChange={(
+                  e: ChangeEvent<HTMLInputElement>
+                ) =>
+                  setSampaiTahun(e.target.value)
+                }
               />
             </div>
           </div>
 
-          <button
-            className="btn btn-primary"
-            onClick={handleTampilkan}
-            disabled={loading}
-          >
-            {loading ? "Memuat..." : "Tampilkan Sekarang"}
-          </button>
+          <div className="button-group">
+            <button
+              className="btn btn-primary"
+              onClick={handleTampilkan}
+              disabled={loading}
+            >
+              {loading
+                ? "Memuat..."
+                : "Tampilkan Sekarang"}
+            </button>
+
+            <button
+              className="btn btn-secondary"
+              onClick={handleReset}
+              disabled={loading}
+            >
+              Reset
+            </button>
+          </div>
         </div>
 
         <div className="sektoral-card table-card">
@@ -101,35 +126,76 @@ export default function Sektoral(): JSX.Element {
                   <th>Kode DSSD</th>
                   <th>Uraian DSSD</th>
                   <th>Satuan</th>
+
                   {tahunList.map((th) => (
                     <th key={th}>{th}</th>
                   ))}
                 </tr>
               </thead>
+
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={4 + tahunList.length} className="text-center loading-cell">
+                    <td
+                      colSpan={
+                        4 + tahunList.length
+                      }
+                      className="text-center loading-cell"
+                    >
                       Sedang memuat data...
                     </td>
                   </tr>
                 ) : dataSektoral.length > 0 ? (
-                  dataSektoral.map((item, index) => (
-                    <tr key={item.id}>
-                      <td>{(currentPage - 1) * perPage + index + 1}</td>
-                      <td>{item.kode_dssd}</td>
-                      <td>{item.uraian_dssd}</td>
-                      <td>{item.satuan}</td>
-                      {tahunList.map((th) => {
-                        const found = item.input?.find((i) => i.tahun === th)?.jumlah ?? 0;
-                        return <td key={th}>{found}</td>;
-                      })}
-                    </tr>
-                  ))
+                  dataSektoral.map(
+                    (item, index) => (
+                      <tr key={item.id}>
+                        <td>
+                          {(currentPage - 1) *
+                            perPage +
+                            index +
+                            1}
+                        </td>
+
+                        <td>
+                          {item.kode_dssd}
+                        </td>
+
+                        <td>
+                          {item.uraian_dssd}
+                        </td>
+
+                        <td>{item.satuan}</td>
+
+                        {tahunList.map((th) => {
+                          const found =
+                            item.input?.find(
+                              (i: any) =>
+                                i.tahun === th
+                            )?.jumlah ?? 0;
+
+                          return (
+                            <td key={th}>
+                              {Number(
+                                found
+                              ).toLocaleString(
+                                "id-ID"
+                              )}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    )
+                  )
                 ) : (
                   <tr>
-                    <td colSpan={4 + tahunList.length} className="text-center empty-cell">
-                      Tidak ada data yang ditemukan.
+                    <td
+                      colSpan={
+                        4 + tahunList.length
+                      }
+                      className="text-center empty-cell"
+                    >
+                      Tidak ada data yang
+                      ditemukan.
                     </td>
                   </tr>
                 )}
@@ -148,13 +214,16 @@ export default function Sektoral(): JSX.Element {
               </button>
 
               <span className="pagination-info">
-                Page {currentPage} of {totalPages}
+                Page {currentPage} of{" "}
+                {totalPages}
               </span>
 
               <button
                 className="btn btn-pagination"
                 onClick={handleNext}
-                disabled={currentPage === totalPages}
+                disabled={
+                  currentPage === totalPages
+                }
               >
                 Next
               </button>

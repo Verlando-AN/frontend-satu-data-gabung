@@ -12,12 +12,9 @@ dist
 dist-ssr
 *.local
 
-<<<<<<< HEAD
 .env
 .env.*
 
-=======
->>>>>>> cf669ba (tes)
 .vscode/*
 !.vscode/extensions.json
 .idea

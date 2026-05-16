@@ -1,6 +1,5 @@
 "use client";
 
-<<<<<<< HEAD
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { Badge } from "@/components/ui/badge";
@@ -39,48 +38,6 @@ import {
   TrendingUp
 } from "lucide-react";
 import { Link } from "react-router-dom";
-=======
-import React from 'react';
-import { Link } from "react-router-dom";
-import useDataset from "@/hooks/useDataset.js";
-import useBerandaData from "@/hooks/useBerandaData";
-import { AppSidebar } from "@/components/app-sidebar";
-import { SiteHeader } from "@/components/site-header";
-import {
-    SidebarInset,
-    SidebarProvider,
-} from "@/components/ui/sidebar";
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardContent,
-    CardDescription,
-} from "@/components/ui/card";
-import {
-    Folder,
-    Database,
-    Newspaper,
-    FileText,
-    ArrowRight,
-    Activity,
-    BookOpen,
-    Search,
-    Building2,
-    Calendar,
-    Eye,
-    Download,
-    ChevronLeft,
-    ChevronRight,
-    TrendingUp,
-    Loader2
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
->>>>>>> cf669ba (tes)
 
 interface Produsen {
   id_opd: string | number;
@@ -190,11 +147,7 @@ export default function DashboardPage() {
 
   const sections = [
     {
-<<<<<<< HEAD
       title: 'E-walidata',
-=======
-      title: 'Data Sektoral',
->>>>>>> cf669ba (tes)
       description: 'Data statistik untuk kebutuhan instansi pemerintah tertentu',
       icon: Folder,
       count: dataTotal?.data_sektoral,
@@ -207,7 +160,6 @@ export default function DashboardPage() {
       count: dataTotal.dataset,
       link: '/monitoring-data',
     },
-<<<<<<< HEAD
     // {
     //   title: 'Urusan',
     //   description: 'Kebijakan tata kelola data untuk data berkualitas',
@@ -221,14 +173,6 @@ export default function DashboardPage() {
       icon: Newspaper,
       // count: dataTotal?.urusan,
       link: ' http://lampungtimurkab.ina-sdi.or.id',
-=======
-    {
-      title: 'Urusan',
-      description: 'Kebijakan tata kelola data untuk data berkualitas',
-      icon: Newspaper,
-      count: dataTotal?.urusan,
-      link: '/data-urusan',
->>>>>>> cf669ba (tes)
     }
   ];
 

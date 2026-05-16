@@ -1,9 +1,5 @@
 import { useState } from "react";
-<<<<<<< HEAD
 import { Link, NavLink } from "react-router-dom";
-=======
-import { NavLink, Link } from "react-router-dom";
->>>>>>> cf669ba (tes)
 import Logo from "../assets/IMG_Logo.png";
 import "../component/css/header.css";
 
@@ -18,11 +14,7 @@ export const Atas = () => {
   const navItems: NavItem[] = [
     { name: "Beranda", to: "/" },
     { name: "Dataset", to: "/dataset" },
-<<<<<<< HEAD
     { name: "E-walidata", to: "/sektoral" },
-=======
-    { name: "Sektoral", to: "/sektoral" },
->>>>>>> cf669ba (tes)
     { name: "Urusan", to: "/urusan" },
     { name: "Organisasi", to: "/organisasi" },
     { name: "Publikasi", to: "/publikasi" },

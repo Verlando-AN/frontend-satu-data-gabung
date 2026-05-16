@@ -1,14 +1,7 @@
-<<<<<<< HEAD
 import Logo from "@/assets/IMG_Logo.png";
 import "@/css/header.css";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-=======
-import { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
-import Logo from "@/assets/IMG_Logo.png";
-import "@/css/header.css";
->>>>>>> cf669ba (tes)
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);

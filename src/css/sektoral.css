@@ -5,6 +5,13 @@
   padding: 3rem 1rem;
 }
 
+
+.btn-secondary {
+  background: #c04646;
+  color: white;
+  margin-left: 10px;
+}
+
 /* Title */
 .sektoral-title {
   color: #F5A623;
