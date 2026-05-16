@@ -39,6 +39,7 @@ export function useTrxSektoral() {
 
       const result = await response.json()
 
+      
       const finalData =
         result?.data ??
         result?.hasil ??
