@@ -102,7 +102,7 @@ export default function useSektoral() {
 
       const opdValue =
         selectedOPD === "all"
-          ? "15"
+          ? "0"
           : String(selectedOPD);
 
       const {
