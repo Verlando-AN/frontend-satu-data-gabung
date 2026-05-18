@@ -25,6 +25,11 @@ export default function Sektoral(): JSX.Element {
     perPage,
   } = useSektoral();
 
+  const tahunOptions = Array.from(
+    { length: 21 },
+    (_, index) => 2015 + index
+  );
+
   return (
     <>
       <Head />
@@ -66,16 +71,28 @@ export default function Sektoral(): JSX.Element {
                 Dari Tahun
               </label>
 
-              <input
-                type="text"
-                className="form-control"
+              <select
+                className="form-select"
                 value={dariTahun}
                 onChange={(
-                  e: ChangeEvent<HTMLInputElement>
+                  e: ChangeEvent<HTMLSelectElement>
                 ) =>
                   setDariTahun(e.target.value)
                 }
-              />
+              >
+                <option value="">
+                  Pilih Tahun
+                </option>
+
+                {tahunOptions.map((tahun) => (
+                  <option
+                    key={tahun}
+                    value={tahun}
+                  >
+                    {tahun}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="form-col form-col-3">
@@ -83,16 +100,28 @@ export default function Sektoral(): JSX.Element {
                 Sampai Tahun
               </label>
 
-              <input
-                type="text"
-                className="form-control"
+              <select
+                className="form-select"
                 value={sampaiTahun}
                 onChange={(
-                  e: ChangeEvent<HTMLInputElement>
+                  e: ChangeEvent<HTMLSelectElement>
                 ) =>
                   setSampaiTahun(e.target.value)
                 }
-              />
+              >
+                <option value="">
+                  Pilih Tahun
+                </option>
+
+                {tahunOptions.map((tahun) => (
+                  <option
+                    key={tahun}
+                    value={tahun}
+                  >
+                    {tahun}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
