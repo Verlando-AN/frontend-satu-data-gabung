@@ -1,13 +1,13 @@
-import { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
-import usePublikasi from "@/hooks/usePublikasi"; 
-import { Filter, X, Calendar, Building2, BookOpen } from "lucide-react";
-import "@/css/publikasi.css";
-import "@/css/publikasi-search.css";
-import "@/css/card.css";
-import gambar from "@/assets/logolamptimm.png";
-import Head from "@/backbone/Header.jsx";
+import gambar from "@/assets/logolamtim.png";
 import Foot from "@/backbone/Footer.jsx";
+import Head from "@/backbone/Header.jsx";
+import "@/css/card.css";
+import "@/css/publikasi-search.css";
+import "@/css/publikasi.css";
+import usePublikasi from "@/hooks/usePublikasi";
+import { BookOpen, Building2, Calendar, Filter, X } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Publikasi() {
   const { list: publikasiData, loading } = usePublikasi();

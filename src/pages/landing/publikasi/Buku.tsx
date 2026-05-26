@@ -1,9 +1,9 @@
-import type { JSX } from "react";
-import { useParams, Link } from "react-router-dom";
-import usePublikasi from "../../../hooks/usePublikasi.js";
-import img_logo from "../../../assets/logolamptim.jpeg";
-import Head from "@/backbone/Header.jsx";
 import Foot from "@/backbone/Footer.jsx";
+import Head from "@/backbone/Header.jsx";
+import type { JSX } from "react";
+import { Link, useParams } from "react-router-dom";
+import img_logo from "../../../assets/logolamptim.jpeg";
+import usePublikasi from "../../../hooks/usePublikasi.js";
 
 import "@/css/buku.css";
 
@@ -92,7 +92,7 @@ export default function Buku(): JSX.Element {
             </div>
 
             <a
-              href={`https://api-satudata.lampungtimurkab.go.id/${detail.url_file}`}
+              href={`https://api-satudata.lampungtimurkab.go.id/${detail.file.replace('handler/http/', '')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="download-btn"

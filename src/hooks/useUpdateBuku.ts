@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { getAuthHeaders } from "@/api/auth";
-import client from "@/api/client"
+import client from "@/api/client";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const API_URL = client.defaults.baseURL || "";
 
@@ -58,7 +58,12 @@ export const useUpdateBuku = () => {
           buku: data.buku,
         });
 
-        setOldFileUrl(`${API_URL}/${data.file}`);
+        const cleanFilePath = data.file.replace(
+          /^handler\/http\//,
+          ""
+        );
+
+        setOldFileUrl(`${API_URL}/${cleanFilePath}`);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Gagal memuat detail buku");
       } finally {
