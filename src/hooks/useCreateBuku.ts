@@ -14,6 +14,8 @@ export const useCreateBuku = () => {
     judulBuku: "",
     idOpd: "",
     tahun: "",
+    deskripsi: "",
+    tag: [] as string[],
     file: null as File | null,
   });
 
@@ -91,14 +93,31 @@ export const useCreateBuku = () => {
       judulBuku: "",
       idOpd: "",
       tahun: "",
+      deskripsi: "",
+      tag: [] as string[],
       file: null,
     });
     setFileName("");
     setMessage(null);
   };
 
+  const handleTagChange = (value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      tag: prev.tag.includes(value)
+        ? prev.tag.filter((v) => v !== value)
+        : [...prev.tag, value],
+    }));
+  };
+
   const handleSubmit = async () => {
-    if (!formData.judulBuku || !formData.idOpd || !formData.tahun) {
+    if (
+      !formData.judulBuku ||
+      !formData.idOpd ||
+      !formData.tahun ||
+      !formData.deskripsi ||
+      formData.tag.length === 0
+    ) {
       setMessage({ type: "error", text: "Semua field harus diisi" });
       return;
     }
@@ -129,6 +148,8 @@ export const useCreateBuku = () => {
       queryParams.append("id_opd", formData.idOpd);
       queryParams.append("tahun", formData.tahun);
       queryParams.append("buku", formData.judulBuku);
+      queryParams.append("deskripsi", formData.deskripsi);
+      queryParams.append("tag_ids", formData.tag.join(","));
 
       const response = await fetch(
         `${API_URL}/strict/ref-data/create-publikasi?${queryParams.toString()}`,
@@ -182,9 +203,11 @@ export const useCreateBuku = () => {
     loadingOpd,
     message,
     fileName,
+    handleTagChange,
     handleFileChange,
     handleInputChange,
     resetForm,
     handleSubmit
+    
   };
 };

@@ -22,10 +22,11 @@ const publikasiApi = {
   },
 
 async getPublikasiDetail(slug: string): Promise<any | null> {
-  const res = await client.get<any[]>(
+  const res = await client.get<any>(
     `/buku-digital/detail/${slug}`
   );
-  return res.data?.[0] || null;
+
+  return res.data || null;
 },
 
 };
