@@ -111,7 +111,7 @@ export default function Detail() {
                   <style>{`
                     .export-actions {
                     margin: 10px 10px;  
-                      padding: 4px 6px;
+                      padding: 4gipx 6px;
                     }
 
                     .export-btn {

@@ -1,9 +1,9 @@
-import Foot from "@/backbone/Footer.jsx";
-import Head from "@/backbone/Header.jsx";
 import type { JSX } from "react";
-import { Link, useParams } from "react-router-dom";
-import img_logo from "../../../assets/logolamptim.jpeg";
+import { useParams, Link } from "react-router-dom";
 import usePublikasi from "../../../hooks/usePublikasi.js";
+import img_logo from "../../../assets/logolamptim.jpeg";
+import Head from "@/backbone/Header.jsx";
+import Foot from "@/backbone/Footer.jsx";
 
 import "@/css/buku.css";
 
@@ -29,6 +29,13 @@ export default function Buku(): JSX.Element {
     ? `https://api-satudata.lampungtimurkab.go.id/${detail.foto_cover}`
     : img_logo;
 
+  const fileUrl = detail.file
+    ? `https://api-satudata.lampungtimurkab.go.id/${detail.file.replace(
+        "handler/http/",
+        ""
+      )}`
+    : "#";
+
   const nomor_katalog = detail.nomor_katalog || "1102001.1804072";
   const nomor_publikasi = detail.nomor_publikasi || "18040.25034";
   const issn_isbn = detail.issn_isbn || "-";
@@ -39,7 +46,7 @@ export default function Buku(): JSX.Element {
     detail.deskripsi ||
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pretium, sem in porta faucibus, enim massa mattis justo, non eleifend velit mi et urna.";
 
-  const kategori = ["Pendidikan", "Assessment", "Evaluasi", "Bahasa Indonesia", "Ilmu Pendidikan"];
+  const kategori = detail.tags || [];
 
   return (
     <>
@@ -92,7 +99,7 @@ export default function Buku(): JSX.Element {
             </div>
 
             <a
-              href={`https://api-satudata.lampungtimurkab.go.id/${detail.file.replace('handler/http/', '')}`}
+              href={fileUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="download-btn"
@@ -114,9 +121,9 @@ export default function Buku(): JSX.Element {
             </div>
 
             <div className="tag-container">
-              {kategori.map((tag, index) => (
-                <span key={index} className="tag">
-                  {tag}
+              {kategori.map((tag: any) => (
+                <span key={tag.id_tag} className="tag">
+                  {tag.nama_tag}
                 </span>
               ))}
             </div>
@@ -124,9 +131,6 @@ export default function Buku(): JSX.Element {
             <div className="abstract-section">
               <h2 className="abstract-title">Review</h2>
               <p className="abstract-text">{abstrak}</p>
-              <p className="abstract-text">{abstrak}{abstrak}{abstrak}</p>
-              <p className="abstract-text">{abstrak}{abstrak}</p>
-              <p className="abstract-text">{abstrak}{abstrak}{abstrak}</p>
             </div>
           </div>
         </div>

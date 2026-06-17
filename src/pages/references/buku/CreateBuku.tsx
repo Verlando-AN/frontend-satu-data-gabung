@@ -55,6 +55,7 @@ export default function CreateBuku() {
     message,
     fileName,
     handleFileChange,
+    handleTagChange,
     handleInputChange,
     resetForm,
     handleSubmit
@@ -196,6 +197,77 @@ export default function CreateBuku() {
                             </div>
                           </div>
 
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="deskripsi" className="flex items-center gap-2">
+                          <FileText className="w-4 h-4 text-muted-foreground" />
+                          Deskripsi <span className="text-red-500">*</span>
+                        </Label>
+
+                        <textarea
+                          id="deskripsi"
+                          className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                          placeholder="Masukkan deskripsi buku"
+                          value={formData.deskripsi}
+                          onChange={(e) =>
+                            handleInputChange("deskripsi", e.target.value)
+                          }
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label className="flex items-center gap-2">
+                          <BookOpen className="w-4 h-4 text-muted-foreground" />
+                          Tag <span className="text-red-500">*</span>
+                        </Label>
+
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 border rounded-md p-3 max-h-64 overflow-y-auto">
+                          {[
+                            { id: "1", nama: "Pendidikan" },
+                            { id: "2", nama: "Statistik" },
+                            { id: "3", nama: "Ekonomi" },
+                            { id: "4", nama: "Kesehatan" },
+                            { id: "5", nama: "Pertanian" },
+                            { id: "6", nama: "Perikanan" },
+                            { id: "7", nama: "Peternakan" },
+                            { id: "8", nama: "Pariwisata" },
+                            { id: "9", nama: "Lingkungan Hidup" },
+                            { id: "10", nama: "Kependudukan" },
+                            { id: "11", nama: "Infrastruktur" },
+                            { id: "12", nama: "Transportasi" },
+                            { id: "13", nama: "Industri" },
+                            { id: "14", nama: "Perdagangan" },
+                            { id: "15", nama: "Ketenagakerjaan" },
+                            { id: "16", nama: "Kemiskinan" },
+                            { id: "17", nama: "Sosial" },
+                            { id: "18", nama: "Keuangan Daerah" },
+                            { id: "19", nama: "Pemerintahan" },
+                            { id: "20", nama: "Teknologi Informasi" },
+                            { id: "21", nama: "Komunikasi" },
+                            { id: "22", nama: "Energi" },
+                            { id: "23", nama: "Perumahan" },
+                            { id: "24", nama: "Gender" },
+                            { id: "25", nama: "Anak" },
+                            { id: "26", nama: "Kebudayaan" },
+                            { id: "27", nama: "Olahraga" },
+                            { id: "28", nama: "Bencana" },
+                            { id: "29", nama: "Pangan" },
+                            { id: "30", nama: "Investasi" },
+                          ].map((tag) => (
+                            <label
+                              key={tag.id}
+                              className="flex items-center gap-2 text-sm"
+                            >
+                              <input
+                                type="checkbox"
+                                checked={formData.tag.includes(tag.id)}
+                                onChange={() => handleTagChange(tag.id)}
+                              />
+                              {tag.nama}
+                            </label>
+                          ))}
                         </div>
                       </div>
 

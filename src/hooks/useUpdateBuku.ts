@@ -1,34 +1,45 @@
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { getAuthHeaders } from "@/api/auth";
 import client from "@/api/client";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
 const API_URL = client.defaults.baseURL || "";
+
+
+interface TagBuku {
+  id_tag: number;
+  nama_tag: string;
+}
 
 interface BukuDetail {
   id_buku_digital: number;
   id_opd: number;
   tahun: number;
   buku: string;
+  deskripsi?: string;
   file: string;
+  tags?: TagBuku[];
 }
 
 export const useUpdateBuku = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const id_buku_digital = Number(id);
 
   const [formData, setFormData] = useState({
     id_opd: "",
     tahun: "",
     buku: "",
+    deskripsi: "",
+    tag_ids: [] as string[],
   });
 
   const [newFile, setNewFile] = useState<File | null>(null);
-  const [oldFileUrl, setOldFileUrl] = useState<string>("");
+  const [oldFileUrl, setOldFileUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string>("");
-  const [success, setSuccess] = useState<string>("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   useEffect(() => {
     async function fetchDetail() {
@@ -43,7 +54,9 @@ export const useUpdateBuku = () => {
 
         const res = await fetch(
           `${API_URL}/strict/ref-data/detail-buku-digital/${id_buku_digital}`,
-          { headers: getAuthHeaders() }
+          {
+            headers: getAuthHeaders(),
+          }
         );
 
         if (!res.ok) {
@@ -53,19 +66,21 @@ export const useUpdateBuku = () => {
         const data: BukuDetail = await res.json();
 
         setFormData({
-          id_opd: data.id_opd.toString(),
-          tahun: data.tahun.toString(),
-          buku: data.buku,
+          id_opd: data.id_opd?.toString() || "",
+          tahun: data.tahun?.toString() || "",
+          buku: data.buku || "",
+          deskripsi: data.deskripsi || "",
+          tag_ids:
+            data.tags?.map((item) => item.id_tag.toString()) || [],
         });
 
-        const cleanFilePath = data.file.replace(
-          /^handler\/http\//,
-          ""
-        );
-
-        setOldFileUrl(`${API_URL}/${cleanFilePath}`);
+      setOldFileUrl(data.file ? `${API_URL}/${data.file}` : "");
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Gagal memuat detail buku");
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Gagal memuat detail buku"
+        );
       } finally {
         setLoading(false);
       }
@@ -74,22 +89,38 @@ export const useUpdateBuku = () => {
     fetchDetail();
   }, [id_buku_digital]);
 
-  async function getOldFileAsBlob(): Promise<File | null> {
-    try {
-      const response = await fetch(oldFileUrl);
-      if (!response.ok) throw new Error("Gagal mengunduh file lama");
+  const handleInputChange = (
+    field: string,
+    value: string | string[]
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
-      const blob = await response.blob();
-      const filename = oldFileUrl.split("/").pop() || "old-file.pdf";
+  const handleTagChange = (tagId: string) => {
+    resetMessages();
 
-      return new File([blob], filename, { type: blob.type });
-    } catch (error) {
-      return null;
-    }
-  }
+    setFormData((prev) => ({
+      ...prev,
+      tag_ids: prev.tag_ids.includes(tagId)
+        ? prev.tag_ids.filter((id) => id !== tagId)
+        : [...prev.tag_ids, tagId],
+    }));
+  };
+
+  const handleFileChange = (file: File | null) => {
+    setNewFile(file);
+  };
 
   const handleSubmit = async () => {
-    if (!formData.id_opd || !formData.tahun || !formData.buku) {
+    if (
+      !formData.id_opd ||
+      !formData.tahun ||
+      !formData.buku ||
+      !formData.deskripsi
+    ) {
       setError("Semua field harus diisi");
       return;
     }
@@ -99,21 +130,26 @@ export const useUpdateBuku = () => {
       setError("");
       setSuccess("");
 
-      let fileToUpload: File | null = newFile;
-
-      if (!fileToUpload) {
-        fileToUpload = await getOldFileAsBlob();
-        if (!fileToUpload) throw new Error("Gagal memuat file lama");
-      }
-
       const form = new FormData();
-      form.append("files", fileToUpload);
+
+      // Hanya kirim file jika user memilih file baru
+      if (newFile) {
+        form.append("files", newFile);
+      }
 
       const queryParams = new URLSearchParams({
         id_opd: formData.id_opd,
         tahun: formData.tahun,
         buku: formData.buku,
+        deskripsi: formData.deskripsi,
       });
+
+      if (formData.tag_ids.length > 0) {
+        queryParams.append(
+          "tag_ids",
+          formData.tag_ids.join(",")
+        );
+      }
 
       const headers = getAuthHeaders();
       delete headers["Content-Type"];
@@ -132,25 +168,27 @@ export const useUpdateBuku = () => {
 
       const result = await response.json();
 
-      if (response.ok) {
-        setSuccess("Berhasil mengupdate buku digital!");
-        setNewFile(null);
-      } else {
-        throw new Error(result.message || "Gagal mengupdate buku digital");
+      if (!response.ok) {
+        throw new Error(
+          result.message || "Gagal mengupdate buku digital"
+        );
       }
+
+      setSuccess("Berhasil mengupdate buku digital!");
+      setNewFile(null);
+
+    setTimeout(() => {
+      navigate(-1);
+    }, 1000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Gagal melakukan update");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Gagal melakukan update"
+      );
     } finally {
       setSubmitting(false);
     }
-  };
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormData({ ...formData, [field]: value });
-  };
-
-  const handleFileChange = (file: File | null) => {
-    setNewFile(file);
   };
 
   const resetMessages = () => {
@@ -167,8 +205,9 @@ export const useUpdateBuku = () => {
     error,
     success,
     handleInputChange,
+    handleTagChange,
     handleFileChange,
     handleSubmit,
-    resetMessages
+    resetMessages,
   };
 };
