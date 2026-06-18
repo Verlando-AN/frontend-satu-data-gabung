@@ -1,3 +1,4 @@
+import { getToken } from "@/api/auth";
 import Logo from "@/assets/IMG_Logo.png";
 import "@/css/header.css";
 import { useState } from "react";
@@ -5,6 +6,7 @@ import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const token = getToken();
 
   const navItems = [
     { name: "Beranda", to: "/" },
@@ -58,9 +60,12 @@ export default function Header() {
             ))}
           </ul>
           
-          <Link to="/login" className="login-button">
-            Login
-          </Link>
+    <Link
+      to={token ? "/dashboard" : "/login"}
+      className="login-button"
+    >
+      {token ? "Dashboard" : "Login"}
+    </Link>
         </div>
       </div>
     </nav>
