@@ -11,7 +11,7 @@ export interface FormData {
   kodeDssd: string;
   uraianDssd: string;
   satuan: string;
-  dimensi: string;
+  jadwalPemutakhiran: string;
 }
 
 export const useCreateSektoral = () => {
@@ -22,7 +22,7 @@ export const useCreateSektoral = () => {
     kodeDssd: "",
     uraianDssd: "",
     satuan: "",
-    dimensi: "",
+    jadwalPemutakhiran: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ export const useCreateSektoral = () => {
       kodeDssd: "",
       uraianDssd: "",
       satuan: "",
-      dimensi: "",
+      jadwalPemutakhiran: "",
     });
   };
 
@@ -58,7 +58,7 @@ export const useCreateSektoral = () => {
     ) {
       setMessage({
         type: "error",
-        text: "Semua field wajib diisi kecuali dimensi",
+        text: "Semua field wajib diisi kecuali Jadwal Pemutakhiran",
       });
       return false;
     }
@@ -73,7 +73,7 @@ export const useCreateSektoral = () => {
 
     try {
       const payload = {
-        dimensi: formData.dimensi || "Tahun",
+        jadwal_pemutakhiran: formData.jadwalPemutakhiran || "Tahun",
         jenis: String(formData.jenis),
         kategori: String(formData.kategori),
         kode_dssd: formData.kodeDssd,
