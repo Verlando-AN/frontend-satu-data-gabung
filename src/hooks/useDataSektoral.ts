@@ -15,7 +15,7 @@ export interface SektoralItem {
   kode_dssd: string;
   uraian_dssd: string;
   satuan: string;
-  dimensi: string;
+  jadwal_pemutakhiran: string;
   active: boolean;
 }
 
@@ -245,4 +245,4 @@ export function useDataSektoral() {
     handleRefresh,
     setFormData
   };
-}
+        }
