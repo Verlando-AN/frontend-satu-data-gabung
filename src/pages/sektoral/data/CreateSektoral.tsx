@@ -210,16 +210,16 @@ export default function CreateSektoral() {
                     <div className="space-y-2">
                       <Label className="flex items-center gap-2">
                         <Ruler className="w-4 h-4 text-muted-foreground" />
-                        Dimensi (Opsional)
+                        Jadwal Pemutakhiran (Opsional)
                       </Label>
 
                       <NativeSelect
-                        value={formData.dimensi}
+                        value={formData.jadwalPemutakhiran}
                         onChange={(e: { target: { value: string } }) =>
-                          handleInputChange("dimensi", e.target.value)
+                          handleInputChange("jadwalPemutakhiran", e.target.value)
                         }
                       >
-                        <NativeSelectOption value="">Pilih dimensi</NativeSelectOption>
+                        <NativeSelectOption value="">Pilih jadwal pemutakhiran</NativeSelectOption>
                         <NativeSelectOption value="Tahun">Tahun</NativeSelectOption>
                         <NativeSelectOption value="Bulan">Bulan</NativeSelectOption>
                         <NativeSelectOption value="Wilayah">Wilayah</NativeSelectOption>
@@ -266,4 +266,4 @@ export default function CreateSektoral() {
       </SidebarProvider>
     </div>
   )
-}
+                    }
